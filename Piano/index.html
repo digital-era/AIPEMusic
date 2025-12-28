@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>跨越时空的对话：肖邦 x 李白</title>
     <style>
         :root {
-            /* 调色板：深蓝、午夜紫、哑光金 */
             --bg-dark: #090c10;
             --bg-deep-blue: #151b2e;
             --bg-accent: #1e2742;
-            --text-dim: rgba(255, 255, 255, 0.25); /* 未选中的文字更暗 */
+            --text-dim: rgba(255, 255, 255, 0.25);
             --text-active: #ffffff;
             --gold-base: #c5a065;
             --gold-shine: #ffd700;
@@ -22,41 +21,39 @@
 
         body {
             background-color: var(--bg-dark);
-            /* 径向渐变，营造聚光灯效果 */
             background-image: radial-gradient(circle at 50% 30%, var(--bg-accent), var(--bg-deep-blue), var(--bg-dark));
             color: var(--text-active);
             font-family: var(--font-cn);
             overflow-x: hidden;
             line-height: 1.8;
             min-height: 100vh;
+            /* 禁止移动端横向溢出 */
+            width: 100vw; 
         }
 
-        /* 噪点纹理层：增加质感 */
         .noise-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0; opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Canvas 星河背景 */
         #canvas-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; mix-blend-mode: screen; 
         }
 
-        /* 主容器 */
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 60px 20px 150px; /* 顶部间距适中，底部留白 */
+            /* 移动端左右内边距减小，腾出空间给文字 */
+            padding: 60px 10px 150px; 
             position: relative;
             z-index: 2;
         }
 
-        /* 头部设计 */
         header {
             text-align: center;
-            margin-bottom: 30px; /* 减小头部与播放器的间距 */
+            margin-bottom: 30px;
             animation: fadeInDown 1.5s ease-out;
         }
 
@@ -78,7 +75,6 @@
             opacity: 0.9;
         }
 
-        /* 播放器 - 悬浮胶囊 */
         .player-wrapper {
             position: sticky;
             top: 20px;
@@ -87,31 +83,24 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin: 0 auto 50px; /* 减小播放器与诗词的间距 */
+            margin: 0 auto 50px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 12px 30px;
+            padding: 10px 20px; /* 稍微缩小内边距 */
             border-radius: 50px;
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* 兼容 iOS */
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             width: fit-content;
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .player-wrapper:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--gold-base);
-            transform: translateY(2px);
-        }
-
         .btn-play {
             background: none; border: none; cursor: pointer;
             width: 36px; height: 36px;
             fill: var(--text-active);
-            transition: transform 0.3s;
             display: flex; align-items: center; justify-content: center;
         }
-        .btn-play:hover { transform: scale(1.1); fill: var(--gold-base); }
 
         .loading-spinner {
             width: 18px; height: 18px;
@@ -126,22 +115,26 @@
             font-family: var(--font-en);
             color: rgba(255,255,255,0.8);
             letter-spacing: 0.5px;
+            white-space: nowrap; /* 防止歌名换行 */
         }
 
         /* 动态诗词区 */
         .poem-container {
             text-align: center;
             perspective: 1000px;
+            width: 100%;
         }
 
         .poem-line {
             font-size: 1.4rem;
-            margin: 28px 0; /* 调整行间距 */
+            margin: 28px 0;
             color: var(--text-dim);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: color 0.5s ease, transform 0.5s ease, filter 0.5s ease;
             cursor: default;
             filter: blur(1.5px);
             transform: scale(0.95);
+            /* 默认允许换行，但在 Mobile 样式中我们会强制不换行 */
+            line-height: 1.6; 
         }
 
         /* 焦点样式 */
@@ -155,18 +148,20 @@
 
         .highlight { font-weight: bold; }
         
-        .poem-line.active.highlight {
-            color: transparent;
-            background: linear-gradient(120deg, var(--gold-base), var(--gold-shine), var(--gold-base));
-            background-size: 200% auto;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite;
-            font-size: 1.6rem;
+        /* PC 端的高级流光动画 */
+        @media (min-width: 601px) {
+            .poem-line.active.highlight {
+                color: transparent;
+                background: linear-gradient(120deg, var(--gold-base), var(--gold-shine), var(--gold-base));
+                background-size: 200% auto;
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                animation: shine 4s linear infinite;
+                font-size: 1.6rem;
+            }
         }
 
-        /* 底部控制 */
         .footer-controls { text-align: center; margin-top: 80px; }
         .btn-concept {
             background: transparent;
@@ -175,56 +170,60 @@
             padding: 12px 35px;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: 0.3s;
-            letter-spacing: 2px;
             border-radius: 4px;
         }
-        .btn-concept:hover {
-            border-color: var(--gold-base);
-            color: var(--gold-base);
-            background: rgba(197, 160, 101, 0.08);
-            box-shadow: 0 0 15px rgba(197, 160, 101, 0.2);
-        }
 
-        /* 模态框设计 (还原 MD 内容) */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 100; backdrop-filter: blur(8px); overflow-y: auto; }
+        /* 模态框设计 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 100; backdrop-filter: blur(8px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .modal-content { max-width: 800px; margin: 60px auto 100px; padding: 40px; color: #ddd; position: relative; }
-        
-        .close-modal { position: fixed; top: 30px; right: 40px; font-size: 40px; cursor: pointer; transition: 0.3s; color: #fff; z-index: 102; }
-        .close-modal:hover { color: var(--gold-base); transform: rotate(90deg); }
-
-        /* 模态框排版 */
+        .close-modal { position: fixed; top: 30px; right: 40px; font-size: 40px; cursor: pointer; color: #fff; z-index: 102; }
         .modal-section { margin-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; }
-        .modal-section:last-child { border-bottom: none; }
-        
         .modal-title { font-size: 2rem; color: var(--gold-base); margin-bottom: 30px; text-align: center; font-family: var(--font-en); }
-        
         .modal h3 { color: #fff; margin: 25px 0 15px; font-size: 1.3rem; border-left: 4px solid var(--gold-base); padding-left: 15px; }
         .modal h4 { color: #aebfd6; margin: 20px 0 10px; font-weight: bold; }
         .modal p { margin-bottom: 15px; text-align: justify; line-height: 1.8; font-size: 1rem; color: #ccc; }
         .modal ul { margin-left: 20px; margin-bottom: 20px; color: #ccc; }
-        .modal li { margin-bottom: 8px; }
-
-        .quote-box {
-            background: rgba(255,255,255,0.05);
-            padding: 25px;
-            border-radius: 8px;
-            margin: 20px 0;
-            font-style: italic;
-            border: 1px solid rgba(197, 160, 101, 0.3);
-        }
+        .quote-box { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 8px; margin: 20px 0; font-style: italic; border: 1px solid rgba(197, 160, 101, 0.3); }
         .quote-author { text-align: right; display: block; margin-top: 10px; color: var(--gold-base); font-family: var(--font-en); }
 
-        /* 动画类 */
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes shine { to { background-position: 200% center; } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* =========================================
+           移动端深度适配 (Mobile Optimization)
+           ========================================= */
         @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .container { padding-top: 40px; }
-            .poem-line { font-size: 1.15rem; margin: 20px 0; }
-            .modal-content { padding: 20px; margin-top: 40px; }
+            h1 { font-size: 2.2rem; letter-spacing: 5px; }
+            .subtitle { font-size: 0.9rem; }
+            
+            .container { padding-top: 20px; }
+            
+            /* 1. 解决换行问题：强制不换行，使用相对视口单位(vw)控制字号 */
+            .poem-line { 
+                white-space: nowrap; /* 强制一行 */
+                /* 动态字号：最小15px，最大1.2rem，根据屏幕宽度调整 */
+                font-size: clamp(15px, 4.5vw, 1.2rem); 
+                margin: 22px 0;
+                letter-spacing: 0px; /* 减小字间距 */
+            }
+
+            /* 2. 解决闪烁问题：移除动画，改为静态高级金 */
+            .poem-line.active.highlight {
+                /* 移除 background-clip 动画，改用纯色+阴影 */
+                background: none; 
+                -webkit-text-fill-color: initial;
+                color: var(--gold-shine); /* 亮金色 */
+                text-shadow: 0 0 15px rgba(197, 160, 101, 0.6), 0 0 5px rgba(255, 215, 0, 0.4);
+                animation: none; /* 禁止闪烁动画 */
+                font-size: clamp(17px, 5vw, 1.4rem); /* 稍微放大一点点 */
+                transform: scale(1.02); /* 减小缩放幅度 */
+            }
+
+            .modal-content { padding: 20px 20px 80px; margin-top: 40px; }
+            .close-modal { right: 20px; top: 20px; font-size: 30px; }
+            .player-wrapper { width: 90%; max-width: 350px; }
+            .track-info { font-size: 0.75rem; text-overflow: ellipsis; overflow: hidden; }
         }
     </style>
 </head>
@@ -249,7 +248,6 @@
         </div>
 
         <div class="poem-container" id="poem-box">
-            <!-- 移除了占位空div，解决间距过大问题 -->
             <div class="poem-line">君不见，黄河之水天上来，奔流到海不复回。</div>
             <div class="poem-line">君不见，高堂明镜悲白发，朝如青丝暮成雪。</div>
             <div class="poem-line highlight">人生得意须尽欢，莫使金樽空对月。</div>
@@ -264,7 +262,7 @@
             <div class="poem-line">五花马，千金裘，</div>
             <div class="poem-line highlight">呼儿将出换美酒，与尔同销万古愁。</div>
             
-            <div style="height: 200px;"></div>
+            <div style="height: 150px;"></div>
         </div>
 
         <div class="footer-controls">
@@ -272,7 +270,7 @@
         </div>
     </div>
 
-    <!-- 模态框：完整还原 Markdown 内容 -->
+    <!-- 模态框 -->
     <div id="concept-modal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="modal-content">
@@ -333,7 +331,6 @@
     <audio id="audio-player" preload="none" loop></audio>
 
     <script>
-        // ================= 配置区 =================
         const GITHUB_USER = 'digital-era';
         const GITHUB_REPO = 'AIPEMusic';
         const GITHUB_BRANCH= 'main';
@@ -341,8 +338,6 @@
         const GITHUB_MP3_FILENAME = 'Chopin - Ballade No.1 in G minor, Op.23 (Krystian Zimerman).mp3';
         var gitproxy = true; 
         const PROXY_BASE_URL = "https://githubproxy.aivibeinvest.com"; 
-
-        // ================= 核心逻辑 =================
 
         function getResourceUrl(filename) {
             let realfilename = filename;
@@ -396,7 +391,6 @@
         audio.addEventListener('waiting', () => { if(isPlaying) spinner.style.display = 'block'; });
         audio.addEventListener('playing', () => { if(isPlaying) spinner.style.display = 'none'; });
 
-        // === 优化后的焦点逻辑 ===
         function updateFocus() {
             const lines = document.querySelectorAll('.poem-line');
             const centerPoint = window.innerHeight / 2; 
@@ -407,13 +401,8 @@
                 const lineCenter = rect.top + rect.height / 2;
                 const distance = Math.abs(centerPoint - lineCenter);
                 
-                // 默认逻辑：距离中心 200px 内变亮
                 let isActive = distance < 200;
-
-                // 特殊修正：如果页面在最顶部，强制第一行高亮 (解决间距过大问题)
-                if (scrollTop < 50 && index === 0) {
-                    isActive = true;
-                }
+                if (scrollTop < 50 && index === 0) isActive = true;
 
                 if (isActive) {
                     line.classList.add('active');
@@ -425,13 +414,11 @@
         }
         
         window.addEventListener('scroll', updateFocus);
-        updateFocus(); // 初始化
+        updateFocus(); 
 
-        // 模态框
         function openModal() { document.getElementById('concept-modal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
         function closeModal() { document.getElementById('concept-modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
-        // Canvas 星河
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let w, h;
