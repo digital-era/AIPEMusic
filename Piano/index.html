@@ -27,7 +27,6 @@
             overflow-x: hidden;
             line-height: 1.8;
             min-height: 100vh;
-            /* 禁止移动端横向溢出 */
             width: 100vw; 
         }
 
@@ -45,7 +44,6 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            /* 移动端左右内边距减小，腾出空间给文字 */
             padding: 60px 10px 150px; 
             position: relative;
             z-index: 2;
@@ -85,10 +83,10 @@
             gap: 15px;
             margin: 0 auto 50px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 10px 20px; /* 稍微缩小内边距 */
+            padding: 10px 20px;
             border-radius: 50px;
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); /* 兼容 iOS */
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             width: fit-content;
@@ -115,10 +113,9 @@
             font-family: var(--font-en);
             color: rgba(255,255,255,0.8);
             letter-spacing: 0.5px;
-            white-space: nowrap; /* 防止歌名换行 */
+            white-space: nowrap;
         }
 
-        /* 动态诗词区 */
         .poem-container {
             text-align: center;
             perspective: 1000px;
@@ -133,11 +130,9 @@
             cursor: default;
             filter: blur(1.5px);
             transform: scale(0.95);
-            /* 默认允许换行，但在 Mobile 样式中我们会强制不换行 */
             line-height: 1.6; 
         }
 
-        /* 焦点样式 */
         .poem-line.active {
             color: var(--text-active);
             filter: blur(0);
@@ -148,7 +143,6 @@
 
         .highlight { font-weight: bold; }
         
-        /* PC 端的高级流光动画 */
         @media (min-width: 601px) {
             .poem-line.active.highlight {
                 color: transparent;
@@ -173,9 +167,14 @@
             border-radius: 4px;
         }
 
-        /* 模态框设计 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 100; backdrop-filter: blur(8px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        /* 模态框背景色修改 */
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(var(--bg-deep-blue-rgb), 0.95); /* 使用深蓝色系的半透明背景 */
+            z-index: 100; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); overflow-y: auto; -webkit-overflow-scrolling: touch; 
+        }
         .modal-content { max-width: 800px; margin: 60px auto 100px; padding: 40px; color: #ddd; position: relative; }
+        
         .close-modal { position: fixed; top: 30px; right: 40px; font-size: 40px; cursor: pointer; color: #fff; z-index: 102; }
         .modal-section { margin-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; }
         .modal-title { font-size: 2rem; color: var(--gold-base); margin-bottom: 30px; text-align: center; font-family: var(--font-en); }
@@ -190,34 +189,27 @@
         @keyframes shine { to { background-position: 200% center; } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* =========================================
-           移动端深度适配 (Mobile Optimization)
-           ========================================= */
         @media (max-width: 600px) {
             h1 { font-size: 2.2rem; letter-spacing: 5px; }
             .subtitle { font-size: 0.9rem; }
             
             .container { padding-top: 20px; }
             
-            /* 1. 解决换行问题：强制不换行，使用相对视口单位(vw)控制字号 */
             .poem-line { 
-                white-space: nowrap; /* 强制一行 */
-                /* 动态字号：最小15px，最大1.2rem，根据屏幕宽度调整 */
+                white-space: nowrap; 
                 font-size: clamp(15px, 4.5vw, 1.2rem); 
                 margin: 22px 0;
-                letter-spacing: 0px; /* 减小字间距 */
+                letter-spacing: 0px;
             }
 
-            /* 2. 解决闪烁问题：移除动画，改为静态高级金 */
             .poem-line.active.highlight {
-                /* 移除 background-clip 动画，改用纯色+阴影 */
                 background: none; 
                 -webkit-text-fill-color: initial;
-                color: var(--gold-shine); /* 亮金色 */
+                color: var(--gold-shine);
                 text-shadow: 0 0 15px rgba(197, 160, 101, 0.6), 0 0 5px rgba(255, 215, 0, 0.4);
-                animation: none; /* 禁止闪烁动画 */
-                font-size: clamp(17px, 5vw, 1.4rem); /* 稍微放大一点点 */
-                transform: scale(1.02); /* 减小缩放幅度 */
+                animation: none;
+                font-size: clamp(17px, 5vw, 1.4rem);
+                transform: scale(1.02);
             }
 
             .modal-content { padding: 20px 20px 80px; margin-top: 40px; }
