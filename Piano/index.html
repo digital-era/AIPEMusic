@@ -6,11 +6,11 @@
     <title>跨越时空的对话：肖邦 x 李白</title>
     <style>
         :root {
-            /* 调色板升级：更丰富的深蓝与高贵的金 */
+            /* 调色板：深蓝、午夜紫、哑光金 */
             --bg-dark: #090c10;
             --bg-deep-blue: #151b2e;
             --bg-accent: #1e2742;
-            --text-dim: rgba(255, 255, 255, 0.3); /* 未选中的文字更暗，制造对比 */
+            --text-dim: rgba(255, 255, 255, 0.25); /* 未选中的文字更暗 */
             --text-active: #ffffff;
             --gold-base: #c5a065;
             --gold-shine: #ffd700;
@@ -22,48 +22,42 @@
 
         body {
             background-color: var(--bg-dark);
-            /* 径向渐变，解决纯黑的压抑感，营造舞台聚光灯效果 */
+            /* 径向渐变，营造聚光灯效果 */
             background-image: radial-gradient(circle at 50% 30%, var(--bg-accent), var(--bg-deep-blue), var(--bg-dark));
             color: var(--text-active);
             font-family: var(--font-cn);
             overflow-x: hidden;
-            line-height: 2;
+            line-height: 1.8;
             min-height: 100vh;
         }
 
-        /* 噪点纹理层：增加胶片/纸张质感 */
+        /* 噪点纹理层：增加质感 */
         .noise-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.05;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Canvas 背景层 */
+        /* Canvas 星河背景 */
         #canvas-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            /* 混合模式让粒子融入背景 */
-            mix-blend-mode: screen; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; mix-blend-mode: screen; 
         }
 
         /* 主容器 */
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 80px 20px 150px; /* 底部留白给滚动 */
+            padding: 60px 20px 150px; /* 顶部间距适中，底部留白 */
             position: relative;
             z-index: 2;
         }
 
-        /* 头部 */
+        /* 头部设计 */
         header {
             text-align: center;
-            margin-bottom: 60px;
-            animation: fadeInDown 2s ease-out;
+            margin-bottom: 30px; /* 减小头部与播放器的间距 */
+            animation: fadeInDown 1.5s ease-out;
         }
 
         h1 {
@@ -72,7 +66,7 @@
             letter-spacing: 10px;
             color: var(--text-active);
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .subtitle {
@@ -81,31 +75,31 @@
             color: var(--gold-base);
             font-style: italic;
             letter-spacing: 1px;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
-        /* 播放器 - 悬浮胶囊设计 */
+        /* 播放器 - 悬浮胶囊 */
         .player-wrapper {
-            position: sticky; /* 粘性定位 */
+            position: sticky;
             top: 20px;
             z-index: 10;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin: 0 auto 60px;
-            background: rgba(255, 255, 255, 0.03);
+            margin: 0 auto 50px; /* 减小播放器与诗词的间距 */
+            background: rgba(255, 255, 255, 0.05);
             padding: 12px 30px;
             border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             width: fit-content;
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .player-wrapper:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.1);
             border-color: var(--gold-base);
             transform: translateY(2px);
         }
@@ -130,39 +124,36 @@
         .track-info {
             font-size: 0.85rem;
             font-family: var(--font-en);
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.8);
             letter-spacing: 0.5px;
         }
 
         /* 动态诗词区 */
         .poem-container {
             text-align: center;
-            perspective: 1000px; /* 3D透视 */
+            perspective: 1000px;
         }
 
         .poem-line {
-            font-size: 1.3rem;
-            margin: 35px 0;
+            font-size: 1.4rem;
+            margin: 28px 0; /* 调整行间距 */
             color: var(--text-dim);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); /* 弹性过渡 */
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: default;
-            filter: blur(1px); /* 默认微模糊 */
+            filter: blur(1.5px);
             transform: scale(0.95);
         }
 
-        /* 焦点样式：当行处于屏幕中间时 */
+        /* 焦点样式 */
         .poem-line.active {
             color: var(--text-active);
             filter: blur(0);
             transform: scale(1.05);
-            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+            text-shadow: 0 0 15px rgba(255,255,255,0.3);
             opacity: 1;
         }
 
-        /* 重点句高亮动画 */
-        .highlight {
-            font-weight: bold;
-        }
+        .highlight { font-weight: bold; }
         
         .poem-line.active.highlight {
             color: transparent;
@@ -172,49 +163,74 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shine 4s linear infinite;
-            font-size: 1.5rem; /* 重点句更大 */
+            font-size: 1.6rem;
         }
 
         /* 底部控制 */
         .footer-controls { text-align: center; margin-top: 80px; }
         .btn-concept {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.6);
-            padding: 12px 30px;
-            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.7);
+            padding: 12px 35px;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: 0.3s;
             letter-spacing: 2px;
+            border-radius: 4px;
         }
         .btn-concept:hover {
             border-color: var(--gold-base);
             color: var(--gold-base);
-            background: rgba(197, 160, 101, 0.05);
+            background: rgba(197, 160, 101, 0.08);
+            box-shadow: 0 0 15px rgba(197, 160, 101, 0.2);
         }
 
-        /* 模态框优化 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; backdrop-filter: blur(5px); }
-        .modal-content { max-width: 700px; margin: 80px auto; padding: 40px; color: #ccc; }
-        .close-modal { position: absolute; top: 30px; right: 40px; font-size: 40px; cursor: pointer; transition: 0.3s; }
+        /* 模态框设计 (还原 MD 内容) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 100; backdrop-filter: blur(8px); overflow-y: auto; }
+        .modal-content { max-width: 800px; margin: 60px auto 100px; padding: 40px; color: #ddd; position: relative; }
+        
+        .close-modal { position: fixed; top: 30px; right: 40px; font-size: 40px; cursor: pointer; transition: 0.3s; color: #fff; z-index: 102; }
         .close-modal:hover { color: var(--gold-base); transform: rotate(90deg); }
 
+        /* 模态框排版 */
+        .modal-section { margin-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; }
+        .modal-section:last-child { border-bottom: none; }
+        
+        .modal-title { font-size: 2rem; color: var(--gold-base); margin-bottom: 30px; text-align: center; font-family: var(--font-en); }
+        
+        .modal h3 { color: #fff; margin: 25px 0 15px; font-size: 1.3rem; border-left: 4px solid var(--gold-base); padding-left: 15px; }
+        .modal h4 { color: #aebfd6; margin: 20px 0 10px; font-weight: bold; }
+        .modal p { margin-bottom: 15px; text-align: justify; line-height: 1.8; font-size: 1rem; color: #ccc; }
+        .modal ul { margin-left: 20px; margin-bottom: 20px; color: #ccc; }
+        .modal li { margin-bottom: 8px; }
+
+        .quote-box {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-style: italic;
+            border: 1px solid rgba(197, 160, 101, 0.3);
+        }
+        .quote-author { text-align: right; display: block; margin-top: 10px; color: var(--gold-base); font-family: var(--font-en); }
+
+        /* 动画类 */
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes shine { to { background-position: 200% center; } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 600px) {
             h1 { font-size: 2.2rem; }
-            .poem-line { font-size: 1.1rem; margin: 25px 0; }
-            .poem-line.active.highlight { font-size: 1.25rem; }
+            .container { padding-top: 40px; }
+            .poem-line { font-size: 1.15rem; margin: 20px 0; }
+            .modal-content { padding: 20px; margin-top: 40px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 噪点纹理 -->
     <div class="noise-overlay"></div>
-    <!-- 动态星河背景 -->
     <canvas id="canvas-bg"></canvas>
 
     <div class="container">
@@ -233,9 +249,7 @@
         </div>
 
         <div class="poem-container" id="poem-box">
-            <!-- 增加了空行占位，让第一句能滚到中间 -->
-            <div style="height: 20vh;"></div>
-            
+            <!-- 移除了占位空div，解决间距过大问题 -->
             <div class="poem-line">君不见，黄河之水天上来，奔流到海不复回。</div>
             <div class="poem-line">君不见，高堂明镜悲白发，朝如青丝暮成雪。</div>
             <div class="poem-line highlight">人生得意须尽欢，莫使金樽空对月。</div>
@@ -249,8 +263,8 @@
             <div class="poem-line">主人何为言少钱，径须沽取对君酌。</div>
             <div class="poem-line">五花马，千金裘，</div>
             <div class="poem-line highlight">呼儿将出换美酒，与尔同销万古愁。</div>
-
-            <div style="height: 30vh;"></div>
+            
+            <div style="height: 200px;"></div>
         </div>
 
         <div class="footer-controls">
@@ -258,19 +272,64 @@
         </div>
     </div>
 
-    <!-- 模态框保持不变，内容略 -->
+    <!-- 模态框：完整还原 Markdown 内容 -->
     <div id="concept-modal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="modal-content">
-            <h2 style="color:var(--gold-base); font-family:var(--font-en); margin-bottom:20px;">Artistic Concept</h2>
-            <p><strong>李白 x 肖邦：</strong> 这是一场跨越千年的灵魂共振。《将进酒》的极乐与极悲，完美对应了肖邦《G小调第一叙事曲》中宏大的叙事结构与悲剧性的力量。</p>
-            <p><strong>演绎版本：</strong> 选用克里斯蒂安·齐默尔曼（Krystian Zimerman）的录音。他那晶莹剔透的音色与深邃的控制力，能将“黄河之水天上来”的壮阔与“万古愁”的苍凉展现得淋漓尽致。</p>
-            <br>
-            <p style="font-size:0.9rem; color:#888;">* 滚动页面以体验诗词随视线流动的效果。</p>
+            <div class="modal-title">跨越时空的艺术对话</div>
+            
+            <div class="modal-section">
+                <p>将东方盛唐的诗情与西方浪漫主义的琴韵相融合，这本身就是一场跨越时空的艺术对话。</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>一、 Frédéric Chopin 的核心信息</h3>
+                <ul>
+                    <li><strong>主要贡献:</strong> 创作《夜曲》《波兰舞曲》，以抒情钢琴曲定义浪漫主义音乐。</li>
+                    <li><strong>特点:</strong> 浪漫派钢琴大师，影响现代钢琴演奏技艺。</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>二、 构思：从第一性原理出发的共鸣</h3>
+                <div class="quote-box">
+                    "若要为李白先生的作品配上我的钢琴曲，我必须从最本质的层面去探究：诗与乐，其共通的情感核心、结构脉络以及所要表达的‘灵魂’是什么。"
+                    <span class="quote-author">— Chopin 的艺术答复</span>
+                </div>
+                <p>经过沉思，选择李白的<strong>《将进酒》</strong>，并以<strong>《第一叙事曲，作品23号》</strong>来与之匹配。</p>
+
+                <h4>1. 情感的宏大与深邃</h4>
+                <p><strong>《将进酒》：</strong>展现的是一种极度复杂的情感交织：既有“人生得意须尽欢”的豪情，又有对生命短暂的悲悯。它在极乐与极悲之间摆荡，最终归于超脱。</p>
+                <p><strong>《第一叙事曲》：</strong>并非简单的抒情，它是一部具有内在叙事性、戏剧冲突的作品。从深沉的引子到宏大的激情，再到梦幻的冥想，最终辉煌结束。这种从迷茫到激昂的情感历程，与诗境高度契合。</p>
+
+                <h4>2. 结构与叙事</h4>
+                <p>肖邦的叙事曲主部宏大而充满力量，宛如李白放声高歌“天生我材必有用”；中段的抒情与冥想，对应了诗中对人生哲理的沉思；而最终的华彩与尾声，则是将所有情感推向高潮，如同李白“与尔同销万古愁”的气吞山河。</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>三、 罗伯特·舒曼的评价</h3>
+                <div class="quote-box">
+                    "我告诉肖邦，这是他所有作品中我最喜欢的一首。在一段长时间的沉默之后，他郑重地回答道：‘听到你这么说我很高兴，因为这也是我最喜欢、最珍爱的一首。’"
+                    <span class="quote-author">— Robert Schumann</span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>四、 演绎版本：克里斯蒂安·齐默尔曼</h3>
+                <p>本页面选用的录音来自 <strong>Krystian Zimerman</strong>，当今乐坛公认的“现存最伟大的钢琴家之一”。</p>
+                <ul>
+                    <li><strong>风格对比：</strong>如果说鲁宾斯坦代表了肖邦的“自然与高贵”，齐默尔曼则代表了“现代的极致完美与深邃思考”。</li>
+                    <li><strong>钢琴哲学家：</strong>他是那种为了一个音符的音色可以钻研数月的艺术家。听他的肖邦，你会感叹“艺术真神圣”。</li>
+                </ul>
+                <p>在聆听这首曲子时，请感受那种晶莹剔透的控制力与带有悲剧色彩的宏大叙事。</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <button class="btn-concept" onclick="closeModal()">回到诗画</button>
+            </div>
         </div>
     </div>
 
-    <!-- 音频标签 -->
     <audio id="audio-player" preload="none" loop></audio>
 
     <script>
@@ -285,7 +344,6 @@
 
         // ================= 核心逻辑 =================
 
-        // 1. 资源获取
         function getResourceUrl(filename) {
             let realfilename = filename;
             try {
@@ -299,7 +357,6 @@
             return `${baseUrl}/${filePath}?t=${Date.now()}`;
         }
 
-        // 2. 播放器控制
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
         const spinner = document.getElementById('spinner');
@@ -327,13 +384,11 @@
                     spinner.style.display = 'none';
                     iconPause.style.display = 'block';
                     isPlaying = true;
-                    // 开始自动流动的视觉暗示
-                    startFlowEffect();
                 }).catch(e => {
                     console.error(e);
                     spinner.style.display = 'none';
                     iconPlay.style.display = 'block';
-                    alert("音频缓冲中，请稍候...");
+                    alert("音频缓冲中，请检查网络或刷新...");
                 });
             }
         }
@@ -341,20 +396,26 @@
         audio.addEventListener('waiting', () => { if(isPlaying) spinner.style.display = 'block'; });
         audio.addEventListener('playing', () => { if(isPlaying) spinner.style.display = 'none'; });
 
-        // 3. 动态视觉：焦点高亮 (Scroll Focus Logic)
-        // 这个逻辑会让处于屏幕中间的诗句变亮，模拟“阅读焦点”
+        // === 优化后的焦点逻辑 ===
         function updateFocus() {
             const lines = document.querySelectorAll('.poem-line');
-            const centerPoint = window.innerHeight / 2; // 屏幕中心线
+            const centerPoint = window.innerHeight / 2; 
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-            lines.forEach(line => {
+            lines.forEach((line, index) => {
                 const rect = line.getBoundingClientRect();
                 const lineCenter = rect.top + rect.height / 2;
                 const distance = Math.abs(centerPoint - lineCenter);
                 
-                // 距离中心越近，越清晰
-                // 200px 是焦点范围
-                if (distance < 200) {
+                // 默认逻辑：距离中心 200px 内变亮
+                let isActive = distance < 200;
+
+                // 特殊修正：如果页面在最顶部，强制第一行高亮 (解决间距过大问题)
+                if (scrollTop < 50 && index === 0) {
+                    isActive = true;
+                }
+
+                if (isActive) {
                     line.classList.add('active');
                 } else {
                     line.classList.remove('active');
@@ -363,85 +424,50 @@
             requestAnimationFrame(updateFocus);
         }
         
-        // 启动监听
         window.addEventListener('scroll', updateFocus);
         updateFocus(); // 初始化
 
-        function startFlowEffect() {
-            // 可以在这里添加页面微微自动滚动的逻辑，但为了阅读体验，保留手动滚动更好
-            // 仅改变光标提示
-            document.body.style.cursor = 'n-resize';
-        }
-
-        // 4. 模态框
+        // 模态框
         function openModal() { document.getElementById('concept-modal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
         function closeModal() { document.getElementById('concept-modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
-        // 5. 升级版 Canvas：流动的音符/星河 (Flow Field)
+        // Canvas 星河
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let w, h;
         const particles = [];
 
-        function resize() {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-        }
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
 
         class Star {
-            constructor() {
-                this.reset();
-                // 初始位置随机
-                this.x = Math.random() * w;
-            }
-            
+            constructor() { this.reset(); this.x = Math.random() * w; }
             reset() {
-                this.x = Math.random() * w + w; // 从右侧开始
+                this.x = Math.random() * w + w;
                 this.y = Math.random() * h;
                 this.size = Math.random() * 1.5;
-                this.speed = (Math.random() * 0.5) + 0.2; // 缓慢流动
+                this.speed = (Math.random() * 0.5) + 0.2;
                 this.opacity = Math.random() * 0.5;
                 this.life = Math.random() * 100;
             }
-
             update() {
-                this.x -= this.speed; // 向左流动，像河水
-                this.life--;
-                
-                // 模拟波浪起伏
+                this.x -= this.speed;
                 this.y += Math.sin(this.x * 0.005) * 0.5;
-
-                if (this.x < 0 || this.life < 0) {
-                    this.reset();
-                }
+                if (this.x < 0) this.reset();
             }
-
             draw() {
-                ctx.fillStyle = `rgba(197, 160, 101, ${this.opacity})`; // 金色粒子
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-                ctx.fill();
+                ctx.fillStyle = `rgba(197, 160, 101, ${this.opacity})`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
             }
         }
-
-        // 初始化粒子
-        for(let i=0; i<100; i++) particles.push(new Star());
-
+        for(let i=0; i<80; i++) particles.push(new Star());
         function animate() {
             ctx.clearRect(0, 0, w, h);
-            
-            // 绘制连接线 (Constellation effect - optional, here we just use flow)
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
         animate();
-
     </script>
 </body>
 </html>
