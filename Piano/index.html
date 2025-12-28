@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨越时空的对话：肖邦 x 李白</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19; /* 深夜黑蓝 */
+            --text-primary: #e2e2e2;
+            --text-secondary: #8b9bb4;
+            --accent-gold: #c5a065; /* 哑光金 */
+            --font-cn: "Noto Serif SC", "Songti SC", "SimSun", serif;
+            --font-en: "Playfair Display", "Times New Roman", serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-cn);
+            overflow-x: hidden;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 背景动画层 */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 头部设计 */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 40px;
+            animation: fadeIn Down 1.5s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: normal;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-family: var(--font-en);
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        /* 播放器控制区 */
+        .player-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s ease;
+        }
+
+        .player-wrapper:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-gold);
+        }
+
+        #play-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            fill: var(--text-primary);
+            transition: transform 0.2s;
+        }
+
+        #play-btn:hover {
+            transform: scale(1.1);
+            fill: var(--accent-gold);
+        }
+
+        .track-info {
+            font-size: 0.9rem;
+            font-family: var(--font-en);
+            color: var(--text-secondary);
+        }
+
+        /* 诗词展示区 */
+        .poem-container {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 80px;
+        }
+
+        .poem-line {
+            margin: 24px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .poem-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .highlight {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        /* 底部与模态框触发 */
+        .footer-controls {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .btn-concept {
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 10px 25px;
+            font-family: var(--font-cn);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .btn-concept:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* 模态框 (Markdown内容展示) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 40px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .modal-content h2 {
+            color: var(--accent-gold);
+            border-bottom: 1px solid rgba(197, 160, 101, 0.3);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-family: var(--font-en);
+        }
+
+        .modal-content h3 {
+            color: #fff;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .modal-content blockquote {
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 15px;
+            margin: 20px 0;
+            color: #aebfd6;
+            font-style: italic;
+        }
+
+        .close-modal {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        /* 动画类 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .poem-container { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-bg"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>将进酒</h1>
+            <div class="subtitle">Ballade No. 1 in G minor, Op. 23</div>
+        </header>
+
+        <div class="player-wrapper">
+            <button id="play-btn" onclick="togglePlay()">
+                <!-- SVG Play Icon -->
+                <svg viewBox="0 0 24 24" id="icon-play">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <!-- SVG Pause Icon (Hidden initially) -->
+                <svg viewBox="0 0 24 24" id="icon-pause" style="display:none">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+            </button>
+            <div class="track-info">
+                Frédéric Chopin / Krystian Zimerman
+            </div>
+        </div>
+
+        <div class="poem-container" id="poem-box">
+            <!-- 诗词内容将通过JS动态控制显示效果 -->
+            <div class="poem-line">君不见，黄河之水天上来，奔流到海不复回。</div>
+            <div class="poem-line">君不见，高堂明镜悲白发，朝如青丝暮成雪。</div>
+            <div class="poem-line highlight">人生得意须尽欢，莫使金樽空对月。</div>
+            <div class="poem-line highlight">天生我材必有用，千金散尽还复来。</div>
+            <div class="poem-line">烹羊宰牛且为乐，会须一饮三百杯。</div>
+            <div class="poem-line">岑夫子，丹丘生，将进酒，杯莫停。</div>
+            <div class="poem-line">与君歌一曲，请君为我倾耳听。</div>
+            <div class="poem-line">钟鼓馔玉不足贵，但愿长醉不愿醒。</div>
+            <div class="poem-line">古来圣贤皆寂寞，惟有饮者留其名。</div>
+            <div class="poem-line">陈王昔时宴平乐，斗酒十千恣欢谑。</div>
+            <div class="poem-line">主人何为言少钱，径须沽取对君酌。</div>
+            <div class="poem-line">五花马，千金裘，</div>
+            <div class="poem-line highlight">呼儿将出换美酒，与尔同销万古愁。</div>
+        </div>
+
+        <div class="footer-controls">
+            <button class="btn-concept" onclick="openModal()">阅读创作构思 & 深度解读</button>
+        </div>
+    </div>
+
+    <!-- 隐藏的音频元素 -->
+    <audio id="audio-player" src="1.mp3" preload="auto" loop></audio>
+
+    <!-- 模态框：创作构思 (来源于MD文件) -->
+    <div id="concept-modal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <h1>跨越时空的艺术对话</h1>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px;">Frédéric Chopin x Li Bai</p>
+
+            <h2>一、灵魂的共鸣</h2>
+            <p>若要为李白先生的作品配上钢琴曲，这并非简单的对应，而是深层的共鸣。经过沉思，我们选择**《将进酒》与肖邦《第一叙事曲，作品23号》**相匹配。</p>
+
+            <h3>情感的宏大与深邃</h3>
+            <p>《将进酒》在极乐与极悲之间摆荡，最终归于超脱。而《第一叙事曲》并非简单的抒情，它从深沉的引子开篇，经历宏大的激情、梦幻的冥想，最终以辉煌的力量结束。这种从迷茫到激昂的情感历程，与诗境高度契合。</p>
+
+            <h3>结构与叙事</h3>
+            <p>肖邦的叙事曲主部宏大而充满力量，宛如李白放声高歌“天生我材必有用”；中段的冥想对应诗中对哲理的沉思；尾声的华彩则是“与尔同销万古愁”的磅礴气势。</p>
+
+            <h2>二、技艺与浪漫主义</h2>
+            <p>李白以奔放不羁的语言驾驭情感，肖邦则以复杂的和声与高难度的技艺作为情感载体。无论是唐朝还是19世纪欧洲，两位艺术家都在追求个体精神的自由与对美的极致。</p>
+
+            <h2>三、关于演绎版本：克里斯蒂安·齐默尔曼</h2>
+            <blockquote>
+                "听到你这么说我很高兴，因为这也是我最喜欢、最珍爱的一首。" —— 肖邦回应舒曼
+            </blockquote>
+            <p>本页面音乐采用**克里斯蒂安·齐默尔曼 (Krystian Zimerman)** 的诠释风格。作为当今最伟大的肖邦诠释者之一，他的演奏代表了“现代的极致完美与深邃思考”。</p>
+            <p>如果说鲁宾斯坦代表了肖邦的“自然与高贵”，齐默尔曼则展示了那种为了一个音色可以钻研数月的“钢琴哲学家”精神。在聆听这首曲子时，请感受那种晶莹剔透的控制力与带有悲剧色彩的宏大叙事。</p>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <button class="btn-concept" onclick="closeModal()">回到诗画</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. 音频控制逻辑
+        const audio = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+        let isPlaying = false;
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                iconPlay.style.display = 'block';
+                iconPause.style.display = 'none';
+            } else {
+                audio.play().then(() => {
+                    // 自动滚动视觉效果开启
+                    startAutoVisuals();
+                }).catch(e => console.log("Audio play failed:", e));
+                iconPlay.style.display = 'none';
+                iconPause.style.display = 'block';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 2. 诗词滚动显现效果 (Intersection Observer)
+        // 当诗句进入视口时，给予淡入效果
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.poem-line').forEach(line => {
+            observer.observe(line);
+        });
+
+        function startAutoVisuals() {
+            // 简单的自动向下滚动提示，配合音乐节奏
+            // 实际体验中用户手动滚动往往更有感觉，这里仅做状态激活
+            document.body.style.cursor = 'default';
+        }
+
+        // 3. 模态框逻辑
+        function openModal() {
+            document.getElementById('concept-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+
+        function closeModal() {
+            document.getElementById('concept-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 4. 背景 Canvas 粒子动画 (营造“黄河之水”与“月光”的意境)
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = Math.random() * 0.5 + 0.2; // 缓慢向下流动
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5;
+            }
+
+            update() {
+                this.y += this.vy;
+                this.x += this.vx;
+                if (this.y > height) this.y = 0;
+                if (this.x > width || this.x < 0) this.x = Math.random() * width;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(197, 160, 101, ${this.alpha})`; // 金色微粒
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < 60; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            // 绘制微弱的渐变背景
+            let gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, '#0b0f19');
+            gradient.addColorStop(1, '#1a2236');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+
+    </script>
+</body>
+</html>
