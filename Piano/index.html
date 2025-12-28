@@ -104,12 +104,29 @@
             height: 40px;
             fill: var(--text-primary);
             transition: transform 0.2s;
+            position: relative;
         }
 
         #play-btn:hover {
             transform: scale(1.1);
             fill: var(--accent-gold);
         }
+
+        /* 加载状态指示器 */
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-gold);
+            animation: spin 1s ease-in-out infinite;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .track-info {
             font-size: 0.9rem;
@@ -250,6 +267,7 @@
 
         <div class="player-wrapper">
             <button id="play-btn" onclick="togglePlay()">
+                <div class="loading-spinner" id="spinner"></div>
                 <!-- SVG Play Icon -->
                 <svg viewBox="0 0 24 24" id="icon-play">
                     <path d="M8 5v14l11-7z"/>
@@ -265,7 +283,6 @@
         </div>
 
         <div class="poem-container" id="poem-box">
-            <!-- 诗词内容将通过JS动态控制显示效果 -->
             <div class="poem-line">君不见，黄河之水天上来，奔流到海不复回。</div>
             <div class="poem-line">君不见，高堂明镜悲白发，朝如青丝暮成雪。</div>
             <div class="poem-line highlight">人生得意须尽欢，莫使金樽空对月。</div>
@@ -286,10 +303,10 @@
         </div>
     </div>
 
-    <!-- 隐藏的音频元素 -->
-    <audio id="audio-player" src="1.mp3" preload="auto" loop></audio>
+    <!-- 隐藏的音频元素，src 将由 JS 动态注入 -->
+    <audio id="audio-player" preload="none" loop></audio>
 
-    <!-- 模态框：创作构思 (来源于MD文件) -->
+    <!-- 模态框：创作构思 -->
     <div id="concept-modal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="modal-content">
@@ -322,31 +339,126 @@
     </div>
 
     <script>
-        // 1. 音频控制逻辑
+        // ==========================================
+        // GitHub 资源代理配置 (User Provided Config)
+        // ==========================================
+        const GITHUB_USER = 'digital-era';
+        const GITHUB_REPO = 'AIPEMusic';
+        const GITHUB_BRANCH= 'main';
+        const GITHUB_DIR= 'Piano';
+        const GITHUB_MP3_FILENAME = 'Chopin - Ballade No.1 in G minor, Op.23 (Krystian Zimerman).mp3';
+
+        // 全局代理开关：设置为 true 开启代理，false 使用原生链接
+        var gitproxy = true; 
+        
+        // 替换为你刚才部署的 Cloudflare Worker 地址 (末尾不要带斜杠)
+        const PROXY_BASE_URL = "https://githubproxy.aivibeinvest.com"; 
+        
+        /**
+         * 通用地址生成函数
+         * @param {string} filename - 文件名
+         * @returns {string} 最终的请求 URL
+         */
+        function getResourceUrl(filename) {
+            let realfilename = filename;
+            
+            // 兼容性处理：如果传入的是完整URL则提取，如果只是文件名则直接使用
+            // 避免因 new URL() 解析纯字符串报错
+            try {
+                if(filename.includes('http') || filename.includes('/')) {
+                    realfilename = new URL(filename).pathname.split('/').pop();
+                }
+            } catch(e) {
+                realfilename = filename;
+            }
+
+            // 对文件名进行编码，处理空格和特殊字符
+            const encodedFilename = encodeURIComponent(realfilename);
+
+            // 基础路径结构: User/Repo/Branch/Dir/File
+            const filePath = `${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_DIR}/${encodedFilename}`;
+            
+            let finalUrl;
+            if (typeof gitproxy !== 'undefined' && gitproxy === true) {
+                // 走代理: https://proxy.com/User/Repo/Branch/Dir/File
+                finalUrl = `${PROXY_BASE_URL}/${filePath}`;
+            } else {
+                // 走原生: https://raw.githubusercontent.com/User/Repo/Branch/Dir/File
+                finalUrl = `https://raw.githubusercontent.com/${filePath}`;
+            }
+            
+            // 添加时间戳防止缓存
+            return `${finalUrl}?t=${Date.now()}`;
+        }
+
+        // ==========================================
+        // 页面逻辑应用
+        // ==========================================
+
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
         const iconPlay = document.getElementById('icon-play');
         const iconPause = document.getElementById('icon-pause');
+        const spinner = document.getElementById('spinner');
         let isPlaying = false;
+        let isSourceSet = false;
+
+        // 初始化音频链接
+        function initAudioSource() {
+            const url = getResourceUrl(GITHUB_MP3_FILENAME);
+            console.log("Loading Audio from:", url);
+            audio.src = url;
+            isSourceSet = true;
+        }
 
         function togglePlay() {
+            // 如果还没设置源（第一次点击），先设置
+            if (!isSourceSet) {
+                initAudioSource();
+            }
+
             if (isPlaying) {
                 audio.pause();
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
+                spinner.style.display = 'none';
+                isPlaying = false;
             } else {
-                audio.play().then(() => {
-                    // 自动滚动视觉效果开启
-                    startAutoVisuals();
-                }).catch(e => console.log("Audio play failed:", e));
+                // 显示加载转圈
                 iconPlay.style.display = 'none';
-                iconPause.style.display = 'block';
+                spinner.style.display = 'block';
+
+                audio.play().then(() => {
+                    // 播放成功
+                    spinner.style.display = 'none';
+                    iconPause.style.display = 'block';
+                    startAutoVisuals();
+                    isPlaying = true;
+                }).catch(e => {
+                    console.error("Audio play failed:", e);
+                    spinner.style.display = 'none';
+                    iconPlay.style.display = 'block'; // 回复播放图标
+                    alert("音频加载中，请稍候再试或检查网络连接。");
+                });
             }
-            isPlaying = !isPlaying;
         }
 
-        // 2. 诗词滚动显现效果 (Intersection Observer)
-        // 当诗句进入视口时，给予淡入效果
+        // 监听音频缓冲状态，优化体验
+        audio.addEventListener('waiting', () => {
+             if(isPlaying) {
+                 iconPause.style.display = 'none';
+                 spinner.style.display = 'block';
+             }
+        });
+
+        audio.addEventListener('playing', () => {
+            if(isPlaying) {
+                spinner.style.display = 'none';
+                iconPause.style.display = 'block';
+            }
+        });
+
+        // 2. 诗词滚动显现效果
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -360,15 +472,13 @@
         });
 
         function startAutoVisuals() {
-            // 简单的自动向下滚动提示，配合音乐节奏
-            // 实际体验中用户手动滚动往往更有感觉，这里仅做状态激活
             document.body.style.cursor = 'default';
         }
 
         // 3. 模态框逻辑
         function openModal() {
             document.getElementById('concept-modal').style.display = 'block';
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
@@ -376,7 +486,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // 4. 背景 Canvas 粒子动画 (营造“黄河之水”与“月光”的意境)
+        // 4. 背景 Canvas 粒子动画
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let width, height;
@@ -394,7 +504,7 @@
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
                 this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = Math.random() * 0.5 + 0.2; // 缓慢向下流动
+                this.vy = Math.random() * 0.5 + 0.2; 
                 this.size = Math.random() * 2;
                 this.alpha = Math.random() * 0.5;
             }
@@ -407,7 +517,7 @@
             }
 
             draw() {
-                ctx.fillStyle = `rgba(197, 160, 101, ${this.alpha})`; // 金色微粒
+                ctx.fillStyle = `rgba(197, 160, 101, ${this.alpha})`; 
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -422,7 +532,6 @@
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            // 绘制微弱的渐变背景
             let gradient = ctx.createLinearGradient(0, 0, 0, height);
             gradient.addColorStop(0, '#0b0f19');
             gradient.addColorStop(1, '#1a2236');
