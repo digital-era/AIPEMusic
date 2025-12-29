@@ -437,16 +437,20 @@
         const btnOpera = document.getElementById('track-opera');
 
         function getResourceUrl(filename) {
-            let realfilename = filename;
-            try {
-                if(filename.includes('http') || filename.includes('/')) {
-                    realfilename = new URL(filename).pathname.split('/').pop();
-                }
-            } catch(e) { realfilename = filename; }
-            const encodedFilename = encodeURIComponent(realfilename);
-            const filePath = `${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_DIR}/${encodedFilename}`;
-            const baseUrl = gitproxy ? PROXY_BASE_URL : 'https://raw.githubusercontent.com';
-            return `${baseUrl}/${filePath}?t=${Date.now()}`;
+             // 直接返回当前目录下的文件名，加上时间戳防止缓存
+            return filename ;
+            //return filename + '?t=' + Date.now();
+            
+            //let realfilename = filename;
+            //try {
+                //if(filename.includes('http') || filename.includes('/')) {
+                    //realfilename = new URL(filename).pathname.split('/').pop();
+                //}
+            //} catch(e) { realfilename = filename; }
+            //const encodedFilename = encodeURIComponent(realfilename);
+            //const filePath = `${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_DIR}/${encodedFilename}`;
+            //const baseUrl = gitproxy ? PROXY_BASE_URL : 'https://raw.githubusercontent.com';
+            //return `${baseUrl}/${filePath}?t=${Date.now()}`;
         }
 
         // 切换曲目逻辑
