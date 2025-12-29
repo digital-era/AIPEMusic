@@ -1004,7 +1004,7 @@
                 padding: 50px 12px 80px;
             }
 
-            /* 诗歌行优化 - 进一步减小字体 */
+            /* 诗歌行优化 - 第3行开始居中对齐 */
             .poem-line {
                 font-size: 1.1rem;
                 margin: 16px 0;
@@ -1015,8 +1015,17 @@
                 overflow-wrap: break-word;
                 letter-spacing: 0.3px;
                 padding: 0 8px;
-                text-align: justify;
-                text-justify: inter-ideograph;
+                text-align: center;
+            }
+            
+            /* 前两行保持左对齐，第3行开始全部居中对齐 */
+            .poem-line:nth-child(1),
+            .poem-line:nth-child(2) {
+                text-align: left;
+            }
+            
+            .poem-line:nth-child(n+3) {
+                text-align: center;
             }
             
             .poem-line.active {
@@ -1046,56 +1055,64 @@
                 opacity: 0.7;
             }
 
-            /* 播放器胶囊进一步瘦身 */
+            /* 播放器胶囊 - 缩小长度，增加按钮比例 */
             .player-wrapper {
-                width: 94%;
-                max-width: 300px;
-                padding: 6px 12px;
+                width: 90%;
+                max-width: 260px;
+                padding: 6px 10px;
                 min-width: auto;
                 flex-direction: row;
-                gap: 8px;
-                border-radius: 22px;
+                gap: 6px;
+                border-radius: 20px;
                 margin-bottom: 35px;
-                justify-content: space-between;
+                justify-content: center;
             }
             
             .player-left {
                 order: 1;
-                gap: 8px;
+                gap: 6px;
+                flex-shrink: 0;
             }
             
             .btn-play {
-                width: 34px;
-                height: 34px;
+                width: 32px;
+                height: 32px;
+                flex-shrink: 0;
             }
             
             .btn-play svg {
-                width: 16px;
-                height: 16px;
+                width: 15px;
+                height: 15px;
             }
             
             .loading-spinner {
-                width: 16px;
-                height: 16px;
+                width: 15px;
+                height: 15px;
             }
 
-            /* 轨道切换器进一步瘦身 */
+            /* 轨道切换器 - 增加按钮宽度，减少空白 */
             .track-switcher {
                 order: 2;
-                gap: 10px;
-                font-size: 0.7rem;
+                gap: 8px;
+                font-size: 0.75rem;
+                flex-grow: 1;
+                justify-content: space-around;
             }
             
             .track-switcher::before {
                 height: 12px;
-                left: -5px;
+                left: -4px;
                 opacity: 0.3;
             }
             
             .switch-item {
-                padding: 5px 8px;
+                padding: 6px 12px;
                 letter-spacing: 0.3px;
                 font-weight: 500;
+                flex: 1;
+                text-align: center;
+                min-width: 70px;
+                box-sizing: border-box;
             }
             
             .switch-item.active::after {
@@ -1200,31 +1217,32 @@
                     0 0 3px rgba(255, 215, 0, 0.4);
             }
             
-            /* 播放器胶囊进一步瘦身 */
+            /* 播放器胶囊进一步瘦身，增加按钮比例 */
             .player-wrapper {
-                width: 96%;
-                max-width: 280px;
-                padding: 5px 10px;
-                border-radius: 20px;
+                width: 92%;
+                max-width: 240px;
+                padding: 5px 8px;
+                border-radius: 18px;
             }
             
             .btn-play {
-                width: 30px;
-                height: 30px;
+                width: 28px;
+                height: 28px;
             }
             
             .btn-play svg {
-                width: 14px;
-                height: 14px;
+                width: 13px;
+                height: 13px;
             }
             
             .track-switcher {
-                font-size: 0.65rem;
-                gap: 8px;
+                font-size: 0.7rem;
+                gap: 6px;
             }
             
             .switch-item {
-                padding: 4px 6px;
+                padding: 5px 10px;
+                min-width: 65px;
             }
             
             .btn-concept {
@@ -1241,6 +1259,7 @@
             
             .player-wrapper {
                 margin-bottom: 20px;
+                max-width: 280px;
             }
             
             .poem-line {
@@ -1261,36 +1280,19 @@
             }
         }
 
-        /* 确保诗句不换行，同时留出空间 */
-        @media (max-width: 600px) {
+        /* 中等屏幕优化 */
+        @media (min-width: 601px) and (max-width: 768px) {
             .poem-line {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 100%;
+                font-size: 1.4rem;
             }
             
-            /* 但某些长句允许在标点处换行 */
-            .poem-line:nth-child(1),
-            .poem-line:nth-child(2),
-            .poem-line:nth-child(5),
-            .poem-line:nth-child(8),
-            .poem-line:nth-child(9),
-            .poem-line:nth-child(10),
-            .poem-line:nth-child(11) {
-                white-space: normal;
-                text-align: center;
-                line-height: 1.5;
+            .poem-line.active.highlight {
+                font-size: 1.5rem;
             }
             
-            /* 短句保持不换行 */
-            .poem-line:nth-child(3),
-            .poem-line:nth-child(4),
-            .poem-line:nth-child(6),
-            .poem-line:nth-child(7),
-            .poem-line:nth-child(12),
-            .poem-line:nth-child(13) {
-                white-space: nowrap;
+            .player-wrapper {
+                min-width: 320px;
+                padding: 10px 25px;
             }
         }
     </style>
