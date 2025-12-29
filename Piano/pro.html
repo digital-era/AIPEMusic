@@ -1749,21 +1749,21 @@
         });
 
         // ================= 页面可见性处理 =================
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden && isPlaying) {
+        //document.addEventListener('visibilitychange', () => {
+            //if (document.hidden && isPlaying) {
                 // 页面隐藏时暂停音频
-                audio.pause();
+                //audio.pause();
                 // 但保持isPlaying状态，以便恢复时继续播放
-            } else if (!document.hidden && isPlaying && audio.paused) {
+            //} else if (!document.hidden && isPlaying && audio.paused) {
                 // 页面恢复且之前是播放状态，则恢复播放
-                audio.play().catch(e => {
-                    console.log('恢复播放失败:', e);
-                    isPlaying = false;
-                    iconPlay.style.display = 'block';
-                    iconPause.style.display = 'none';
-                });
-            }
-        });
+                //audio.play().catch(e => {
+                    //console.log('恢复播放失败:', e);
+                    //isPlaying = false;
+                    //iconPlay.style.display = 'block';
+                    //iconPause.style.display = 'none';
+                //});
+            //}
+        //});
 
         // ================= 初始化 =================
         document.addEventListener('DOMContentLoaded', function() {
