@@ -16,8 +16,6 @@
             --gold-base: #d4af37;
             --gold-shine: #ffd700;
             --gold-pale: #f0e6d2;
-            --chinese-ink: #1a365d;
-            --western-marble: #3a506b;
             --font-cn: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
             --font-en: "Playfair Display", "Times New Roman", serif;
         }
@@ -38,38 +36,6 @@
             color: var(--text-active);
             position: relative;
             -webkit-text-size-adjust: 100%;
-        }
-
-        /* 星空背景渐变层 */
-        .space-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(42, 52, 80, 0.4) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(29, 36, 56, 0.3) 0%, transparent 40%),
-                radial-gradient(circle at 40% 80%, rgba(26, 54, 93, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 60% 20%, rgba(58, 80, 107, 0.2) 0%, transparent 40%);
-            z-index: -2;
-            pointer-events: none;
-        }
-
-        /* 星空光晕效果 */
-        .star-halo {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.05) 0%, transparent 30%),
-                radial-gradient(circle at 85% 75%, rgba(255, 215, 0, 0.03) 0%, transparent 30%),
-                radial-gradient(circle at 50% 50%, rgba(240, 230, 210, 0.02) 0%, transparent 40%);
-            z-index: -1;
-            pointer-events: none;
-            filter: blur(20px);
         }
 
         /* 初始加载封面 */
@@ -99,47 +65,6 @@
             animation: coverReveal 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
         }
 
-        .cover-symbol {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 40px;
-        }
-
-        .symbol-east {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 30%, var(--gold-base) 50%, transparent 70%);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: floatEast 3s ease-in-out infinite;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
-        }
-
-        .symbol-west {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, transparent 30%, var(--gold-pale) 50%, transparent 70%);
-            border-radius: 50%;
-            animation: floatWest 3s ease-in-out 0.5s infinite;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-        }
-
-        .symbol-interlace {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-conic-gradient(from 0deg, 
-                    transparent 0deg 15deg, 
-                    rgba(212, 175, 55, 0.15) 15deg 30deg);
-            mix-blend-mode: overlay;
-            animation: rotateSlow 20s linear infinite;
-        }
-
         .cover-title {
             font-size: 4.5rem;
             font-weight: 700;
@@ -154,17 +79,6 @@
             position: relative;
         }
 
-        .cover-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold-base), transparent);
-        }
-
         .cover-subtitle {
             font-family: var(--font-en);
             font-size: 1.2rem;
@@ -174,55 +88,6 @@
             animation: fadeInUp 2s ease 2s forwards;
             opacity: 0;
             transform: translateY(20px);
-        }
-
-        .cover-instruction {
-            position: absolute;
-            bottom: 40px;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.5);
-            animation: fadeIn 2s ease 3s forwards;
-            opacity: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* 动态纹理遮罩层 - 优化版 */
-        .texture-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.15;
-            transition: background-image 1s cubic-bezier(0.4, 0, 0.2, 1);
-            mix-blend-mode: overlay;
-        }
-
-        .texture-overlay.chinese {
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(26, 54, 93, 0.3) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(212, 175, 55, 0.1) 10px, rgba(212, 175, 55, 0.1) 11px);
-        }
-
-        .texture-overlay.western {
-            background-image: 
-                radial-gradient(circle at 80% 30%, rgba(58, 80, 107, 0.3) 0%, transparent 50%),
-                repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(255, 215, 0, 0.1) 15px, rgba(255, 215, 0, 0.1) 16px);
-        }
-
-        /* 星光噪点层 */
-        .star-noise {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.25;
-            background-image: 
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
-                radial-gradient(circle at 50% 50%, transparent 70%, rgba(255, 255, 255, 0.03) 100%);
-            mix-blend-mode: screen;
         }
 
         /* 主容器 */
@@ -247,24 +112,9 @@
             font-weight: 700;
             letter-spacing: 10px;
             color: var(--text-active);
-            text-shadow: 
-                0 0 30px rgba(212, 175, 55, 0.4),
-                0 0 60px rgba(255, 215, 0, 0.2);
             margin-bottom: 15px;
             position: relative;
             display: inline-block;
-        }
-
-        h1::before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold-base), transparent);
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: lineExpand 1.5s ease 2s forwards;
         }
 
         .subtitle {
@@ -274,29 +124,9 @@
             font-style: italic;
             letter-spacing: 2px;
             min-height: 1.8em;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            display: inline-block;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        .subtitle::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, var(--gold-base), transparent);
-            transform: scaleX(0);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .subtitle.active::after {
-            transform: scaleX(1);
-        }
-
-        /* 播放器胶囊 - 更通透的设计 */
+        /* 播放器胶囊 */
         .player-wrapper {
             position: sticky;
             top: 20px;
@@ -309,33 +139,12 @@
             background: rgba(255, 255, 255, 0.08);
             padding: 12px 32px;
             border-radius: 50px;
-            backdrop-filter: blur(25px) saturate(200%);
-            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(212, 175, 55, 0.25);
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-                0 0 40px rgba(212, 175, 55, 0.15) inset;
             width: fit-content;
             min-width: 350px;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .player-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
-            transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .player-wrapper.active-switch::before {
-            left: 100%;
+            transition: all 0.3s ease;
         }
 
         .player-left {
@@ -354,7 +163,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s ease;
         }
 
         .btn-play::before {
@@ -365,16 +174,12 @@
             border: 2px solid var(--gold-base);
             border-radius: 50%;
             opacity: 0.4;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
         }
 
         .btn-play:hover::before {
             opacity: 0.7;
             transform: scale(1.1);
-        }
-
-        .btn-play:active {
-            transform: scale(0.95);
         }
 
         .btn-play svg {
@@ -383,16 +188,6 @@
             height: 22px;
             position: relative;
             z-index: 1;
-            filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
-        }
-
-        .loading-spinner {
-            width: 22px;
-            height: 22px;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-top-color: var(--gold-shine);
-            border-radius: 50%;
-            animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
         }
 
         /* 轨道切换器 */
@@ -405,20 +200,10 @@
             position: relative;
         }
 
-        .track-switcher::before {
-            content: '';
-            position: absolute;
-            left: -10px;
-            height: 20px;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, var(--gold-base), transparent);
-            opacity: 0.4;
-        }
-
         .switch-item {
             cursor: pointer;
             color: rgba(255, 255, 255, 0.4);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             padding: 8px 15px;
             letter-spacing: 1px;
@@ -426,180 +211,31 @@
             font-weight: 500;
         }
 
-        .switch-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 1px solid rgba(212, 175, 55, 0);
-            border-radius: 25px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .switch-item:hover {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .switch-item:hover::before {
-            border-color: rgba(212, 175, 55, 0.4);
-            transform: scale(1.05);
-        }
-
         .switch-item.active {
             color: var(--gold-shine);
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-        }
-
-        .switch-item.active::before {
-            border-color: var(--gold-base);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            background: rgba(212, 175, 55, 0.08);
-        }
-
-        .switch-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            background: var(--gold-shine);
-            border-radius: 50%;
-            box-shadow: 0 0 12px var(--gold-shine);
-            animation: pulse 2s ease-in-out infinite;
         }
 
         /* 诗歌容器 */
         .poem-container {
             text-align: center;
-            perspective: 1000px;
             width: 100%;
         }
 
         .poem-line {
             font-size: 1.6rem;
             margin: 35px 0;
-            color: rgba(255, 255, 255, 0.45);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.8s ease, transform 0.3s ease;
             cursor: default;
-            filter: blur(1.5px);
-            transform: scale(0.95) translateZ(-100px);
             line-height: 1.8;
-            position: relative;
             font-weight: 300;
             letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .poem-line::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -10%;
-            width: 120%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.25), transparent);
-            transform: translateY(-50%);
-            opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .poem-line.active {
-            color: var(--text-active);
-            filter: blur(0) drop-shadow(0 0 15px rgba(255, 215, 0, 0.3));
-            transform: scale(1.08) translateZ(0);
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 0.6),
-                0 0 50px rgba(212, 175, 55, 0.4);
-            opacity: 1;
+            color: var(--gold-shine);
+            transform: scale(1.02);
             font-weight: 400;
-        }
-
-        .poem-line.active::before {
-            opacity: 1;
-        }
-
-        .highlight {
-            position: relative;
-        }
-
-        @media (min-width: 601px) {
-            .poem-line.active.highlight {
-                color: transparent;
-                background: linear-gradient(120deg, 
-                    var(--gold-base) 0%, 
-                    var(--gold-shine) 25%,
-                    #fff 50%,
-                    var(--gold-shine) 75%,
-                    var(--gold-base) 100%);
-                background-size: 300% 100%;
-                background-clip: text;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                animation: flowingGold 8s linear infinite;
-                font-size: 1.8rem;
-                font-weight: 700;
-                letter-spacing: 2px;
-                position: relative;
-            }
-
-            /* 为特定诗句添加意境特效 */
-            .poem-line.active.highlight:nth-child(1)::after {
-                background: linear-gradient(120deg, rgba(139, 69, 19, 0.25), rgba(212, 175, 55, 0.4));
-                background-size: 400% 400%;
-                animation: waterFlow 8s ease-in-out infinite;
-            }
-
-            .poem-line.active.highlight:nth-child(3)::after {
-                background: radial-gradient(circle at center, rgba(255, 215, 0, 0.4), transparent 70%);
-                animation: champagneBubbles 4s ease-in-out infinite;
-            }
-
-            .poem-line.active.highlight:nth-child(13)::after {
-                background: linear-gradient(120deg, 
-                    rgba(255, 215, 0, 0.15),
-                    rgba(255, 0, 0, 0.25),
-                    rgba(255, 215, 0, 0.15));
-                animation: eternalSorrow 6s ease-in-out infinite;
-            }
-        }
-
-        .poem-line.active.highlight::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -10%;
-            width: 120%;
-            height: 100%;
-            transform: translateY(-50%);
-            z-index: -1;
-            opacity: 0.4;
-            border-radius: 10px;
-            pointer-events: none;
-        }
-
-        /* 文化共鸣光晕 */
-        .poem-line.active.highlight.chinese::after {
-            background: linear-gradient(90deg, 
-                transparent,
-                rgba(26, 54, 93, 0.4) 20%,
-                rgba(212, 175, 55, 0.5) 50%,
-                rgba(26, 54, 93, 0.4) 80%,
-                transparent);
-            box-shadow: 0 0 40px rgba(26, 54, 93, 0.4);
-        }
-
-        .poem-line.active.highlight.western::after {
-            background: linear-gradient(90deg, 
-                transparent,
-                rgba(58, 80, 107, 0.4) 20%,
-                rgba(255, 215, 0, 0.5) 50%,
-                rgba(58, 80, 107, 0.4) 80%,
-                transparent);
-            box-shadow: 0 0 40px rgba(58, 80, 107, 0.4);
         }
 
         /* 底部控制区 */
@@ -607,17 +243,6 @@
             text-align: center;
             margin-top: 100px;
             position: relative;
-        }
-
-        .footer-controls::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
         }
 
         .btn-concept {
@@ -628,9 +253,7 @@
             font-size: 1rem;
             cursor: pointer;
             border-radius: 4px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
             font-family: var(--font-en);
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -638,27 +261,10 @@
             -webkit-backdrop-filter: blur(10px);
         }
 
-        .btn-concept::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
-            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         .btn-concept:hover {
             border-color: var(--gold-shine);
             color: var(--gold-shine);
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-            transform: translateY(-2px);
             background: rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-concept:hover::before {
-            left: 100%;
         }
 
         /* 模态框 */
@@ -674,8 +280,6 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            animation: modalOpen 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .modal-content {
@@ -689,33 +293,6 @@
             border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 4px;
             position: relative;
-            box-shadow: 
-                0 25px 70px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-                0 0 60px rgba(212, 175, 55, 0.15) inset;
-            transform: translateY(50px) scale(0.95);
-            opacity: 0;
-            animation: modalContentReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-        }
-
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-base), transparent);
-        }
-
-        .modal-content::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-base), transparent);
         }
 
         .close-modal {
@@ -732,139 +309,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             font-size: 24px;
             color: var(--gold-pale);
-            transform: scale(0);
-            animation: modalCloseBtn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
         }
 
         .close-modal:hover {
             background: rgba(212, 175, 55, 0.15);
             border-color: var(--gold-shine);
             color: var(--gold-shine);
-            transform: scale(1.1) rotate(90deg);
-        }
-
-        .modal-title {
-            font-size: 2.5rem;
-            color: var(--gold-pale);
-            margin-bottom: 40px;
-            text-align: center;
-            font-family: var(--font-en);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            position: relative;
-            padding-bottom: 20px;
-        }
-
-        .modal-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-base), transparent);
-        }
-
-        .modal-section {
-            margin-bottom: 50px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-            padding-bottom: 30px;
-            position: relative;
-        }
-
-        .modal-section::before {
-            content: '✦';
-            position: absolute;
-            top: -15px;
-            left: 0;
-            color: var(--gold-base);
-            font-size: 20px;
-        }
-
-        .modal h3 {
-            color: #fff;
-            margin: 25px 0 15px;
-            font-size: 1.5rem;
-            border-left: 4px solid var(--gold-base);
-            padding-left: 15px;
-            font-weight: 600;
-        }
-
-        .modal h4 {
-            color: #f0e6d2;
-            margin: 20px 0 10px;
-            font-weight: 600;
-            font-family: var(--font-en);
-            font-style: italic;
-            letter-spacing: 1px;
-        }
-
-        .modal p {
-            margin-bottom: 20px;
-            text-align: justify;
-            line-height: 1.9;
-            font-size: 1.05rem;
-            color: #e8f0fe;
-        }
-
-        .modal ul {
-            margin-left: 25px;
-            margin-bottom: 25px;
-            color: #e8f0fe;
-        }
-
-        .modal li {
-            margin-bottom: 10px;
-            position: relative;
-        }
-
-        .modal li::before {
-            content: '▸';
-            position: absolute;
-            left: -20px;
-            color: var(--gold-base);
-        }
-
-        .quote-box {
-            background: linear-gradient(135deg, 
-                rgba(26, 54, 93, 0.4) 0%,
-                rgba(58, 80, 107, 0.4) 100%);
-            padding: 30px;
-            border-radius: 8px;
-            margin: 25px 0;
-            font-style: italic;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .quote-box::before {
-            content: '"';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 60px;
-            color: rgba(212, 175, 55, 0.3);
-            font-family: var(--font-en);
-            line-height: 1;
-        }
-
-        .quote-author {
-            text-align: right;
-            display: block;
-            margin-top: 15px;
-            color: var(--gold-pale);
-            font-family: var(--font-en);
-            font-weight: 600;
-            letter-spacing: 1px;
+            transform: rotate(90deg);
         }
 
         /* 动画定义 */
@@ -873,21 +327,6 @@
                 opacity: 1;
                 transform: scale(1);
             }
-        }
-
-        @keyframes floatEast {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-5px, 5px) rotate(0.5deg); }
-        }
-
-        @keyframes floatWest {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(5px, -5px); }
-        }
-
-        @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         @keyframes titleShine {
@@ -903,159 +342,46 @@
             }
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        @keyframes lineExpand {
-            to { width: 200px; }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
-            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
-        }
-
-        @keyframes flowingGold {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 300% 50%; }
-        }
-
-        @keyframes waterFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes champagneBubbles {
-            0%, 100% { opacity: 0.4; transform: translateY(-50%) scale(1); }
-            50% { opacity: 0.7; transform: translateY(-50%) scale(1.1); }
-        }
-
-        @keyframes eternalSorrow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes modalOpen {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes modalContentReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes modalCloseBtn {
-            to { transform: scale(1); }
-        }
-
         /* ================= 移动端优化 ================= */
         @media (max-width: 600px) {
-            /* 封面优化 */
             .cover-title {
                 font-size: 2.6rem;
                 letter-spacing: 8px;
-            }
-            
-            .cover-symbol {
-                width: 110px;
-                height: 110px;
-                margin-bottom: 25px;
             }
             
             .cover-subtitle {
                 font-size: 0.95rem;
                 letter-spacing: 2px;
             }
-            
-            .cover-instruction {
-                font-size: 0.75rem;
-                bottom: 25px;
-            }
 
-            /* 主标题优化 */
             h1 {
                 font-size: 2.2rem;
                 letter-spacing: 5px;
-                margin-bottom: 8px;
             }
             
-            h1::before {
-                height: 1px;
-                bottom: -3px;
-            }
-
-            /* 副标题优化 */
             .subtitle {
                 font-size: 1rem;
                 letter-spacing: 1px;
-                margin-bottom: 20px;
             }
 
-            /* 容器内边距调整 */
             .container {
                 padding: 50px 12px 80px;
             }
 
-            /* 诗歌行优化 - 第3行开始居中对齐 */
             .poem-line {
                 font-size: 1.1rem;
                 margin: 16px 0;
                 line-height: 1.5;
-                white-space: normal;
-                word-wrap: break-word;
-                word-break: keep-all;
-                overflow-wrap: break-word;
-                letter-spacing: 0.3px;
                 padding: 0 8px;
                 text-align: center;
             }
             
-            /* 前两行保持左对齐，第3行开始全部居中对齐 */
-            .poem-line:nth-child(1),
-            .poem-line:nth-child(2) {
-                text-align: left;
-            }
-            
-            .poem-line:nth-child(n+3) {
-                text-align: center;
-            }
-            
             .poem-line.active {
-                transform: scale(1.02);
-                margin: 18px 0;
-            }
-            
-            .poem-line.active.highlight {
-                background: none;
-                -webkit-text-fill-color: initial;
                 color: var(--gold-shine);
-                text-shadow: 
-                    0 0 12px rgba(212, 175, 55, 0.7),
-                    0 0 4px rgba(255, 215, 0, 0.4);
-                animation: none;
-                font-size: 1.15rem;
                 transform: scale(1.01);
                 font-weight: 600;
             }
-            
-            .poem-line::before {
-                left: -3%;
-                width: 106%;
-            }
-            
-            .poem-line.active::before {
-                opacity: 0.7;
-            }
 
-            /* 播放器胶囊 - 缩小长度，增加按钮比例 */
             .player-wrapper {
                 width: 90%;
                 max-width: 260px;
@@ -1065,44 +391,29 @@
                 gap: 6px;
                 border-radius: 20px;
                 margin-bottom: 35px;
-                justify-content: center;
             }
             
             .player-left {
                 order: 1;
                 gap: 6px;
-                flex-shrink: 0;
             }
             
             .btn-play {
                 width: 32px;
                 height: 32px;
-                flex-shrink: 0;
             }
             
             .btn-play svg {
                 width: 15px;
                 height: 15px;
             }
-            
-            .loading-spinner {
-                width: 15px;
-                height: 15px;
-            }
 
-            /* 轨道切换器 - 增加按钮宽度，减少空白 */
             .track-switcher {
                 order: 2;
                 gap: 8px;
                 font-size: 0.75rem;
                 flex-grow: 1;
                 justify-content: space-around;
-            }
-            
-            .track-switcher::before {
-                height: 12px;
-                left: -4px;
-                opacity: 0.3;
             }
             
             .switch-item {
@@ -1112,214 +423,28 @@
                 flex: 1;
                 text-align: center;
                 min-width: 70px;
-                box-sizing: border-box;
-            }
-            
-            .switch-item.active::after {
-                width: 3px;
-                height: 3px;
-                bottom: -2px;
             }
 
-            /* 底部控制区 */
             .footer-controls {
                 margin-top: 50px;
-            }
-            
-            .footer-controls::before {
-                top: -25px;
-                width: 120px;
             }
             
             .btn-concept {
                 padding: 10px 20px;
                 font-size: 0.85rem;
                 letter-spacing: 1px;
-                border-radius: 3px;
-            }
-
-            /* 模态框优化 */
-            .modal-content {
-                padding: 18px 12px 40px;
-                margin: 30px 8px 40px;
-            }
-            
-            .close-modal {
-                right: 12px;
-                top: 12px;
-                width: 32px;
-                height: 32px;
-                font-size: 18px;
-            }
-            
-            .modal-title {
-                font-size: 1.6rem;
-                margin-bottom: 25px;
-                padding-bottom: 12px;
-                letter-spacing: 2px;
-            }
-            
-            .modal h3 {
-                font-size: 1.2rem;
-                margin: 18px 0 10px;
-            }
-            
-            .modal p {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
-            
-            .modal h4 {
-                font-size: 0.95rem;
-            }
-            
-            .quote-box {
-                padding: 15px 12px;
-                margin: 15px 0;
-            }
-            
-            .quote-box::before {
-                font-size: 35px;
-                top: 3px;
-                left: 3px;
-            }
-        }
-
-        /* 超小屏幕优化 */
-        @media (max-width: 400px) {
-            .cover-title {
-                font-size: 2.2rem;
-                letter-spacing: 6px;
-            }
-            
-            h1 {
-                font-size: 1.9rem;
-                letter-spacing: 4px;
-            }
-            
-            .subtitle {
-                font-size: 0.9rem;
-            }
-            
-            /* 诗歌字体进一步减小 */
-            .poem-line {
-                font-size: 1rem;
-                margin: 14px 0;
-                line-height: 1.4;
-                letter-spacing: 0.2px;
-                padding: 0 6px;
-            }
-            
-            .poem-line.active.highlight {
-                font-size: 1.05rem;
-                text-shadow: 
-                    0 0 10px rgba(212, 175, 55, 0.7),
-                    0 0 3px rgba(255, 215, 0, 0.4);
-            }
-            
-            /* 播放器胶囊进一步瘦身，增加按钮比例 */
-            .player-wrapper {
-                width: 92%;
-                max-width: 240px;
-                padding: 5px 8px;
-                border-radius: 18px;
-            }
-            
-            .btn-play {
-                width: 28px;
-                height: 28px;
-            }
-            
-            .btn-play svg {
-                width: 13px;
-                height: 13px;
-            }
-            
-            .track-switcher {
-                font-size: 0.7rem;
-                gap: 6px;
-            }
-            
-            .switch-item {
-                padding: 5px 10px;
-                min-width: 65px;
-            }
-            
-            .btn-concept {
-                padding: 8px 16px;
-                font-size: 0.8rem;
-            }
-        }
-
-        /* 横屏模式优化 */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .container {
-                padding: 25px 10px 40px;
-            }
-            
-            .player-wrapper {
-                margin-bottom: 20px;
-                max-width: 280px;
-            }
-            
-            .poem-line {
-                margin: 12px 0;
-                font-size: 1rem;
-            }
-            
-            .poem-line.active.highlight {
-                font-size: 1.1rem;
-            }
-            
-            .footer-controls {
-                margin-top: 30px;
-            }
-            
-            .footer-controls::before {
-                top: -15px;
-            }
-        }
-
-        /* 中等屏幕优化 */
-        @media (min-width: 601px) and (max-width: 768px) {
-            .poem-line {
-                font-size: 1.4rem;
-            }
-            
-            .poem-line.active.highlight {
-                font-size: 1.5rem;
-            }
-            
-            .player-wrapper {
-                min-width: 320px;
-                padding: 10px 25px;
             }
         }
     </style>
 </head>
 <body>
-
-    <!-- 星空背景层 -->
-    <div class="space-gradient"></div>
-    <div class="star-halo"></div>
-    
     <!-- 初始加载封面 -->
     <div class="initial-cover" id="initial-cover">
         <div class="cover-content">
-            <div class="cover-symbol">
-                <div class="symbol-east"></div>
-                <div class="symbol-west"></div>
-                <div class="symbol-interlace"></div>
-            </div>
             <div class="cover-title">将进酒</div>
             <div class="cover-subtitle">A Time-Spanning Synesthetic Dialogue</div>
         </div>
-        <div class="cover-instruction">Scroll to Begin the Journey</div>
     </div>
-
-    <!-- 动态纹理层 -->
-    <div class="texture-overlay chinese" id="texture-overlay"></div>
-    <div class="star-noise"></div>
     
     <!-- 主内容 -->
     <div class="container">
@@ -1332,7 +457,6 @@
         <div class="player-wrapper" id="player-wrapper">
             <div class="player-left">
                 <button class="btn-play" id="play-btn" onclick="togglePlay()">
-                    <div class="loading-spinner" id="spinner" style="display:none"></div>
                     <svg viewBox="0 0 24 24" id="icon-play">
                         <path d="M8 5v14l11-7z"/>
                     </svg>
@@ -1356,8 +480,8 @@
         <div class="poem-container" id="poem-box">
             <div class="poem-line">君不见，黄河之水天上来，奔流到海不复回。</div>
             <div class="poem-line">君不见，高堂明镜悲白发，朝如青丝暮成雪。</div>
-            <div class="poem-line highlight">人生得意须尽欢，莫使金樽空对月。</div>
-            <div class="poem-line highlight">天生我材必有用，千金散尽还复来。</div>
+            <div class="poem-line">人生得意须尽欢，莫使金樽空对月。</div>
+            <div class="poem-line">天生我材必有用，千金散尽还复来。</div>
             <div class="poem-line">烹羊宰牛且为乐，会须一饮三百杯。</div>
             <div class="poem-line">岑夫子，丹丘生，将进酒，杯莫停。</div>
             <div class="poem-line">与君歌一曲，请君为我倾耳听。</div>
@@ -1366,7 +490,7 @@
             <div class="poem-line">陈王昔时宴平乐，斗酒十千恣欢谑。</div>
             <div class="poem-line">主人何为言少钱，径须沽取对君酌。</div>
             <div class="poem-line">五花马，千金裘，</div>
-            <div class="poem-line highlight">呼儿将出换美酒，与尔同销万古愁。</div>
+            <div class="poem-line">呼儿将出换美酒，与尔同销万古愁。</div>
             
             <div style="height: 80px;"></div>
         </div>
@@ -1396,37 +520,9 @@
             </div>
 
             <div class="modal-section">
-                <h3>二、 构思：从第一性原理出发的共鸣</h3>
-                <div class="quote-box">
-                    "若要为李白先生的作品配上我的钢琴曲，我必须从最本质的层面去探究：诗与乐，其共通的情感核心、结构脉络以及所要表达的'灵魂'是什么。"
-                    <span class="quote-author">— Chopin 的艺术答复</span>
-                </div>
-                <p>经过沉思，选择李白的<strong>《将进酒》</strong>，并以<strong>《第一叙事曲，作品23号》</strong>来与之匹配。</p>
-
-                <h4>1. 情感的宏大与深邃</h4>
-                <p><strong>《将进酒》：</strong>展现的是一种极度复杂的情感交织：既有"人生得意须尽欢"的豪情，又有对生命短暂的悲悯。它在极乐与极悲之间摆荡，最终归于超脱。</p>
-                <p><strong>《第一叙事曲》：</strong>并非简单的抒情，它是一部具有内在叙事性、戏剧冲突的作品。从深沉的引子到宏大的激情，再到梦幻的冥想，最终辉煌结束。这种从迷茫到激昂的情感历程，与诗境高度契合。</p>
-
-                <h4>2. 结构与叙事</h4>
-                <p>肖邦的叙事曲主部宏大而充满力量，宛如李白放声高歌"天生我材必有用"；中段的抒情与冥想，对应了诗中对人生哲理的沉思；而最终的华彩与尾声，则是将所有情感推向高潮，如同李白"与尔同销万古愁"的气吞山河。</p>
-            </div>
-
-            <div class="modal-section">
-                <h3>三、 罗伯特·舒曼的评价</h3>
-                <div class="quote-box">
-                    "我告诉肖邦，这是他所有作品中我最喜欢的一首。在一段长时间的沉默之后，他郑重地回答道：'听到你这么说我很高兴，因为这也是我最喜欢、最珍爱的一首。'"
-                    <span class="quote-author">— Robert Schumann</span>
-                </div>
-            </div>
-
-            <div class="modal-section">
-                <h3>四、 演绎版本：东西方回响</h3>
+                <h3>二、 演绎版本：东西方回响</h3>
                 <p><strong>钢琴版 (Piano)：</strong> 选用 <strong>Krystian Zimerman</strong> 的录音。他那晶莹剔透的音色与深邃的控制力，能将"黄河之水天上来"的壮阔与"万古愁"的苍凉展现得淋漓尽致。</p>
                 <p><strong>京剧版 (Peking Opera)：</strong> 特别加入京剧念白/唱腔版。作为中国国粹，其高亢激越的声腔与李白狂放的诗风天作之合，呈现出与钢琴版截然不同的东方美学张力。</p>
-            </div>
-
-            <div style="text-align: center; margin-top: 35px;">
-                <button class="btn-concept" onclick="closeModal()">回到诗画</button>
             </div>
         </div>
     </div>
@@ -1435,80 +531,70 @@
     <audio id="audio-player" preload="none" loop></audio>
 
     <script>
-        // ================= 初始化 =================
-        document.addEventListener('DOMContentLoaded', function() {
-            // 移除初始封面
-            setTimeout(() => {
-                const cover = document.getElementById('initial-cover');
-                cover.style.opacity = '0';
-                cover.style.transform = 'translateY(-20px)';
-                
-                setTimeout(() => {
-                    cover.style.display = 'none';
-                }, 1500);
-            }, 3000);
-
-            // 初始化滚动监听
-            initScrollHandler();
-            
-            // 初始化星光效果
-            initStars();
-        });
-
         // ================= 配置区 =================
-        // 修复：直接使用网站目录下的MP3文件，移除GitHub代理配置
         const TRACK_1_FILENAME = 'Chopin - Ballade No.1 in G minor, Op.23 (Krystian Zimerman).mp3';
         const TRACK_2_FILENAME = 'JiangJinJiu Peking Opera.mp3';
+
+        // 京剧版每行诗句的预设时间点（单位：秒），根据实际唱词对齐调整
+        // 这里先给出预估时间，需要根据实际音频调整
+        const operaLineTimes = [
+            0,    // 君不见，黄河之水天上来，奔流到海不复回。
+            8,    // 君不见，高堂明镜悲白发，朝如青丝暮成雪。
+            16,   // 人生得意须尽欢，莫使金樽空对月。
+            24,   // 天生我材必有用，千金散尽还复来。
+            32,   // 烹羊宰牛且为乐，会须一饮三百杯。
+            40,   // 岑夫子，丹丘生，将进酒，杯莫停。
+            48,   // 与君歌一曲，请君为我倾耳听。
+            56,   // 钟鼓馔玉不足贵，但愿长醉不复醒。
+            64,   // 古来圣贤皆寂寞，惟有饮者留其名。
+            72,   // 陈王昔时宴平乐，斗酒十千恣欢谑。
+            80,   // 主人何为言少钱，径须沽取对君酌。
+            88,   // 五花马，千金裘，
+            96    // 呼儿将出换美酒，与尔同销万古愁。
+        ];
+
+        // 钢琴版使用相同的时间线（可以调整）
+        const pianoLineTimes = operaLineTimes.map(time => time); // 复制相同时间线
 
         // ================= 状态管理 =================
         let currentTrack = 'piano';
         let isPlaying = false;
         let isSourceSet = false;
-        let currentCulture = 'western';
+        let animationFrameId = null;
+        let lineTimes = pianoLineTimes; // 默认使用钢琴时间线
 
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
-        const spinner = document.getElementById('spinner');
         const iconPlay = document.getElementById('icon-play');
         const iconPause = document.getElementById('icon-pause');
         const headerSubtitle = document.getElementById('header-subtitle');
         const btnPiano = document.getElementById('track-piano');
         const btnOpera = document.getElementById('track-opera');
-        const textureOverlay = document.getElementById('texture-overlay');
         const playerWrapper = document.getElementById('player-wrapper');
+        const poemLines = document.querySelectorAll('.poem-line');
 
         // ================= 核心函数 =================
-        // 修复：直接返回MP3文件的相对路径
         function getResourceUrl(filename) {
-            // 假设MP3文件与网页在同一目录下，或者使用相对路径
-            // 如果MP3文件在music子目录中，可以改为 './music/' + filename
-            return filename; // 直接使用文件名，假设文件与HTML在同一目录
+            return filename;
         }
 
         function switchTrack(trackType) {
             if (currentTrack === trackType) return;
 
-            // 播放器切换动画
-            playerWrapper.classList.add('active-switch');
-            setTimeout(() => {
-                playerWrapper.classList.remove('active-switch');
-            }, 800);
-
             currentTrack = trackType;
             
-            // 更新文化背景
-            const newCulture = trackType === 'piano' ? 'western' : 'chinese';
-            updateCulture(newCulture);
-
+            // 更新时间线
+            lineTimes = trackType === 'piano' ? pianoLineTimes : operaLineTimes;
+            
             // 更新UI状态
             if (trackType === 'piano') {
                 btnPiano.classList.add('active');
                 btnOpera.classList.remove('active');
-                animateSubtitleTransition("Ballade No. 1 in G minor, Op. 23");
+                headerSubtitle.textContent = "Ballade No. 1 in G minor, Op. 23";
             } else {
                 btnOpera.classList.add('active');
                 btnPiano.classList.remove('active');
-                animateSubtitleTransition("Traditional Peking Opera Style");
+                headerSubtitle.textContent = "Traditional Peking Opera Style";
             }
 
             // 切换音频源
@@ -1520,45 +606,22 @@
             }
         }
 
-        function updateCulture(culture) {
-            if (currentCulture === culture) return;
-            
-            currentCulture = culture;
-            
-            // 更新纹理
-            textureOverlay.className = 'texture-overlay ' + culture;
-            
-            // 更新诗句的文化光晕
-            const activeLines = document.querySelectorAll('.poem-line.active.highlight');
-            activeLines.forEach(line => {
-                line.classList.remove('chinese', 'western');
-                line.classList.add(culture);
-            });
-        }
-
-        function animateSubtitleTransition(text) {
-            headerSubtitle.style.opacity = '0';
-            headerSubtitle.style.transform = 'translateY(-10px)';
-            
-            setTimeout(() => {
-                headerSubtitle.textContent = text;
-                headerSubtitle.style.opacity = '1';
-                headerSubtitle.style.transform = 'translateY(0)';
-                headerSubtitle.classList.add('active');
-                
-                setTimeout(() => {
-                    headerSubtitle.classList.remove('active');
-                }, 1000);
-            }, 300);
-        }
-
         function stopAudio() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
             audio.pause();
             audio.currentTime = 0;
             isPlaying = false;
             iconPlay.style.display = 'block';
             iconPause.style.display = 'none';
-            spinner.style.display = 'none';
+            
+            // 重置所有诗句颜色
+            poemLines.forEach(line => {
+                line.classList.remove('active');
+            });
         }
 
         function togglePlay() {
@@ -1572,245 +635,114 @@
                 audio.pause();
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
-                spinner.style.display = 'none';
+                
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+                
                 isPlaying = false;
             } else {
                 iconPlay.style.display = 'none';
-                spinner.style.display = 'block';
+                iconPause.style.display = 'block';
+                
                 audio.play().then(() => {
-                    spinner.style.display = 'none';
-                    iconPause.style.display = 'block';
                     isPlaying = true;
+                    // 开始动画帧更新
+                    updatePoemLines();
                 }).catch(e => {
                     console.error('播放错误:', e);
-                    spinner.style.display = 'none';
+                    iconPause.style.display = 'none';
                     iconPlay.style.display = 'block';
-                    showErrorToast('音频加载中，请稍候...');
+                    alert('音频加载失败，请检查文件路径');
                 });
             }
         }
 
-        function showErrorToast(message) {
-            const toast = document.createElement('div');
-            toast.textContent = message;
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: rgba(29, 36, 56, 0.95);
-                color: var(--gold-pale);
-                padding: 12px 20px;
-                border-radius: 4px;
-                border: 1px solid rgba(212, 175, 55, 0.4);
-                z-index: 1000;
-                font-size: 0.9rem;
-                backdrop-filter: blur(10px);
-                transform: translateX(100%);
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            `;
-            document.body.appendChild(toast);
+        // 更新诗句颜色
+        function updatePoemLines() {
+            if (!isPlaying) return;
             
-            setTimeout(() => toast.style.transform = 'translateX(0)', 10);
+            const currentTime = audio.currentTime;
             
-            setTimeout(() => {
-                toast.style.transform = 'translateX(100%)';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            // 找到当前应该高亮的诗句行
+            let activeIndex = -1;
+            
+            for (let i = 0; i < lineTimes.length; i++) {
+                if (currentTime >= lineTimes[i]) {
+                    activeIndex = i;
+                }
+            }
+            
+            // 更新诗句颜色
+            poemLines.forEach((line, index) => {
+                if (index === activeIndex) {
+                    line.classList.add('active');
+                } else {
+                    line.classList.remove('active');
+                }
+            });
+            
+            // 继续下一帧
+            animationFrameId = requestAnimationFrame(updatePoemLines);
         }
 
         // ================= 音频事件监听 =================
-        audio.addEventListener('waiting', () => {
-            if (isPlaying) spinner.style.display = 'block';
-        });
-        
-        audio.addEventListener('playing', () => {
-            spinner.style.display = 'none';
-        });
-        
         audio.addEventListener('ended', () => {
             // 循环播放
             audio.currentTime = 0;
             audio.play();
         });
 
-        // ================= 焦点逻辑 =================
-        function initScrollHandler() {
-            let ticking = false;
-            
-            function updateFocus() {
-                const lines = document.querySelectorAll('.poem-line');
-                const centerPoint = window.innerHeight / 2;
+        // ================= 初始化 =================
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移除初始封面
+            setTimeout(() => {
+                const cover = document.getElementById('initial-cover');
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-20px)';
                 
-                lines.forEach((line, index) => {
-                    const rect = line.getBoundingClientRect();
-                    const lineCenter = rect.top + rect.height / 2;
-                    const distance = Math.abs(centerPoint - lineCenter);
-                    
-                    const isActive = distance < 200;
-                    
-                    if (isActive) {
-                        if (!line.classList.contains('active')) {
-                            line.classList.add('active');
-                            // 添加文化光晕
-                            if (line.classList.contains('highlight')) {
-                                line.classList.add(currentCulture);
-                            }
-                        }
-                    } else {
-                        line.classList.remove('active', 'chinese', 'western');
-                    }
-                });
-                
-                ticking = false;
-            }
-            
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    requestAnimationFrame(updateFocus);
-                    ticking = true;
-                }
-            });
-            
-            updateFocus();
-        }
-
-        // ================= 星光效果 =================
-        function initStars() {
-            const starHalo = document.querySelector('.star-halo');
-            
-            // 创建动态星光效果
-            function createFloatingStars() {
-                const stars = [];
-                const count = 5;
-                
-                for (let i = 0; i < count; i++) {
-                    const star = document.createElement('div');
-                    star.style.cssText = `
-                        position: fixed;
-                        width: ${Math.random() * 3 + 1}px;
-                        height: ${Math.random() * 3 + 1}px;
-                        background: rgba(255, 215, 0, ${Math.random() * 0.5 + 0.2});
-                        border-radius: 50%;
-                        pointer-events: none;
-                        z-index: -1;
-                        filter: blur(${Math.random() * 1 + 0.5}px);
-                        animation: floatStar ${Math.random() * 20 + 10}s linear infinite;
-                        animation-delay: ${Math.random() * 5}s;
-                    `;
-                    
-                    star.style.left = `${Math.random() * 100}%`;
-                    star.style.top = `${Math.random() * 100}%`;
-                    
-                    document.body.appendChild(star);
-                    stars.push(star);
-                }
-                
-                // 添加动画关键帧
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes floatStar {
-                        0% { 
-                            transform: translate(0, 0) scale(1);
-                            opacity: ${Math.random() * 0.3 + 0.2};
-                        }
-                        25% { 
-                            transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) scale(${Math.random() * 0.5 + 0.8});
-                        }
-                        50% { 
-                            transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(${Math.random() * 0.5 + 1.2});
-                            opacity: ${Math.random() * 0.6 + 0.4};
-                        }
-                        75% { 
-                            transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) scale(${Math.random() * 0.5 + 0.8});
-                        }
-                        100% { 
-                            transform: translate(0, 0) scale(1);
-                            opacity: ${Math.random() * 0.3 + 0.2};
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            createFloatingStars();
-        }
+                setTimeout(() => {
+                    cover.style.display = 'none';
+                }, 1500);
+            }, 3000);
+        });
 
         // ================= 模态框 =================
         function openModal() {
             const modal = document.getElementById('concept-modal');
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            
-            // 触发动画
-            setTimeout(() => {
-                modal.style.opacity = '1';
-            }, 10);
         }
         
         function closeModal() {
             const modal = document.getElementById('concept-modal');
-            modal.style.opacity = '0';
-            
-            setTimeout(() => {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }, 300);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         // ================= 键盘快捷键 =================
         document.addEventListener('keydown', (e) => {
-            // 空格键切换播放/暂停
             if (e.code === 'Space') {
                 e.preventDefault();
                 togglePlay();
             }
-            // 左右箭头切换曲目
             else if (e.code === 'ArrowLeft') {
                 switchTrack('piano');
             }
             else if (e.code === 'ArrowRight') {
                 switchTrack('opera');
             }
-            // ESC键关闭模态框
             else if (e.code === 'Escape') {
                 closeModal();
-            }
-        });
-
-        // ================= 触摸设备优化 =================
-        let touchStartY = 0;
-        let touchStartX = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-            touchStartX = e.touches[0].clientX;
-        });
-
-        document.addEventListener('touchend', (e) => {
-            const touchEndY = e.changedTouches[0].clientY;
-            const touchEndX = e.changedTouches[0].clientX;
-            const deltaY = touchEndY - touchStartY;
-            const deltaX = touchEndX - touchStartX;
-
-            // 水平滑动切换曲目
-            if (Math.abs(deltaX) > 50 && Math.abs(deltaY) < 50) {
-                if (deltaX > 0) {
-                    switchTrack('piano');
-                } else {
-                    switchTrack('opera');
-                }
             }
         });
 
         // ================= 页面可见性处理 =================
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && isPlaying) {
-                // 页面隐藏时暂停音频
                 audio.pause();
-                // 但保持isPlaying状态，以便恢复时继续播放
             } else if (!document.hidden && isPlaying && audio.paused) {
-                // 页面恢复且之前是播放状态，则恢复播放
                 audio.play().catch(e => {
                     console.log('恢复播放失败:', e);
                     isPlaying = false;
