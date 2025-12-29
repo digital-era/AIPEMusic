@@ -37,6 +37,7 @@
             font-family: var(--font-cn);
             color: var(--text-active);
             position: relative;
+            -webkit-text-size-adjust: 100%;
         }
 
         /* 星空背景渐变层 */
@@ -955,84 +956,274 @@
             to { transform: scale(1); }
         }
 
-        /* 移动端适配 */
+        /* ================= 移动端优化 ================= */
         @media (max-width: 600px) {
+            /* 封面优化 */
             .cover-title {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
                 letter-spacing: 8px;
             }
-
+            
             .cover-symbol {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
+                margin-bottom: 30px;
             }
-
-            h1 {
-                font-size: 2.2rem;
-                letter-spacing: 5px;
-            }
-
-            .subtitle {
+            
+            .cover-subtitle {
                 font-size: 1rem;
+                letter-spacing: 2px;
+            }
+            
+            .cover-instruction {
+                font-size: 0.8rem;
+                bottom: 30px;
             }
 
+            /* 主标题优化 */
+            h1 {
+                font-size: 2.4rem;
+                letter-spacing: 6px;
+                margin-bottom: 10px;
+            }
+            
+            h1::before {
+                height: 1px;
+            }
+
+            /* 副标题优化 */
+            .subtitle {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+
+            /* 容器内边距调整 */
             .container {
-                padding-top: 40px;
+                padding: 60px 15px 100px;
             }
 
+            /* 诗歌行优化 */
             .poem-line {
-                white-space: nowrap;
-                font-size: clamp(16px, 5vw, 1.3rem);
-                margin: 25px 0;
+                font-size: 1.2rem;
+                margin: 20px 0;
+                line-height: 1.6;
+                white-space: normal;
+                word-wrap: break-word;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                letter-spacing: 0.5px;
+                padding: 0 5px;
             }
-
+            
+            .poem-line.active {
+                transform: scale(1.03);
+            }
+            
             .poem-line.active.highlight {
                 background: none;
                 -webkit-text-fill-color: initial;
                 color: var(--gold-shine);
                 text-shadow: 
-                    0 0 20px rgba(212, 175, 55, 0.8),
+                    0 0 15px rgba(212, 175, 55, 0.7),
                     0 0 5px rgba(255, 215, 0, 0.4);
                 animation: none;
-                font-size: clamp(18px, 5.5vw, 1.5rem);
+                font-size: 1.3rem;
                 transform: scale(1.02);
             }
+            
+            .poem-line::before {
+                left: -5%;
+                width: 110%;
+            }
 
+            /* 播放器胶囊瘦身 */
             .player-wrapper {
-                width: 90%;
-                max-width: 350px;
-                padding: 12px 20px;
-                min-width: 280px;
-                flex-direction: column;
-                gap: 15px;
-                border-radius: 30px;
+                width: 92%;
+                max-width: 320px;
+                padding: 8px 15px;
+                min-width: auto;
+                flex-direction: row;
+                gap: 10px;
+                border-radius: 25px;
+                margin-bottom: 40px;
+                justify-content: center;
             }
-
+            
             .player-left {
-                order: 2;
-            }
-
-            .track-switcher {
                 order: 1;
-                gap: 15px;
+                gap: 10px;
+            }
+            
+            .btn-play {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .btn-play svg {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .loading-spinner {
+                width: 18px;
+                height: 18px;
             }
 
+            /* 轨道切换器瘦身 */
+            .track-switcher {
+                order: 2;
+                gap: 12px;
+                font-size: 0.75rem;
+            }
+            
             .track-switcher::before {
-                display: none;
+                height: 15px;
+                left: -6px;
+            }
+            
+            .switch-item {
+                padding: 6px 10px;
+                letter-spacing: 0.5px;
+            }
+            
+            .switch-item.active::after {
+                width: 4px;
+                height: 4px;
+                bottom: -3px;
             }
 
+            /* 底部控制区 */
+            .footer-controls {
+                margin-top: 60px;
+            }
+            
+            .footer-controls::before {
+                top: -30px;
+                width: 150px;
+            }
+            
+            .btn-concept {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+                letter-spacing: 1px;
+            }
+
+            /* 模态框优化 */
             .modal-content {
-                padding: 25px 20px 60px;
-                margin: 40px 15px 60px;
+                padding: 20px 15px 50px;
+                margin: 40px 10px 50px;
             }
-
+            
             .close-modal {
-                right: 20px;
-                top: 20px;
+                right: 15px;
+                top: 15px;
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
             }
-
+            
             .modal-title {
                 font-size: 1.8rem;
+                margin-bottom: 30px;
+                padding-bottom: 15px;
+            }
+            
+            .modal h3 {
+                font-size: 1.3rem;
+                margin: 20px 0 12px;
+            }
+            
+            .modal p {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+            
+            .modal h4 {
+                font-size: 1rem;
+            }
+            
+            .quote-box {
+                padding: 20px 15px;
+            }
+            
+            .quote-box::before {
+                font-size: 40px;
+                top: 5px;
+                left: 5px;
+            }
+        }
+
+        /* 超小屏幕优化 */
+        @media (max-width: 400px) {
+            .cover-title {
+                font-size: 2.2rem;
+                letter-spacing: 6px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                letter-spacing: 4px;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .poem-line {
+                font-size: 1.1rem;
+                margin: 18px 0;
+            }
+            
+            .poem-line.active.highlight {
+                font-size: 1.2rem;
+            }
+            
+            .player-wrapper {
+                width: 95%;
+                max-width: 300px;
+                padding: 6px 12px;
+            }
+            
+            .track-switcher {
+                font-size: 0.7rem;
+                gap: 10px;
+            }
+            
+            .switch-item {
+                padding: 5px 8px;
+            }
+            
+            .btn-play {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .btn-play svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        /* 横屏模式优化 */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding: 30px 10px 50px;
+            }
+            
+            .player-wrapper {
+                margin-bottom: 30px;
+            }
+            
+            .poem-line {
+                margin: 15px 0;
+            }
+            
+            .footer-controls {
+                margin-top: 40px;
+            }
+            
+            .footer-controls::before {
+                top: -20px;
             }
         }
     </style>
@@ -1084,10 +1275,10 @@
             
             <div class="track-switcher">
                 <div class="switch-item active" id="track-piano" onclick="switchTrack('piano')">
-                    Piano (Chopin)
+                    Piano
                 </div>
                 <div class="switch-item" id="track-opera" onclick="switchTrack('opera')">
-                    Peking Opera
+                    Opera
                 </div>
             </div>
         </div>
@@ -1108,7 +1299,7 @@
             <div class="poem-line">五花马，千金裘，</div>
             <div class="poem-line highlight">呼儿将出换美酒，与尔同销万古愁。</div>
             
-            <div style="height: 150px;"></div>
+            <div style="height: 100px;"></div>
         </div>
 
         <!-- 底部按钮 -->
@@ -1165,7 +1356,7 @@
                 <p><strong>京剧版 (Peking Opera)：</strong> 特别加入京剧念白/唱腔版。作为中国国粹，其高亢激越的声腔与李白狂放的诗风天作之合，呈现出与钢琴版截然不同的东方美学张力。</p>
             </div>
 
-            <div style="text-align: center; margin-top: 50px;">
+            <div style="text-align: center; margin-top: 40px;">
                 <button class="btn-concept" onclick="closeModal()">回到诗画</button>
             </div>
         </div>
