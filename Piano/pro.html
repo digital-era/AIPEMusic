@@ -38,6 +38,8 @@
             color: var(--text-active);
             position: relative;
             -webkit-text-size-adjust: 100%;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
         /* 星空背景渐变层 */
@@ -355,6 +357,7 @@
             justify-content: center;
             position: relative;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-play::before {
@@ -424,6 +427,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 500;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .switch-item::before {
@@ -489,11 +493,37 @@
             font-weight: 300;
             letter-spacing: 1px;
             will-change: transform, color;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
+            touch-action: manipulation;
         }
 
-        /* 桌面端的高亮效果保持不变 */
+        /* 修复文本选择问题 */
+        .poem-line::selection {
+            background: transparent;
+        }
+        
+        .poem-line::-moz-selection {
+            background: transparent;
+        }
+
+        /* 滚动时的高亮效果 */
         .poem-line.active {
+            color: rgba(255, 255, 255, 0.7);
+            transform: scale(1.02);
+        }
+
+        /* 播放时的高亮效果 */
+        .poem-line.playing-active {
             color: var(--gold-shine);
+            transform: scale(1.05);
+            font-weight: 400;
+        }
+
+        /* 确保播放高亮优先于滚动高亮 */
+        .poem-line.playing-active.active {
+            color: var(--gold-shine) !important;
             transform: scale(1.05);
             font-weight: 400;
         }
@@ -532,6 +562,7 @@
             text-transform: uppercase;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-concept::before {
@@ -635,6 +666,7 @@
             animation: modalCloseBtn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .close-modal:hover {
@@ -880,7 +912,7 @@
                 padding: 50px 12px 80px;
             }
 
-            /* 诗歌行优化 - 修复前两行换行问题 */
+            /* 诗歌行优化 - 全部居中对齐，解决前两行换行问题 */
             .poem-line {
                 font-size: 1.1rem;
                 margin: 16px 0;
@@ -894,23 +926,32 @@
                 text-align: center;
             }
             
-            /* 前两行在移动端也居中对齐，但添加特殊处理防止换行过多 */
+            /* 前两行保持与其他行相同的样式 */
             .poem-line:nth-child(1),
             .poem-line:nth-child(2) {
-                font-size: 1.15rem;
-                margin: 18px 0;
-                line-height: 1.6;
+                font-size: 1.2rem;
+                margin: 20px 0;
                 text-align: center;
-                /* 防止过长诗句换行过多 */
-                word-break: keep-all;
-                overflow-wrap: break-word;
             }
             
-            /* 移动端的高亮效果 - 更明显 */
+            /* 滚动时的高亮效果 */
             .poem-line.active {
-                transform: scale(1.02);
+                transform: scale(1.01);
                 margin: 18px 0;
+                color: rgba(255, 255, 255, 0.7);
+                font-weight: 400;
+            }
+            
+            /* 播放时的高亮效果 */
+            .poem-line.playing-active {
                 color: var(--gold-shine);
+                transform: scale(1.02);
+                font-weight: 600;
+            }
+            
+            .poem-line.playing-active.active {
+                color: var(--gold-shine);
+                transform: scale(1.02);
                 font-weight: 600;
             }
 
@@ -1062,7 +1103,7 @@
             
             /* 诗歌字体进一步减小 */
             .poem-line {
-                font-size: 0.95rem;
+                font-size: 0.9rem;
                 margin: 14px 0;
                 line-height: 1.4;
                 letter-spacing: 0.2px;
@@ -1076,10 +1117,15 @@
             }
             
             .poem-line.active {
-                transform: scale(1.01);
-                font-size: 1.05rem;
+                transform: scale(1.005);
+                color: rgba(255, 255, 255, 0.7);
             }
-
+            
+            .poem-line.playing-active {
+                font-size: 1.05rem;
+                transform: scale(1.01);
+            }
+            
             /* 播放器胶囊进一步瘦身，增加按钮比例 */
             .player-wrapper {
                 width: 92%;
@@ -1150,6 +1196,10 @@
             }
             
             .poem-line.active {
+                font-size: 1.5rem;
+            }
+            
+            .poem-line.playing-active {
                 font-size: 1.5rem;
             }
             
@@ -1302,40 +1352,26 @@
         const TRACK_1_FILENAME = 'Chopin - Ballade No.1 in G minor, Op.23 (Krystian Zimerman).mp3';
         const TRACK_2_FILENAME = 'JiangJinJiu Peking Opera.mp3';
 
-        // 京剧版每行诗句的预估时间点（单位：秒）- 修正为正确的时间点
-        // 注意：这些时间点需要根据实际音频调整，确保逐行高亮
+        // 京剧版每行诗句的预估时间点（单位：秒）
+        // 需要根据实际唱词调整这些时间，这里是预估每行5-7秒
         const operaLineTimes = [
-            5,    // 君不见，黄河之水天上来，奔流到海不复回。
-            12,   // 君不见，高堂明镜悲白发，朝如青丝暮成雪。
-            20,   // 人生得意须尽欢，莫使金樽空对月。
-            28,   // 天生我材必有用，千金散尽还复来。
-            36,   // 烹羊宰牛且为乐，会须一饮三百杯。
-            44,   // 岑夫子，丹丘生，将进酒，杯莫停。
-            52,   // 与君歌一曲，请君为我倾耳听。
-            60,   // 钟鼓馔玉不足贵，但愿长醉不复醒。
-            68,   // 古来圣贤皆寂寞，惟有饮者留其名。
-            76,   // 陈王昔时宴平乐，斗酒十千恣欢谑。
-            84,   // 主人何为言少钱，径须沽取对君酌。
-            92,   // 五花马，千金裘，
-            100   // 呼儿将出换美酒，与尔同销万古愁。
+            21,   // 君不见，黄河之水天上来，奔流到海不复回。
+            35,   // 君不见，高堂明镜悲白发，朝如青丝暮成雪。
+            46,   // 人生得意须尽欢，莫使金樽空对月。
+            55,   // 天生我材必有用，千金散尽还复来。
+            64,   // 烹羊宰牛且为乐，会须一饮三百杯。
+            72,   // 岑夫子，丹丘生，将进酒，杯莫停。
+            78,   // 与君歌一曲，请君为我倾耳听。
+            85,   // 钟鼓馔玉不足贵，但愿长醉不复醒。
+            95,   // 古来圣贤皆寂寞，惟有饮者留其名。
+            104,  // 陈王昔时宴平乐，斗酒十千恣欢谑。
+            113,  // 主人何为言少钱，径须沽取对君酌。
+            122,  // 五花马，千金裘，
+            125   // 呼儿将出换美酒，与尔同销万古愁。
         ];
 
-        // 钢琴版使用不同时间线（钢琴版音乐可能更长，需要调整）
-        const pianoLineTimes = [
-            8,     // 君不见，黄河之水天上来，奔流到海不复回。
-            18,    // 君不见，高堂明镜悲白发，朝如青丝暮成雪。
-            30,    // 人生得意须尽欢，莫使金樽空对月。
-            42,    // 天生我材必有用，千金散尽还复来。
-            54,    // 烹羊宰牛且为乐，会须一饮三百杯。
-            66,    // 岑夫子，丹丘生，将进酒，杯莫停。
-            78,    // 与君歌一曲，请君为我倾耳听。
-            90,    // 钟鼓馔玉不足贵，但愿长醉不复醒。
-            102,   // 古来圣贤皆寂寞，惟有饮者留其名。
-            114,   // 陈王昔时宴平乐，斗酒十千恣欢谑。
-            126,   // 主人何为言少钱，径须沽取对君酌。
-            138,   // 五花马，千金裘，
-            150    // 呼儿将出换美酒，与尔同销万古愁。
-        ];
+        // 钢琴版使用相同时间线（可根据需要调整）
+        const pianoLineTimes = [...operaLineTimes];
 
         // ================= 状态管理 =================
         let currentTrack = 'piano';
@@ -1345,7 +1381,7 @@
         let currentLineTimes = pianoLineTimes;
         let timeUpdateInterval = null;
         let lastScrollUpdate = 0;
-        const SCROLL_UPDATE_INTERVAL = 100; // 滚动更新间隔(ms)
+        const SCROLL_UPDATE_INTERVAL = 150; // 滚动更新间隔(ms)
 
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
@@ -1446,9 +1482,9 @@
             iconPause.style.display = 'none';
             spinner.style.display = 'none';
             
-            // 重置所有诗句颜色
+            // 重置所有诗句颜色和标记
             poemLines.forEach(line => {
-                line.classList.remove('active');
+                line.classList.remove('active', 'playing-active');
             });
         }
 
@@ -1513,34 +1549,40 @@
             }, 3000);
         }
 
-        // ================= 播放时诗词变色功能 - 修复逐行高亮 =================
+        // ================= 播放时诗词变色功能 =================
         function startTimeSync() {
             if (timeUpdateInterval) {
                 clearInterval(timeUpdateInterval);
             }
+            
+            // 添加播放标记类
+            poemLines.forEach(line => {
+                line.classList.add('playing-active');
+                line.classList.remove('active');
+            });
             
             timeUpdateInterval = setInterval(() => {
                 if (!isPlaying) return;
                 
                 const currentTime = audio.currentTime;
                 
-                // 移除所有active状态
-                poemLines.forEach(line => line.classList.remove('active'));
+                // 移除所有active状态（但保留playing-active标记）
+                poemLines.forEach(line => {
+                    line.classList.remove('active');
+                });
                 
-                // 找到当前时间对应的行（从最后一行开始往前找）
-                let activeLineIndex = -1;
-                for (let i = currentLineTimes.length - 1; i >= 0; i--) {
+                // 找到当前时间对应的行
+                for (let i = 0; i < currentLineTimes.length; i++) {
                     if (currentTime >= currentLineTimes[i]) {
-                        activeLineIndex = i;
-                        break;
+                        // 当前行及之前的所有行都激活（类似于卡拉OK效果）
+                        for (let j = 0; j <= i; j++) {
+                            if (poemLines[j]) {
+                                poemLines[j].classList.add('active');
+                            }
+                        }
                     }
                 }
-                
-                // 只高亮当前行（逐行高亮）
-                if (activeLineIndex >= 0 && poemLines[activeLineIndex]) {
-                    poemLines[activeLineIndex].classList.add('active');
-                }
-            }, 100); // 每100ms更新一次
+            }, 150); // 每150ms更新一次
         }
 
         function stopTimeSync() {
@@ -1548,6 +1590,11 @@
                 clearInterval(timeUpdateInterval);
                 timeUpdateInterval = null;
             }
+            
+            // 移除播放标记和active类
+            poemLines.forEach(line => {
+                line.classList.remove('playing-active', 'active');
+            });
         }
 
         // ================= 音频事件监听 =================
@@ -1557,6 +1604,16 @@
         
         audio.addEventListener('playing', () => {
             spinner.style.display = 'none';
+            // 清除所有滚动触发的active类，确保只有播放触发
+            poemLines.forEach(line => {
+                if (!line.classList.contains('playing-active')) {
+                    line.classList.remove('active');
+                }
+            });
+        });
+        
+        audio.addEventListener('pause', () => {
+            stopTimeSync();
         });
         
         audio.addEventListener('ended', () => {
@@ -1565,27 +1622,29 @@
             audio.play();
         });
 
-        // ================= 优化的滚动逻辑 - 只影响非播放状态 =================
+        // ================= 优化的滚动逻辑 =================
         function initScrollHandler() {
             if ('IntersectionObserver' in window) {
                 // 使用IntersectionObserver，性能更好
                 const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const now = Date.now();
-                        // 节流处理，避免滚动过快时频繁更新
-                        if (now - lastScrollUpdate > SCROLL_UPDATE_INTERVAL) {
+                    const now = Date.now();
+                    // 节流处理，避免滚动过快时频繁更新
+                    if (now - lastScrollUpdate > SCROLL_UPDATE_INTERVAL) {
+                        entries.forEach(entry => {
                             // 只在非播放状态下添加滚动高亮
-                            if (entry.isIntersecting && !isPlaying) {
-                                entry.target.classList.add('active');
-                            } else if (!isPlaying) {
-                                entry.target.classList.remove('active');
+                            if (!isPlaying) {
+                                if (entry.isIntersecting) {
+                                    entry.target.classList.add('active');
+                                } else {
+                                    entry.target.classList.remove('active');
+                                }
                             }
-                            lastScrollUpdate = now;
-                        }
-                    });
+                        });
+                        lastScrollUpdate = now;
+                    }
                 }, {
-                    threshold: 0.3,
-                    rootMargin: '0px 0px -20% 0px'
+                    threshold: 0.5, // 增加阈值，减少误触发
+                    rootMargin: '0px 0px -25% 0px' // 调整触发区域
                 });
                 
                 poemLines.forEach(line => observer.observe(line));
@@ -1601,9 +1660,9 @@
                         const lineCenter = rect.top + rect.height / 2;
                         const distance = Math.abs(centerPoint - lineCenter);
                         
-                        // 播放时不处理滚动激活
+                        // 只在非播放状态下处理滚动激活
                         if (!isPlaying) {
-                            if (distance < 200) {
+                            if (distance < 150) { // 减小触发范围
                                 line.classList.add('active');
                             } else {
                                 line.classList.remove('active');
@@ -1615,14 +1674,13 @@
                     lastScrollUpdate = Date.now();
                 }
                 
+                // 添加节流滚动监听
                 window.addEventListener('scroll', () => {
-                    const now = Date.now();
-                    // 节流处理
-                    if (!ticking && now - lastScrollUpdate > SCROLL_UPDATE_INTERVAL) {
-                        requestAnimationFrame(updateFocus);
+                    if (!ticking) {
+                        window.requestAnimationFrame(updateFocus);
                         ticking = true;
                     }
-                });
+                }, { passive: true });
                 
                 // 初始更新
                 updateFocus();
@@ -1631,63 +1689,59 @@
 
         // ================= 星光效果 =================
         function initStars() {
-            const starHalo = document.querySelector('.star-halo');
+            // 移动端减少星光数量以提升性能
+            const starCount = window.innerWidth < 600 ? 3 : 5;
             
-            // 创建动态星光效果
-            function createFloatingStars() {
-                const stars = [];
-                const count = 5;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                const size = Math.random() * 3 + 1;
+                const opacity = Math.random() * 0.5 + 0.2;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
                 
-                for (let i = 0; i < count; i++) {
-                    const star = document.createElement('div');
-                    star.style.cssText = `
-                        position: fixed;
-                        width: ${Math.random() * 3 + 1}px;
-                        height: ${Math.random() * 3 + 1}px;
-                        background: rgba(255, 215, 0, ${Math.random() * 0.5 + 0.2});
-                        border-radius: 50%;
-                        pointer-events: none;
-                        z-index: -1;
-                        filter: blur(${Math.random() * 1 + 0.5}px);
-                        animation: floatStar ${Math.random() * 20 + 10}s linear infinite;
-                        animation-delay: ${Math.random() * 5}s;
-                    `;
-                    
-                    star.style.left = `${Math.random() * 100}%`;
-                    star.style.top = `${Math.random() * 100}%`;
-                    
-                    document.body.appendChild(star);
-                    stars.push(star);
-                }
-                
-                // 添加动画关键帧
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes floatStar {
-                        0% { 
-                            transform: translate(0, 0) scale(1);
-                            opacity: ${Math.random() * 0.3 + 0.2};
-                        }
-                        25% { 
-                            transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) scale(${Math.random() * 0.5 + 0.8});
-                        }
-                        50% { 
-                            transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(${Math.random() * 0.5 + 1.2});
-                            opacity: ${Math.random() * 0.6 + 0.4};
-                        }
-                        75% { 
-                            transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) scale(${Math.random() * 0.5 + 0.8});
-                        }
-                        100% { 
-                            transform: translate(0, 0) scale(1);
-                            opacity: ${Math.random() * 0.3 + 0.2};
-                        }
-                    }
+                star.style.cssText = `
+                    position: fixed;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(255, 215, 0, ${opacity});
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: -1;
+                    filter: blur(${Math.random() * 1 + 0.5}px);
+                    animation: floatStar ${duration}s linear infinite;
+                    animation-delay: ${delay}s;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
                 `;
-                document.head.appendChild(style);
+                
+                document.body.appendChild(star);
             }
             
-            createFloatingStars();
+            // 添加动画关键帧
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatStar {
+                    0% { 
+                        transform: translate(0, 0) scale(1);
+                        opacity: 0.2;
+                    }
+                    25% { 
+                        transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) scale(0.9);
+                    }
+                    50% { 
+                        transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(1.2);
+                        opacity: 0.6;
+                    }
+                    75% { 
+                        transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) scale(0.9);
+                    }
+                    100% { 
+                        transform: translate(0, 0) scale(1);
+                        opacity: 0.2;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
         }
 
         // ================= 模态框 =================
@@ -1739,7 +1793,7 @@
         document.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
             touchStartX = e.touches[0].clientX;
-        });
+        }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
             const touchEndY = e.changedTouches[0].clientY;
@@ -1755,7 +1809,7 @@
                     switchTrack('opera');
                 }
             }
-        });
+        }, { passive: true });
 
         // ================= 页面可见性处理 =================
         document.addEventListener('visibilitychange', () => {
