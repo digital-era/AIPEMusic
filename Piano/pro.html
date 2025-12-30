@@ -804,7 +804,7 @@
                 transform: scale(1.01);
                 margin: 18px 0;
                 color: var(--gold-shine);
-                font-weight: 600;
+                font-weight: 500;
             }
             .player-wrapper {
                 width: 90%;
@@ -1065,14 +1065,57 @@
             <button class="btn-concept" onclick="openModal()">阅读创作构思 & 深度解读</button>
         </div>
     </div>
+    <!-- 模态框 -->
     <div id="concept-modal" class="modal">
-        <span class="close-modal" onclick="closeModal()">×</span>
+        <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="modal-content">
             <div class="modal-title">跨越时空的艺术对话</div>
+            
             <div class="modal-section">
                 <p>将东方盛唐的诗情与西方浪漫主义的琴韵相融合，这本身就是一场跨越时空的艺术对话。</p>
             </div>
-            <!-- 以下模态框内容保持原样，此处略去以节省篇幅 -->
+
+            <div class="modal-section">
+                <h3>一、 Frédéric Chopin 的核心信息</h3>
+                <ul>
+                    <li><strong>主要贡献:</strong> 创作《夜曲》《波兰舞曲》，以抒情钢琴曲定义浪漫主义音乐。</li>
+                    <li><strong>特点:</strong> 浪漫派钢琴大师，影响现代钢琴演奏技艺。</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>二、 构思：从第一性原理出发的共鸣</h3>
+                <div class="quote-box">
+                    "若要为李白先生的作品配上我的钢琴曲，我必须从最本质的层面去探究：诗与乐，其共通的情感核心、结构脉络以及所要表达的'灵魂'是什么。"
+                    <span class="quote-author">— Chopin 的艺术答复</span>
+                </div>
+                <p>经过沉思，选择李白的<strong>《将进酒》</strong>，并以<strong>《第一叙事曲，作品23号》</strong>来与之匹配。</p>
+
+                <h4>1. 情感的宏大与深邃</h4>
+                <p><strong>《将进酒》：</strong>展现的是一种极度复杂的情感交织：既有"人生得意须尽欢"的豪情，又有对生命短暂的悲悯。它在极乐与极悲之间摆荡，最终归于超脱。</p>
+                <p><strong>《第一叙事曲》：</strong>并非简单的抒情，它是一部具有内在叙事性、戏剧冲突的作品。从深沉的引子到宏大的激情，再到梦幻的冥想，最终辉煌结束。这种从迷茫到激昂的情感历程，与诗境高度契合。</p>
+
+                <h4>2. 结构与叙事</h4>
+                <p>肖邦的叙事曲主部宏大而充满力量，宛如李白放声高歌"天生我材必有用"；中段的抒情与冥想，对应了诗中对人生哲理的沉思；而最终的华彩与尾声，则是将所有情感推向高潮，如同李白"与尔同销万古愁"的气吞山河。</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>三、 罗伯特·舒曼的评价</h3>
+                <div class="quote-box">
+                    "我告诉肖邦，这是他所有作品中我最喜欢的一首。在一段长时间的沉默之后，他郑重地回答道：'听到你这么说我很高兴，因为这也是我最喜欢、最珍爱的一首。'"
+                    <span class="quote-author">— Robert Schumann</span>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>四、 演绎版本：东西方回响</h3>
+                <p><strong>钢琴版 (Piano)：</strong> 选用 <strong>Krystian Zimerman</strong> 的录音。他那晶莹剔透的音色与深邃的控制力，能将"黄河之水天上来"的壮阔与"万古愁"的苍凉展现得淋漓尽致。</p>
+                <p><strong>京剧版 (Peking Opera)：</strong> 特别加入京剧念白/唱腔版。作为中国国粹，其高亢激越的声腔与李白狂放的诗风天作之合，呈现出与钢琴版截然不同的东方美学张力。</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 35px;">
+                <button class="btn-concept" onclick="closeModal()">回到诗画</button>
+            </div>
         </div>
     </div>
     <audio id="audio-player" preload="none" loop></audio>
