@@ -75,7 +75,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+            transition: opacity 3s ease-out, transform 3s ease-out;
             pointer-events: none;
         }
         .cover-content {
@@ -1128,11 +1128,11 @@
         const operaLineTimes = [21,35,46,55,64,72,78,85,95,104,113,122,125];
         const pianoLineTimes = [...operaLineTimes];
 
-        let currentTrack = 'piano';
+        let currentTrack = 'opera';
         let isPlaying = false;
         let isSourceSet = false;
-        let currentCulture = 'western';
-        let currentLineTimes = pianoLineTimes;
+        let currentCulture = 'chinese';
+        let currentLineTimes = operaLineTimes;
         let timeUpdateInterval = null;
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
@@ -1290,8 +1290,8 @@
                 const cover = document.getElementById('initial-cover');
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-20px)';
-                setTimeout(() => cover.style.display = 'none', 1500);
-            }, 3000);
+                setTimeout(() => cover.style.display = 'none', 3000);
+            }, 5000);
             
             initScrollHandler();
         });
