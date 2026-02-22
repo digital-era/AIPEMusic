@@ -746,6 +746,79 @@
         @keyframes modalCloseBtn {
             to { transform: scale(1); }
         }
+        
+        /* ===== 悬浮对话按钮样式 ===== */
+        .floating-dialogue-btn {
+            position: fixed;
+            right: 30px;
+            bottom: 50px;
+            z-index: 999; /* 提高层级，确保永远在最上层 */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(20, 25, 35, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 10px 18px;
+            border-radius: 30px;
+            color: var(--gold-pale);
+            font-family: var(--font-cn);
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.4), 
+                0 0 15px rgba(212, 175, 55, 0.1) inset;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 1px;
+            /* 加上整体的上下悬浮动画 */
+            animation: floatBreath 4s ease-in-out infinite;
+        }
+
+        .floating-dialogue-btn:hover {
+            border-color: var(--gold-shine);
+            color: var(--gold-shine);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.6), 
+                0 0 20px rgba(212, 175, 55, 0.3) inset;
+            /* 鼠标悬停时暂停上下浮动 */
+            animation-play-state: paused; 
+        }
+
+        .floating-dialogue-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--gold-base);
+            /* 星星的独立闪烁动画 */
+            animation: starPulse 2s ease-in-out infinite;
+        }
+
+        /* 整体按钮上下浮动 */
+        @keyframes floatBreath {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* 星星闪烁与旋转 */
+        @keyframes starPulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.9) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.1) rotate(15deg); fill: var(--gold-shine); }
+        }
+
+        /* 手机端适配 */
+        @media (max-width: 600px) {
+            .floating-dialogue-btn {
+                right: 15px;
+                bottom: 40px;
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+            .floating-dialogue-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+        
         @media (max-width: 600px) {
             .cover-title {
                 font-size: 2.6rem;
@@ -1120,7 +1193,15 @@
         </div>
     </div>
     <audio id="audio-player" preload="none" loop></audio>
-
+    
+    <!-- 【关键修改】：把悬浮按钮放在这里！所有的 div 的最外面，</body> 的上面 -->
+    <button class="floating-dialogue-btn" onclick="openModal()">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
+        </svg>
+        时空对话
+    </button>
+    
     <script>
         const TRACK_1_FILENAME = 'Chopin - Ballade No.1 in G minor, Op.23 (Krystian Zimerman).mp3';
         const TRACK_2_FILENAME = 'JiangJinJiu Peking Opera.mp3';
