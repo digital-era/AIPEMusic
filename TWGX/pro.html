@@ -616,7 +616,7 @@
             margin: 30px 0 10px;
             font-weight: 600;
             font-size: 1.15rem;
-            font-family: var(--font-cn); /* 改回中文字体以适应古文排版 */
+            font-family: var(--font-cn);
             letter-spacing: 1px;
             border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
             display: inline-block;
@@ -879,53 +879,78 @@
             </div>
         </div>
         
+        <!-- 【按需拆分】精准匹配讲解音频段落的 HTML 行，共计 41 行，索引 0 到 40 -->
         <div class="poem-container" id="poem-box">
-            <div class="poem-line">豫章故郡，洪都新府。星分翼轸，地接衡庐。</div>
-            <div class="poem-line">襟三江而带五湖，控蛮荆而引瓯越。</div>
-            <div class="poem-line">物华天宝，龙光射牛斗之墟；人杰地灵，徐孺下陈蕃之榻。</div>
-            <div class="poem-line">雄州雾列，俊采星驰。台隍枕夷夏之交，宾主尽东南之美。</div>
-            <div class="poem-line">都督阎公之雅望，棨戟遥临；宇文新州之懿范，襜帷暂驻。</div>
-            <div class="poem-line">十旬休假，胜友如云；千里逢迎，高朋满座。</div>
-            <div class="poem-line">腾蛟起凤，孟学士之词宗；紫电青霜，王将军之武库。</div>
-            <div class="poem-line">家君作宰，路出名区；童子何知，躬逢胜饯。</div>
+            <!-- twgx1_1.mp3 -->
+            <div class="poem-line">豫章故郡，洪都新府。星分翼轸，地接衡庐。</div> <!-- 0 -->
+            <div class="poem-line">襟三江而带五湖，控蛮荆而引瓯越。</div> <!-- 1 -->
             
-            <div class="poem-line">时维九月，序属三秋。潦水尽而寒潭清，烟光凝而暮山紫。</div>
-            <div class="poem-line">俨骖騑于上路，访风景于崇阿。临帝子之长洲，得天人之旧馆。</div>
-            <div class="poem-line">层峦耸翠，上出重霄；飞阁流丹，下临无地。</div>
-            <div class="poem-line">鹤汀凫渚，穷岛屿之萦回；桂殿兰宫，即冈峦之体势。</div>
+            <!-- twgx1_2.mp3 -->
+            <div class="poem-line">物华天宝，龙光射牛斗之墟；人杰地灵，徐孺下陈蕃之榻。</div> <!-- 2 -->
+            <div class="poem-line">雄州雾列，俊采星驰。台隍枕夷夏之交，宾主尽东南之美。</div> <!-- 3 -->
+            <div class="poem-line">都督阎公之雅望，棨戟遥临；宇文新州之懿范，襜帷暂驻。</div> <!-- 4 -->
+            <div class="poem-line">十旬休假，胜友如云；千里逢迎，高朋满座。</div> <!-- 5 -->
             
-            <div class="poem-line">披绣闼，俯雕甍，山原旷其盈视，川泽纡其骇瞩。</div>
-            <div class="poem-line">闾阎扑地，钟鸣鼎食之家；舸舰迷津，青雀黄龙之舳。</div>
-            <div class="poem-line">云销雨霁，彩彻区明。落霞与孤鹜齐飞，秋水共长天一色。</div>
-            <div class="poem-line">渔舟唱晚，响穷彭蠡之滨；雁阵惊寒，声断衡阳之浦。</div>
-            
-            <div class="poem-line">遥襟甫畅，逸兴遄飞。爽籁发而清风生，纤歌凝而白云遏。</div>
-            <div class="poem-line">睢园绿竹，气凌彭泽之樽；邺水朱华，光照临川之笔。</div>
-            <div class="poem-line">四美具，二难并。穷睇眄于中天，极娱游于暇日。</div>
-            <div class="poem-line">天高地迥，觉宇宙之无穷；兴尽悲来，识盈虚之有数。</div>
-            <div class="poem-line">望长安于日下，目吴会于云间。地势极而南溟深，天柱高而北辰远。</div>
-            <div class="poem-line">关山难越，谁悲失路之人？萍水相逢，尽是他乡之客。</div>
-            <div class="poem-line">怀帝阍而不见，奉宣室以何年？</div>
-            
-            <div class="poem-line">嗟乎！时运不齐，命途多舛。冯唐易老，李广难封。</div>
-            <div class="poem-line">屈贾谊于长沙，非无圣主；窜梁鸿于海曲，岂乏明时？</div>
-            <div class="poem-line">所赖君子见机，达人知命。老当益壮，宁移白首之心？穷且益坚，不坠青云之志。</div>
-            <div class="poem-line">酌贪泉而觉爽，处涸辙以犹欢。北海虽赊，扶摇可接；东隅已逝，桑榆非晚。</div>
-            <div class="poem-line">孟尝高洁，空怀报国之情；阮籍猖狂，岂效穷途之哭！</div>
-            
-            <div class="poem-line">勃，三尺微命，一介书生。无路请缨，等终军之弱冠；有怀投笔，慕宗悫之长风。</div>
-            <div class="poem-line">舍簪笏于百龄，奉晨昏于万里。非谢家之宝树，接孟氏之芳邻。</div>
-            <div class="poem-line">他日趋庭，叨陪鲤对；今兹捧袂，喜托龙门。</div>
-            <div class="poem-line">杨意不逢，抚凌云而自惜；钟期既遇，奏流水以何惭？</div>
-            
-            <div class="poem-line">呜呼！胜地不常，盛筵难再；兰亭已矣，梓泽丘墟。</div>
-            <div class="poem-line">临别赠言，幸承恩于伟饯；登高作赋，是所望于群公。</div>
-            <div class="poem-line">敢竭鄙怀，恭疏短引；一言均赋，四韵俱成。请洒潘江，各倾陆海云尔：</div>
-            
-            <div class="poem-line" style="margin-top: 40px; font-weight: 400;">滕王高阁临江渚，佩玉鸣鸾罢歌舞。</div>
-            <div class="poem-line" style="font-weight: 400;">画栋朝飞南浦云，珠帘暮卷西山雨。</div>
-            <div class="poem-line" style="font-weight: 400;">闲云潭影日悠悠，物换星移几度秋。</div>
-            <div class="poem-line" style="font-weight: 400;">阁中帝子今何在？槛外长江空自流。</div>
+            <!-- twgx1_3.mp3 -->
+            <div class="poem-line">腾蛟起凤，孟学士之词宗；紫电青霜，王将军之武库。</div> <!-- 6 -->
+            <div class="poem-line">家君作宰，路出名区；童子何知，躬逢胜饯。</div> <!-- 7 -->
+
+            <!-- twgx2_1.mp3 -->
+            <div class="poem-line">时维九月，序属三秋。潦水尽而寒潭清，烟光凝而暮山紫。</div> <!-- 8 -->
+            <div class="poem-line">俨骖騑于上路，访风景于崇阿。临帝子之长洲，得天人之旧馆。</div> <!-- 9 -->
+            <div class="poem-line">层峦耸翠，上出重霄；飞阁流丹，下临无地。</div> <!-- 10 -->
+            <div class="poem-line">鹤汀凫渚，穷岛屿之萦回；桂殿兰宫，即冈峦之体势。</div> <!-- 11 -->
+
+            <!-- twgx3_1.mp3 -->
+            <div class="poem-line">披绣闼，俯雕甍，山原旷其盈视，川泽纡其骇瞩。</div> <!-- 12 -->
+            <div class="poem-line">闾阎扑地，钟鸣鼎食之家；舸舰迷津，青雀黄龙之舳。</div> <!-- 13 -->
+            <div class="poem-line">云销雨霁，彩彻区明。落霞与孤鹜齐飞，秋水共长天一色。</div> <!-- 14 -->
+            <div class="poem-line">渔舟唱晚，响穷彭蠡之滨；雁阵惊寒，声断衡阳之浦。</div> <!-- 15 -->
+
+            <!-- twgx4_1.mp3 -->
+            <div class="poem-line">遥襟甫畅，逸兴遄飞。爽籁发而清风生，纤歌凝而白云遏。</div> <!-- 16 -->
+            <div class="poem-line">睢园绿竹，气凌彭泽之樽；邺水朱华，光照临川之笔。</div> <!-- 17 -->
+
+            <!-- twgx4_2.mp3 -->
+            <div class="poem-line">四美具，二难并。</div> <!-- 18 -->
+
+            <!-- twgx4_3.mp3 -->
+            <div class="poem-line">穷睇眄于中天，极娱游于暇日。</div> <!-- 19 -->
+            <div class="poem-line">天高地迥，觉宇宙之无穷；兴尽悲来，识盈虚之有数。</div> <!-- 20 -->
+            <div class="poem-line">望长安于日下，目吴会于云间。地势极而南溟深，天柱高而北辰远。</div> <!-- 21 -->
+
+            <!-- twgx4_4.mp3 -->
+            <div class="poem-line">关山难越，谁悲失路之人？萍水相逢，尽是他乡之客。</div> <!-- 22 -->
+            <div class="poem-line">怀帝阍而不见，奉宣室以何年？</div> <!-- 23 -->
+
+            <!-- twgx5_1.mp3 -->
+            <div class="poem-line">嗟乎！时运不齐，命途多舛。冯唐易老，李广难封。</div> <!-- 24 -->
+            <div class="poem-line">屈贾谊于长沙，非无圣主；窜梁鸿于海曲，岂乏明时？</div> <!-- 25 -->
+            <div class="poem-line">所赖君子见机，达人知命。</div> <!-- 26 -->
+
+            <!-- twgx5_2.mp3 -->
+            <div class="poem-line">老当益壮，宁移白首之心？穷且益坚，不坠青云之志。</div> <!-- 27 -->
+            <div class="poem-line">酌贪泉而觉爽，处涸辙以犹欢。北海虽赊，扶摇可接；东隅已逝，桑榆非晚。</div> <!-- 28 -->
+            <div class="poem-line">孟尝高洁，空怀报国之情；阮籍猖狂，岂效穷途之哭！</div> <!-- 29 -->
+
+            <!-- twgx6_1.mp3 -->
+            <div class="poem-line">勃，三尺微命，一介书生。无路请缨，等终军之弱冠；有怀投笔，慕宗悫之长风。</div> <!-- 30 -->
+            <div class="poem-line">舍簪笏于百龄，奉晨昏于万里。非谢家之宝树，接孟氏之芳邻。</div> <!-- 31 -->
+
+            <!-- twgx6_2.mp3 -->
+            <div class="poem-line">他日趋庭，叨陪鲤对；今兹捧袂，喜托龙门。</div> <!-- 32 -->
+            <div class="poem-line">杨意不逢，抚凌云而自惜；钟期既遇，奏流水以何惭？</div> <!-- 33 -->
+
+            <!-- twgx7_1.mp3 -->
+            <div class="poem-line">呜呼！胜地不常，盛筵难再；兰亭已矣，梓泽丘墟。</div> <!-- 34 -->
+            <div class="poem-line">临别赠言，幸承恩于伟饯；登高作赋，是所望于群公。</div> <!-- 35 -->
+            <div class="poem-line">敢竭鄙怀，恭疏短引；一言均赋，四韵俱成。请洒潘江，各倾陆海云尔：</div> <!-- 36 -->
+
+            <!-- twgx8_1.mp3 -->
+            <div class="poem-line" style="margin-top: 40px; font-weight: 400;">滕王高阁临江渚，佩玉鸣鸾罢歌舞。</div> <!-- 37 -->
+            <div class="poem-line" style="font-weight: 400;">画栋朝飞南浦云，珠帘暮卷西山雨。</div> <!-- 38 -->
+            <div class="poem-line" style="font-weight: 400;">闲云潭影日悠悠，物换星移几度秋。</div> <!-- 39 -->
+            <div class="poem-line" style="font-weight: 400;">阁中帝子今何在？槛外长江空自流。</div> <!-- 40 -->
 
             <div style="height: 80px;"></div>
         </div>
@@ -935,13 +960,12 @@
         </div>
     </div>
 
-    <!-- 模态框：跨时空对话与逐句解析 -->
+    <!-- 模态框 -->
     <div id="concept-modal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <div class="modal-content">
             <div class="modal-title">苏东坡品鉴滕王阁序</div>
             
-            <!-- 引言 -->
             <div class="modal-section">
                 <div class="quote-box">
                     "人生如逆旅，我亦是行人。世间万象，皆可入诗入词，亦可入我胸襟。今日阁下问及王勃与《滕王阁序》，此乃盛唐之音，文采斐然，虽非宋词，然其气象之宏大，情思之深远，足可与日月争辉，与我辈豪放之士心意相通。吾尝闻其名，亦深味其文，今得细品，幸甚。"
@@ -953,7 +977,6 @@
                 </ul>
             </div>
 
-            <!-- 关于王勃 -->
             <div class="modal-section">
                 <h3>一、 关于王勃其人</h3>
                 <p>王勃，字子安，乃初唐四杰之首，其生也早，其殁也速，然其文名，却如彗星划过夜空，光芒万丈，至今不绝。</p>
@@ -962,118 +985,81 @@
                 <p>观其一生，正如《滕王阁序》中所叹：“时运不齐，命途多舛。” 他怀经世济民之才，却生不逢时，壮志难酬。但他并未因此沉沦，反而将满腔的抱负与愁绪，化作一篇篇锦绣文章。其文风清丽高华，兼具儒家之庄重与道家之旷达，突破了初唐浮艳的文风，为盛唐文学开辟了新的道路。他虽以骈文名世，却能化骈为散，使文章气势磅礴，情感真挚，这正是我辈所推崇的“不拘一格，自成高格”啊。其对“时运不齐，命途多舛”的感慨，与我“人有悲欢离合，月有阴晴圆缺，此事古难全”之叹，异曲同工，皆是对人生际遇的深沉思索。</p>
             </div>
 
-            <!-- 逐句解析 -->
             <div class="modal-section">
                 <h3>二、 逐句解析《滕王阁序》</h3>
                 <p>《滕王阁序》全名《秋日登洪府滕王阁饯别序》，乃王勃为都督阎伯屿在滕王阁大宴宾客时所作。此文将叙事、写景、抒情、议论融为一炉，骈散结合，音韵铿锵，意境开阔，情感深沉，实乃千古绝唱。</p>
-
                 <h4>1. “豫章故郡，洪都新府。”</h4>
                 <p>此开篇二句，古今并陈，非徒叙地名，实寓兴亡之慨。一郡一府，转瞬百年，人生短促，斯地长存，已然埋下伏笔，引人深思。既交代了历史沿革，又显出地名之雅，为文章奠定古朴典雅的基调。</p>
-
                 <h4>2. “星分翼轸，地接衡庐。”</h4>
                 <p>观天地之大，察星辰之变，古人以天象对应人事，此乃儒者、道者皆重之学问。王勃以此开阔胸襟，将一隅之地置于宇宙洪荒之中，气象顿生。古人认为天上星宿与地上区域相对应，“翼”星和“轸”星是二十八宿中的两宿，分野在楚地，豫章正属楚地。下句则指明其地理位置，北连衡山，南接庐山。此句以星宿分野和山川形胜，极言洪都地势之重要，气象之宏大。</p>
-
                 <h4>3. “襟三江而带五湖，控蛮荆而引瓯越。”</h4>
                 <p>此句排比对仗，气势雄浑，犹如大江奔流，一泻千里。非徒言其地理之要，实显其人文之盛。能扼守要冲，方能汇聚风流。“襟”如衣襟，“带”如腰带，比喻洪都地处三江（指长江、赣江、信江等）环绕、五湖（指鄱阳湖等）相连的要冲，北可控制荆楚之地，南可引领瓯越（今浙江温州一带）。此句用排比对仗，气势磅礴，将洪都的地理位置和战略意义描绘得淋漓尽致。</p>
-
                 <h4>4. “物华天宝，龙光射牛斗之墟；人杰地灵，徐孺下陈蕃之榻。”</h4>
                 <p>此乃承上启下之句，点明“地灵人杰”的主题。“物华天宝”，此乃天地之灵秀所钟；“人杰地灵”，此乃英才之荟萃所成。王勃以雷焕、徐孺子之典，非仅炫其博学，更赞此地之风水人脉，确为一方宝地，引人遐思。此联对仗工整，用典精妙，既赞美了洪都的富庶与人才，又暗示了即将登场的滕王阁与宴会之盛。</p>
-
                 <h4>5. “雄州雾列，俊采星驰。台隍枕夷夏之交，宾主尽东南之美。”</h4>
                 <p>‘雾列星驰’，何其壮观！既写城郭之繁盛，又言人才之济济。‘夷夏之交’，更显此地兼容并蓄之胸怀。可见盛世之景，人才荟萃，方能成就此等盛会。“雄州雾列，俊采星驰”：众多雄伟的州郡像雾气一样排列，杰出的人才像流星一样奔驰而至。形容繁华热闹，人才济济。“台隍枕夷夏之交，宾主尽东南之美”：城池和护城河横亘在华夏与周边少数民族的交界之处，宾客和主人都是东南地区的俊彦才俊。进一步强调了洪都的战略地位和此次宴会的盛大。</p>
-
                 <h4>6. “都督阎公之雅望，棨戟遥临；宇文新州之懿范，襜帷暂驻。”</h4>
                 <p>宴会之盛，首在主人。阎公、宇文二位，皆有雅望懿范，方能引得群贤毕至。此乃礼乐之邦，文人雅集之常态。此句承上启下，引出宴会的具体人物，使得文章由宏大背景过渡到具体场景。</p>
-
                 <h4>7. “十旬休假，胜友如云；千里逢迎，高朋满座。”</h4>
                 <p>‘胜友如云’，‘高朋满座’，此等盛况，非寻常可得。人生得意，莫过如此。此情此景，足以令人忘却尘嚣，沉醉其中。此句用夸张手法，极言宾客之多，宴会之盛，烘托出欢乐祥和的气氛。</p>
-
                 <h4>8. “腾蛟起凤，孟学士之词宗；紫电青霜，王将军之武库。”</h4>
                 <p>文武兼备，国之栋梁也。王勃以‘词宗’、‘武库’誉之，足见其对才华之推崇。此等盛会，能聚天下英才，令人神往。此句用典比喻，赞扬赴宴者中既有文才超群的学者，又有武艺高强的将军，展现了宴会的群英荟萃。</p>
-
                 <h4>9. “家君作宰，路出名区；童子何知，躬逢胜饯。”</h4>
                 <p>王勃少年得志，却能如此自谦，‘童子何知’，足见其品格。吾辈文人，虽有才华，亦当存谦逊之心。此乃入世之智慧，亦是处世之道。此句是王勃的自谦之词，既表现了年轻人的谦逊，又巧妙地将自己置于宴会之中，为下文的登高抒情埋下伏笔。</p>
-
                 <h4>10. “时维九月，序属三秋。潦水尽而寒潭清，烟光凝而暮山紫。”</h4>
                 <p>此乃写景名句，‘潦水尽而寒潭清，烟光凝而暮山紫’，寥寥数语，秋意盎然，意境深远。色彩、光影、动静，皆得其妙。吾观此景，亦觉心胸澄澈，尘虑顿消。此等笔力，非我辈豪放词人不能心领神会。此联是写景名句，色彩鲜明，动静结合，描绘了一幅清丽而深邃的秋日傍晚图，为下文的抒情奠定基调。</p>
-
                 <h4>11. “俨骖騑于上路，访风景于崇阿。临帝子之长洲，得天人之旧馆。”</h4>
                 <p>一步一景，渐入佳境。‘访风景于崇阿’，可见其游览之雅兴；‘得天人之旧馆’，又引出滕王阁之历史底蕴。此乃登高望远前之铺垫，细致入微。此句承接上文的景物描写，自然地引出滕王阁。</p>
-
                 <h4>12. “层峦耸翠，上出重霄；飞阁流丹，下临无地。”</h4>
                 <p>‘耸翠’与‘流丹’，色彩鲜明对比，更显楼阁之雄伟与自然之秀丽。‘上出重霄’，‘下临无地’，夸张之笔，极言其高，令人目眩神驰。此等气势，正合我辈豪放之风。此联写阁之高，景之美，极富想象力，将滕王阁的壮丽气势展现得淋漓尽致。</p>
-
                 <h4>13. “鹤汀凫渚，穷岛屿之萦回；桂殿兰宫，即冈峦之体势。”</h4>
                 <p>自然之景与人工之美，相得益彰。‘萦回’之态，写水陆之曲折；‘体势’之妙，言建筑之匠心。观此，足见古人营建之巧，合于天地之道。此联写景物之美与建筑之巧，使人仿佛身临其境。</p>
-
                 <h4>14. “披绣闼，俯雕甍，山原旷其盈视，川泽纡其骇瞩。”</h4>
                 <p>登高望远，视野开阔，心境亦随之开阔。‘旷其盈视’，‘纡其骇瞩’，此乃胸襟之放达，非徒写景，实写心境。此句写登高望远之感，视野开阔，气象万千。</p>
-
                 <h4>15. “闾阎扑地，钟鸣鼎食之家；舸舰迷津，青雀黄龙之舳。”</h4>
                 <p>此乃太平盛世之景。‘钟鸣鼎食’，形容富庶；‘青雀黄龙’，言其华贵。然繁华背后，亦有兴衰之理，此乃吾辈常思之题。此联用具体的事物描绘出城市的富庶与繁荣，一派太平盛世的景象。</p>
-
                 <h4>16. “云销雨霁，彩彻区明。落霞与孤鹜齐飞，秋水共长天一色。”</h4>
                 <p>此联乃千古绝唱！‘落霞与孤鹜齐飞，秋水共长天一色’，浑然天成，动静相宜，色彩和谐，意境深远。吾观此景，心胸为之开阔，亦为之感叹。天地之大美，莫过于此，亦常使吾辈思及人生之渺小与辽阔。此联意境开阔，色彩绚丽，动静结合，将秋日傍晚的壮丽景色描绘得如诗如画，令人心旷神怡，又隐约带着一丝苍茫与寂寥。</p>
-
                 <h4>17. “渔舟唱晚，响穷彭蠡之滨；雁阵惊寒，声断衡阳之浦。”</h4>
                 <p>由视觉转听觉，情景交融。渔歌晚唱，雁阵惊寒，皆是秋日之常景，却能引人无限遐思。此等意境，虽有旷达之美，亦隐含一丝寂寥，正为下文抒情蓄势。此联以声入景，进一步烘托出秋日黄昏的宁静与苍凉，为下文抒发身世之感做铺垫。</p>
-
                 <h4>18. “遥襟甫畅，逸兴遄飞。爽籁发而清风生，纤歌凝而白云遏。”</h4>
                 <p>‘逸兴遄飞’，此乃文人雅士登高远眺，心境豁达之乐。‘清风生’，‘白云遏’，极言音乐之美妙，引人入胜。此乃盛宴之极致，乐极生悲，亦是自然之理。此句描绘了宴会中歌舞升平的景象，烘托了欢乐气氛，但又与下文的悲情形成对比。</p>
-
                 <h4>19. “睢园绿竹，气凌彭泽之樽；邺水朱华，光照临川之笔。”</h4>
                 <p>王勃以睢园、邺水之典，将此次宴会与历史上的文人雅集相媲美，非徒夸耀，实则寄寓对才华与风雅之向往。然古人已逝，盛会难再，此中深意，亦引人感叹。此联用两个典故，将此次宴会与历史上著名的文人雅集相提并论，极言其盛大与风雅，也赞美了在座文人的才华。</p>
-
                 <h4>20. “四美具，二难并。穷睇眄于中天，极娱游于暇日。”</h4>
                 <p>‘四美具，二难并’，人生乐事莫过于此。在如此良辰美景中，尽情游乐，此乃人之常情。然乐极生悲，盛极而衰，此乃天地之大道，亦是人生之常理。王勃于此转折，深得我心。此句承接上文的赞美，将宴会的欢乐推向高潮，但转折也随之而来。</p>
-
                 <h4>21. “天高地迥，觉宇宙之无穷；兴尽悲来，识盈虚之有数。”</h4>
                 <p>此乃全文之眼！‘兴尽悲来，识盈虚之有数’，道尽人生哲理。观天地之无穷，方知个人之有限。吾辈文人，屡遭贬谪，尝尽人生起落，对此更是深有体会。正如我《赤壁赋》中‘寄蜉蝣于天地，渺沧海之一粟’之慨，与王勃此意相通。此非消极，实乃达观之始。此联是全文情感转折的关键，由对景物的赞美和宴会的欢乐，转入对宇宙人生的深刻思考，透露出作者的悲观与无奈。</p>
-
                 <h4>22. “望长安于日下，目吴会于云间。地势极而南溟深，天柱高而北辰远。”</h4>
                 <p>遥望故国与家乡，是游子常情。‘南溟深’，‘北辰远’，以天地之浩瀚，衬托个人之渺小与前路之茫茫。此中情思，非亲历者不能体会。此境与我‘万里归来颜愈少’之叹，何其相似！此句用壮阔的地理景象，烘托出个人在天地间的渺小，以及思念之深、前路之远。</p>
-
                 <h4>23. “关山难越，谁悲失路之人？萍水相逢，尽是他乡之客。怀帝阍而不见，奉宣室以何年？”</h4>
                 <p>‘关山难越’，是现实困境；‘萍水相逢’，是人生常态。‘失路之人’，‘他乡之客’，道尽了漂泊不定、怀才不遇的悲凉。‘怀帝阍而不见’，‘奉宣室以何年’，更是直抒胸臆，对功名利禄、报国无门之慨叹。此乃士人之大悲，亦是吾辈常有之感。此句深沉，非少年老成者不能道也。此联表达了怀才不遇的愤懑与抱负。</p>
-
                 <h4>24. “嗟乎！时运不齐，命途多舛。冯唐易老，李广难封。”</h4>
                 <p>‘时运不齐，命途多舛’，此乃人生之大憾。冯唐、李广之典，更是千古士人怀才不遇之典型。王勃以己之悲，引古人之叹，情真意切，令人动容。吾亦曾慨叹‘人间有味是清欢’，亦有‘也无风雨也无晴’之豁达，然初闻此语，心中亦是戚戚。此联用典，将自己的怀才不遇与历史上的悲剧人物相比，表达了对命运不公的深沉慨叹。</p>
-
                 <h4>25. “屈贾谊于长沙，非无圣主；窜梁鸿于海曲，岂乏明时？”</h4>
                 <p>此反问句，更显其深沉思虑。并非君主不明，时代不清，而是个人之‘命途多舛’。此乃将个体命运置于历史洪流之中，而非简单归咎于外。此等见地，非寻常少年可得。此联通过反问，将怀才不遇的责任归结于“时运不齐”，而非君主不明或时代不佳，更显出个人的无奈与悲凉。</p>
-
                 <h4>26. “所赖君子见机，达人知命。老当益壮，宁移白首之心？穷且益坚，不坠青云之志。”</h4>
                 <p>此乃王勃之高明处，亦是吾辈所推崇之精神！由悲转达，由困顿转坚定。‘老当益壮’，‘穷且益坚’，此八字真言，何其振奋！无论身处何境，皆不改其志，此乃大丈夫之本色。我虽身处逆境，亦常以‘竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生’自勉，此意与王勃何其相似！此联是全文思想的升华，表现了王勃在逆境中不屈不挠、积极进取的精神。</p>
-
                 <h4>27. “酌贪泉而觉爽，处涸辙以犹欢。”</h4>
                 <p>此二典故，妙哉！‘贪泉’而不贪，‘涸辙’而犹欢，此乃心境之超越，非凡夫俗子所能企及。不为外物所累，不为境遇所困，此乃真洒脱，真豪放也。此句用反例和典故，表达了作者不为外物所困，保持高洁品格和乐观精神的决心。</p>
-
                 <h4>28. “北海虽赊，扶摇可接；东隅已逝，桑榆非晚。”</h4>
                 <p>此句更显其积极进取之心。‘北海’虽远，然‘扶摇’可至；韶华虽逝，然‘桑榆’未晚。此乃对未来之展望，对生命之珍惜。我常言‘人生到处知何似，应是飞鸿踏雪泥’，虽有无常，然亦有希望，此意与王勃相通。此句由悲转达，自我勉励。</p>
-
                 <h4>29. “孟尝高洁，空怀报国之情；阮籍猖狂，岂效穷途之哭！”</h4>
                 <p>孟尝之高洁，阮籍之猖狂，皆是文人应对世事之态。王勃以阮籍‘穷途之哭’反衬，意在劝慰自己，亦劝慰世人：纵使困顿，亦不可沉溺于无谓之悲伤。当以积极之心，面对人生之逆旅。此句以反问作结，表达了不愿沉溺于悲伤，要积极面对人生的态度。</p>
-
                 <h4>30. “勃，三尺微命，一介书生。无路请缨，等终军之弱冠；有怀投笔，慕宗悫之长风。舍簪笏于百龄，奉晨昏于万里。非谢家之宝树，接孟氏之芳邻。他日趋庭，叨陪鲤对；今兹捧袂，喜托龙门。杨意不逢，抚凌云而自惜；钟期既遇，奏流水以何惭？”</h4>
                 <p>至此，王勃方道出己身。‘三尺微命，一介书生’，是自谦，亦是现实。他怀有终军请缨、宗悫乘风破浪之志，欲‘投笔从戎’，报效国家。然现实却是‘无路请缨’，空有抱负。他言‘舍簪笏于百龄，奉晨昏于万里’，是因探父而远行，此乃孝道，亦是其短暂人生的转折。他自比非谢家之宝树，却有幸结识孟氏芳邻，谦逊之中，又隐含对自身才华的自信。‘趋庭鲤对’，言其对父教之敬重；‘捧袂龙门’，则表达了在此盛会中结识贤达，如登龙门之喜悦。然而，‘杨意不逢，抚凌云而自惜’，又转回怀才不遇之悲，若无伯乐，纵有凌云之志，亦只能自我欣赏。但‘钟期既遇，奏流水以何惭’，又是一转，既逢盛会，得遇知音，便当尽情挥洒才华，无所顾忌。此乃少年王勃复杂心境之写照，既有壮志难酬的苦闷，又有得遇知音的欣喜，更有对才华的自信与对未来的期许。此等情怀，吾辈皆有之。</p>
-
                 <h4>31. “呜呼！胜地不常，盛筵难再；兰亭已矣，梓泽丘墟。临别赠言，幸承恩于伟饯；登高作赋，是所望于群公。敢竭鄙怀，恭疏短引；一言均赋，四韵俱成。请洒潘江，各倾陆海云尔：”</h4>
                 <p>‘胜地不常，盛筵难再’，此乃人生常态，亦是宇宙之理。兰亭、梓泽，俱是昔日繁华，而今‘丘墟’，令人不胜唏嘘。此等感慨，与我‘大江东去’之叹，异曲同工，皆是对历史兴衰、人生无常的深沉思考。王勃以此作结，非为消极，实为点明此篇序文之缘起——为盛会作赋，为友人饯行。他自谦‘敢竭鄙怀，恭疏短引’，然其‘一言均赋，四韵俱成’，足见其才思敏捷，笔力不凡。最后一句‘请洒潘江，各倾陆海云尔’，则是谦逊地邀请在座诸位才子共同赋诗，实则已自成高格，不言而喻。</p>
-
                 <h4>32. “滕王高阁临江渚，佩玉鸣鸾罢歌舞。”</h4>
                 <p>此乃序文之点睛，亦是全篇情思的凝练。开篇点题，高阁依旧临江，然昔日歌舞升平，佩玉鸣鸾之盛景已然消逝。此句以今昔对比，引出无尽感慨，令人怅然。</p>
-
                 <h4>33. “画栋朝飞南浦云，珠帘暮卷西山雨。”</h4>
                 <p>此联写景，亦写时间流逝。‘朝飞’‘暮卷’，日复一日，年复一年，楼阁在风雨云烟中，见证着世事变迁。景物依旧，人事已非，此等情景，最易引人深思。</p>
-
                 <h4>34. “闲云潭影日悠悠，物换星移几度秋。”</h4>
                 <p>‘闲云潭影’，乃自然之景，悠然自得，不受世事纷扰。‘物换星移几度秋’，直抒胸臆，点明时间之流逝，世事之变迁。此乃人生之常态，亦是天地之大道。我常言‘逝者如斯夫’，此句深得我心。</p>
-
                 <h4>35. “阁中帝子今何在？槛外长江空自流。”</h4>
                 <p>此乃点睛之笔，亦是全诗之魂！昔日建造此阁的帝子，如今安在？唯有阁外长江，涛声依旧，日夜不息地空自流淌。此句以江水之永恒，反衬人事之短暂，兴亡之无常。‘空自流’三字，蕴含无限的苍凉与寂寥，却也透出一种超然的旷达。人生一世，如白驹过隙，唯有江水滔滔，不舍昼夜，见证着千古兴亡。此意境，与我‘大江东去’，‘浪淘尽，千古风流人物’之慨，何其相似乃尔！人生之真谛，尽在其中矣。</p>
             </div>
 
-            <!-- 总结 -->
             <div class="modal-section" style="border-bottom: none;">
                 <h3>三、 总结</h3>
                 <p>《滕王阁序》之所以能流传千古，不仅在于其华丽的辞藻、精妙的对仗，更在于其中蕴含的深沉情思和哲理。王勃以壮丽的景物描写开篇，铺陈盛大的宴会，却在景极情浓之时，笔锋一转，抒发了“兴尽悲来”的感慨，将个人怀才不遇的悲愤与对宇宙人生的思考融为一体。但他最终并未沉沦，而是以“老当益壮，宁移白首之心；穷且益坚，不坠青云之志”的豪迈情怀，展现了盛唐士人积极向上、坚韧不拔的精神。</p>
@@ -1089,22 +1075,41 @@
 
     <script>
         const TRACK_OPERA_FILENAME = 'twgx.mp3';
-        const TRACK_PIANO_FILENAME = 'twgx-explain.mp3'; 
 
-        const poetLineTimes = [
-            2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 
-            50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 
-            100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 
-            150, 155, 160, 165, 170, 175, 180, 185, 190
+        // 诗文讲解模式 - 播放列表 (包含文件名与其对应的 HTML 元素索引)
+        const explicationPlaylist = [
+            { file: 'twgx1_1.mp3', lines: [0, 1] },
+            { file: 'twgx1_2.mp3', lines: [2, 3, 4, 5] },
+            { file: 'twgx1_3.mp3', lines: [6, 7] },
+            { file: 'twgx2_1.mp3', lines: [8, 9, 10, 11] },
+            { file: 'twgx3_1.mp3', lines: [12, 13, 14, 15] },
+            { file: 'twgx4_1.mp3', lines: [16, 17] },
+            { file: 'twgx4_2.mp3', lines: [18] },
+            { file: 'twgx4_3.mp3', lines: [19, 20, 21] },
+            { file: 'twgx4_4.mp3', lines: [22, 23] },
+            { file: 'twgx5_1.mp3', lines: [24, 25, 26] },
+            { file: 'twgx5_2.mp3', lines: [27, 28, 29] },
+            { file: 'twgx6_1.mp3', lines: [30, 31] },
+            { file: 'twgx6_2.mp3', lines: [32, 33] },
+            { file: 'twgx7_1.mp3', lines: [34, 35, 36] },
+            { file: 'twgx8_1.mp3', lines: [37, 38, 39, 40] }
         ];
-        const explicationLineTimes = [...poetLineTimes];
+
+        // 诗文朗诵模式 - 每行诗文对应的播放秒数（注：目前填充为演示数据，请根据实际 twgx.mp3 自行修改时间戳！）
+        const poetLineTimes = Array.from({length: 41}, (_, i) => (i + 1) * 3);
 
         let currentTrack = 'opera';
         let isPlaying = false;
         let isSourceSet = false;
         let currentCulture = 'chinese';
+        
+        // 讲解模式播放器状态
+        let currentPlaylistIndex = 0;
+        
+        // 朗诵模式状态
         let currentLineTimes = poetLineTimes;
         let timeUpdateInterval = null;
+        let lastActiveIndex = -1;
         
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
@@ -1119,7 +1124,7 @@
         const poemLines = document.querySelectorAll('.poem-line');
 
         function getResourceUrl(filename) {
-            return filename;
+            return filename; // 如果有服务器路径，可在此处拼接
         }
 
         function switchTrack(trackType) {
@@ -1135,23 +1140,16 @@
                 btnPiano.classList.add('active');
                 btnOpera.classList.remove('active');
                 animateSubtitleTransition("诗文讲解");
+                currentPlaylistIndex = 0; 
             } else {
                 btnOpera.classList.add('active');
                 btnPiano.classList.remove('active');
                 animateSubtitleTransition("诗文朗诵");
             }
             
-            currentLineTimes = trackType === 'piano' ? explicationLineTimes : poetLineTimes;
-            
-            if (isPlaying) {
-                stopTimeSync();
-                stopAudio();
-                isSourceSet = false;
-                setTimeout(() => togglePlay(), 300);
-            } else {
-                stopAudio();
-                isSourceSet = false;
-            }
+            // 切换时立刻停止音频并重置状态
+            stopAudio();
+            isSourceSet = false; 
         }
 
         function updateCulture(culture) {
@@ -1181,49 +1179,110 @@
             iconPause.style.display = 'none';
             spinner.style.display = 'none';
             poemLines.forEach(line => line.classList.remove('active'));
+            lastActiveIndex = -1;
+        }
+
+        // 播放特定讲解段落
+        function playCurrentExplicationTrack() {
+            const trackObj = explicationPlaylist[currentPlaylistIndex];
+            audio.src = getResourceUrl(trackObj.file);
+            
+            iconPlay.style.display = 'none';
+            spinner.style.display = 'block';
+            
+            audio.play().then(() => {
+                spinner.style.display = 'none';
+                iconPause.style.display = 'block';
+                isPlaying = true;
+                
+                // 只高亮当前播放的段落行
+                poemLines.forEach(line => line.classList.remove('active'));
+                trackObj.lines.forEach(idx => {
+                    if (poemLines[idx]) poemLines[idx].classList.add('active');
+                });
+                
+                // 平滑滚动到当前发声的句子
+                if(poemLines[trackObj.lines[0]]) {
+                    poemLines[trackObj.lines[0]].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }).catch(e => {
+                console.error('播放讲解音频错误:', e);
+                spinner.style.display = 'none';
+                iconPlay.style.display = 'block';
+            });
         }
 
         function togglePlay() {
-            if (!isSourceSet) {
-                const filename = currentTrack === 'piano' ? TRACK_PIANO_FILENAME : TRACK_OPERA_FILENAME;
-                audio.src = getResourceUrl(filename);
-                isSourceSet = true;
-            }
             if (isPlaying) {
+                // 暂停
                 audio.pause();
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
                 spinner.style.display = 'none';
                 isPlaying = false;
-                stopTimeSync();
+                if (currentTrack === 'opera') stopTimeSync();
             } else {
+                // 继续 / 播放
                 iconPlay.style.display = 'none';
                 spinner.style.display = 'block';
-                audio.play().then(() => {
-                    spinner.style.display = 'none';
-                    iconPause.style.display = 'block';
-                    isPlaying = true;
-                    startTimeSync();
-                }).catch(e => {
-                    console.error('播放错误:', e);
-                    spinner.style.display = 'none';
-                    iconPlay.style.display = 'block';
-                });
+                
+                if (currentTrack === 'piano') {
+                    if (!isSourceSet) {
+                        playCurrentExplicationTrack();
+                        isSourceSet = true;
+                    } else {
+                        // 继续暂停中的讲解音频
+                        audio.play().then(() => {
+                            spinner.style.display = 'none';
+                            iconPause.style.display = 'block';
+                            isPlaying = true;
+                        }).catch(e => {
+                            console.error('播放错误:', e);
+                            spinner.style.display = 'none';
+                            iconPlay.style.display = 'block';
+                        });
+                    }
+                } else {
+                    if (!isSourceSet) {
+                        audio.src = getResourceUrl(TRACK_OPERA_FILENAME);
+                        isSourceSet = true;
+                    }
+                    audio.play().then(() => {
+                        spinner.style.display = 'none';
+                        iconPause.style.display = 'block';
+                        isPlaying = true;
+                        startTimeSync();
+                    }).catch(e => {
+                        console.error('播放错误:', e);
+                        spinner.style.display = 'none';
+                        iconPlay.style.display = 'block';
+                    });
+                }
             }
         }
 
+        // 仅在朗诵模式下生效的时间同步
         function startTimeSync() {
             if (timeUpdateInterval) clearInterval(timeUpdateInterval);
             timeUpdateInterval = setInterval(() => {
                 if (!isPlaying) return;
                 const currentTime = audio.currentTime;
-                poemLines.forEach(line => line.classList.remove('active'));
+                
+                let activeIndex = -1;
                 for (let i = 0; i < currentLineTimes.length; i++) {
                     if (currentTime >= currentLineTimes[i]) {
-                        for (let j = 0; j <= i; j++) {
-                            if (poemLines[j]) poemLines[j].classList.add('active');
-                        }
+                        activeIndex = i;
                     }
+                }
+                
+                // 仅更新并滚动至最新激活的单行诗文
+                if (activeIndex !== lastActiveIndex) {
+                    poemLines.forEach(line => line.classList.remove('active'));
+                    if (activeIndex !== -1 && poemLines[activeIndex]) {
+                        poemLines[activeIndex].classList.add('active');
+                        poemLines[activeIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    lastActiveIndex = activeIndex;
                 }
             }, 100);
         }
@@ -1234,6 +1293,26 @@
                 timeUpdateInterval = null;
             }
         }
+
+        // 监听音频播放结束处理
+        audio.addEventListener('ended', () => {
+            if (currentTrack === 'piano') {
+                // 讲解模式下自动播放下一首
+                currentPlaylistIndex++;
+                if (currentPlaylistIndex < explicationPlaylist.length) {
+                    playCurrentExplicationTrack();
+                } else {
+                    // 整个讲解流程结束
+                    stopAudio();
+                    currentPlaylistIndex = 0; 
+                    isSourceSet = false;
+                }
+            } else {
+                // 朗诵模式结束
+                stopAudio();
+                isSourceSet = false;
+            }
+        });
 
         function openModal() {
             const modal = document.getElementById('concept-modal');
@@ -1250,10 +1329,6 @@
                 document.body.style.overflow = 'auto';
             }, 300);
         }
-
-        audio.addEventListener('ended', () => {
-            stopAudio();
-        });
 
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
