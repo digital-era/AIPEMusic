@@ -61,21 +61,57 @@
             pointer-events: none;
             filter: blur(20px);
         }
+
+        /* ===== 新增：电影级背景图样式 ===== */
+        .cinematic-bg-image {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            /* 填入你的图片路径 */
+            background-image: url('Chopin_LiBai.JPG'); 
+            background-size: cover;
+            /* 焦点稍微偏上，确保阁楼和头部可见 */
+            background-position: center 15%; 
+            z-index: -4;
+            opacity: 0.65; /* 降低一点透明度，不喧宾夺主 */
+            /* 赋予它缓慢的呼吸感，40秒一个来回 */
+            animation: slowPan 40s ease-in-out infinite alternate;
+        }
+
+        .cinematic-bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            /* 核心奥秘：顶部微透，中间变暗，底部极暗。将图片完美融入深空背景 */
+            background: linear-gradient(
+                to bottom,
+                rgba(18, 24, 38, 0.1) 0%,      /* 顶部：透出滕王阁和人物 */
+                rgba(18, 24, 38, 0.75) 35%,    /* 中上部：开始变暗 */
+                rgba(12, 16, 26, 0.98) 100%    /* 底部：极深色，保证长篇文字清晰 */
+            );
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        @keyframes slowPan {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.05) translate(0, 1%); } /* 极其轻微的放大和位移 */
+        }
+        
         .initial-cover {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: linear-gradient(135deg,
-                #0a0e17 0%,
-                #131829 30%,
-                #1d2438 70%,
-                #2a3450 100%);
+            /* 移除原本死板的纯色渐变，改为半透明深色 + 毛玻璃模糊 */
+            background: rgba(10, 14, 23, 0.4); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: opacity 3s ease-out, transform 3s ease-out;
+            transition: opacity 3s ease-out, transform 3s ease-out, backdrop-filter 3s ease-out;
             pointer-events: none;
         }
         .cover-content {
@@ -820,264 +856,95 @@
         }
         
         @media (max-width: 600px) {
-            .cover-title {
-                font-size: 2.6rem;
-                letter-spacing: 8px;
+            .cover-title { font-size: 2.6rem; letter-spacing: 8px; }
+            .cover-symbol { width: 110px; height: 110px; margin-bottom: 25px; }
+            .cover-subtitle { font-size: 0.95rem; letter-spacing: 2px; }
+            h1 { font-size: 2.2rem; letter-spacing: 5px; margin-bottom: 8px; }
+            .subtitle { font-size: 1rem; letter-spacing: 1px; margin-bottom: 20px; }
+            
+            /* ===== 核心修复 1：背景优化，改为顶部完整显示，恢复超清画质 ===== */
+            .cinematic-bg-image {
+                background-size: 100% auto; /* 保证宽度100%完整显示，高度自适应，绝不裁剪两边人物 */
+                background-position: top center; /* 紧贴顶部 */
+                background-repeat: no-repeat;
+                opacity: 0.9; /* 提高亮度，让画面更通透 */
+                animation: mobileSlowPan 25s ease-in-out infinite alternate;
             }
-            .cover-symbol {
-                width: 110px;
-                height: 110px;
-                margin-bottom: 25px;
+
+            /* ===== 核心修复 2：遮罩层在图片边缘处（约屏幕 30% 高度）无缝衔接深色底色 ===== */
+            .cinematic-bg-overlay {
+                background: linear-gradient(
+                    to bottom,
+                    rgba(18, 24, 38, 0) 0%,         /* 顶部完全透明，露出清晰的楼阁和人物 */
+                    rgba(18, 24, 38, 0.4) 18%,      /* 中间微暗，衬托标题 */
+                    rgba(12, 16, 26, 0.98) 32%,     /* 在图片结束处无缝变成深色底色 */
+                    rgba(12, 16, 26, 1) 100%        /* 下方全暗，确保文字有绝佳的阅读环境 */
+                );
             }
-            .cover-subtitle {
-                font-size: 0.95rem;
-                letter-spacing: 2px;
-            }
-            .cover-instruction {
-                font-size: 0.75rem;
-                bottom: 25px;
-            }
-            h1 {
-                font-size: 2.2rem;
-                letter-spacing: 5px;
-                margin-bottom: 8px;
-            }
-            h1::before {
-                height: 1px;
-                bottom: -3px;
-            }
-            .subtitle {
-                font-size: 1rem;
-                letter-spacing: 1px;
-                margin-bottom: 20px;
-            }
+            
+            /* ===== 核心修复 3：将页面主体内容往下推，把天空和古人的脸让出来 ===== */
             .container {
-                padding: 50px 12px 80px;
+                padding: 180px 15px 80px; 
             }
+
+            /* 骈文对称换行样式 */
             .poem-line {
-                font-size: 1.1rem;
-                margin: 16px 0;
-                line-height: 1.5;
-                white-space: pre-wrap;
-                word-break: keep-all;
-                overflow-wrap: break-word;
-                letter-spacing: 0.3px;
-                padding: 0 8px;
-                text-align: center !important;  /* 全部强制居中 */
-            }
-            /* 前两行特别处理：尽量保持一行 */
-            .poem-line:nth-child(1),
-            .poem-line:nth-child(2) {
-                white-space: nowrap !important;
-                font-size: 1.08rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 100%;
+                font-size: 1.05rem;
+                margin: 22px 0;          
+                line-height: 1.9;        
+                letter-spacing: 2px;     
+                padding: 0 10px;
+                text-align: center;      
+                word-break: keep-all;    
+                color: rgba(255, 255, 255, 0.45);
             }
             .poem-line.active {
-                transform: scale(1.01);
-                margin: 18px 0;
+                transform: scale(1.05);
+                transform-origin: center center; 
+                margin: 25px 0;
                 color: var(--gold-shine);
                 font-weight: 500;
+                text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); 
             }
+
+            /* 播放器与各类UI控件适配 */
             .player-wrapper {
-                width: 90%;
-                max-width: 260px;
-                padding: 6px 10px;
-                min-width: auto;
-                flex-direction: row;
-                gap: 6px;
-                border-radius: 20px;
-                margin-bottom: 35px;
-                justify-content: center;
+                width: 90%; max-width: 260px; padding: 6px 10px; min-width: auto;
+                flex-direction: row; gap: 6px; border-radius: 20px;
+                margin-bottom: 35px; justify-content: center;
             }
-            .player-left {
-                order: 1;
-                gap: 6px;
-                flex-shrink: 0;
+            .player-left { order: 1; gap: 6px; flex-shrink: 0; }
+            .btn-play { width: 32px; height: 32px; }
+            .btn-play svg { width: 15px; height: 15px; }
+            .loading-spinner { width: 15px; height: 15px; }
+            .track-switcher { order: 2; gap: 8px; font-size: 0.75rem; flex-grow: 1; justify-content: space-around; }
+            .track-switcher::before { height: 12px; left: -4px; opacity: 0.3; }
+            .switch-item { padding: 6px 12px; flex: 1; text-align: center; min-width: 70px; }
+            
+            .btn-concept { padding: 10px 20px; font-size: 0.85rem; }
+            .modal-content { padding: 18px 15px 40px; margin: 30px 10px 40px; }
+            .close-modal { right: 12px; top: 12px; width: 32px; height: 32px; font-size: 18px; }
+            .modal-title { font-size: 1.6rem; margin-bottom: 25px; }
+            .modal h3 { font-size: 1.2rem; margin: 18px 0 10px; }
+
+            .floating-dialogue-btn {
+                right: 15px; bottom: 40px; padding: 8px 14px; font-size: 0.85rem;
             }
-            .btn-play {
-                width: 32px;
-                height: 32px;
-                flex-shrink: 0;
-            }
-            .btn-play svg {
-                width: 15px;
-                height: 15px;
-            }
-            .loading-spinner {
-                width: 15px;
-                height: 15px;
-            }
-            .track-switcher {
-                order: 2;
-                gap: 8px;
-                font-size: 0.75rem;
-                flex-grow: 1;
-                justify-content: space-around;
-            }
-            .track-switcher::before {
-                height: 12px;
-                left: -4px;
-                opacity: 0.3;
-            }
-            .switch-item {
-                padding: 6px 12px;
-                letter-spacing: 0.3px;
-                font-weight: 500;
-                flex: 1;
-                text-align: center;
-                min-width: 70px;
-                box-sizing: border-box;
-            }
-            .switch-item.active::after {
-                width: 3px;
-                height: 3px;
-                bottom: -2px;
-            }
-            .footer-controls {
-                margin-top: 50px;
-            }
-            .footer-controls::before {
-                top: -25px;
-                width: 120px;
-            }
-            .btn-concept {
-                padding: 10px 20px;
-                font-size: 0.85rem;
-                letter-spacing: 1px;
-                border-radius: 3px;
-            }
-            .modal-content {
-                padding: 18px 12px 40px;
-                margin: 30px 8px 40px;
-            }
-            .close-modal {
-                right: 12px;
-                top: 12px;
-                width: 32px;
-                height: 32px;
-                font-size: 18px;
-            }
-            .modal-title {
-                font-size: 1.6rem;
-                margin-bottom: 25px;
-                padding-bottom: 12px;
-                letter-spacing: 2px;
-            }
-            .modal h3 {
-                font-size: 1.2rem;
-                margin: 18px 0 10px;
-            }
-            .modal p {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
-            .modal h4 {
-                font-size: 0.95rem;
-            }
-            .quote-box {
-                padding: 15px 12px;
-                margin: 15px 0;
-            }
-            .quote-box::before {
-                font-size: 35px;
-                top: 3px;
-                left: 3px;
-            }
+            .floating-dialogue-btn svg { width: 14px; height: 14px; }
         }
-        @media (max-width: 400px) {
-            .cover-title {
-                font-size: 2.2rem;
-                letter-spacing: 6px;
-            }
-            h1 {
-                font-size: 1.9rem;
-                letter-spacing: 4px;
-            }
-            .subtitle {
-                font-size: 0.9rem;
-            }
-            .poem-line {
-                font-size: 0.85rem;
-                margin: 14px 0;
-                line-height: 1.4;
-                letter-spacing: 0.2px;
-                padding: 0 6px;
-            }
-            .poem-line:nth-child(1),
-            .poem-line:nth-child(2) {
-                font-size: 0.88rem;
-            }
-            .poem-line.active {
-                font-size: 0.9rem;
-                transform: none;
-            }
-            .player-wrapper {
-                width: 92%;
-                max-width: 240px;
-                padding: 5px 8px;
-                border-radius: 18px;
-            }
-            .btn-play {
-                width: 28px;
-                height: 28px;
-            }
-            .btn-play svg {
-                width: 13px;
-                height: 13px;
-            }
-            .track-switcher {
-                font-size: 0.7rem;
-                gap: 6px;
-            }
-            .switch-item {
-                padding: 5px 10px;
-                min-width: 65px;
-            }
-            .btn-concept {
-                padding: 8px 16px;
-                font-size: 0.8rem;
-            }
-        }
-        @media (max-height: 500px) and (orientation: landscape) {
-            .container {
-                padding: 25px 10px 40px;
-            }
-            .player-wrapper {
-                margin-bottom: 20px;
-                max-width: 280px;
-            }
-            .poem-line {
-                margin: 12px 0;
-                font-size: 1rem;
-            }
-            .poem-line.active {
-                font-size: 1.1rem;
-            }
-            .footer-controls {
-                margin-top: 30px;
-            }
-            .footer-controls::before {
-                top: -15px;
-            }
-        }
-        @media (min-width: 601px) and (max-width: 768px) {
-            .poem-line {
-                font-size: 1.4rem;
-            }
-            .poem-line.active {
-                font-size: 1.5rem;
-            }
-            .player-wrapper {
-                min-width: 320px;
-                padding: 10px 25px;
-            }
+
+        /* 手机端专用极微弱呼吸动画，防止图片底部边缘移动时穿帮 */
+        @keyframes mobileSlowPan {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.02) translateY(1px); }
         }
     </style>
 </head>
 <body>
-    <div class="space-gradient"></div>
+    <!-- 电影级全屏背景图 -->
+    <div class="cinematic-bg-image"></div>
+    <!-- 渐变暗场遮罩（保护文字阅读） -->
+    <div class="cinematic-bg-overlay"></div>
     <div class="star-halo"></div>
     <div class="initial-cover" id="initial-cover">
         <div class="cover-content">
