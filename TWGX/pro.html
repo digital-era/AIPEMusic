@@ -831,133 +831,87 @@
 
         
         @media (max-width: 600px) {
-            .cover-title {
-                font-size: 2.6rem;
-                letter-spacing: 8px;
+            .cover-title { font-size: 2.6rem; letter-spacing: 8px; }
+            .cover-symbol { width: 110px; height: 110px; margin-bottom: 25px; }
+            .cover-subtitle { font-size: 0.95rem; letter-spacing: 2px; }
+            h1 { font-size: 2.2rem; letter-spacing: 5px; margin-bottom: 8px; }
+            .subtitle { font-size: 1rem; letter-spacing: 1px; margin-bottom: 20px; }
+            
+            /* ===== 核心修复 1：背景优化，改为顶部完整显示，恢复超清画质 ===== */
+            .cinematic-bg-image {
+                background-size: 100% auto; /* 保证宽度100%完整显示，高度自适应，绝不裁剪两边人物 */
+                background-position: top center; /* 紧贴顶部 */
+                background-repeat: no-repeat;
+                opacity: 0.9; /* 提高亮度，让画面更通透 */
+                animation: mobileSlowPan 25s ease-in-out infinite alternate;
             }
-            .cover-symbol {
-                width: 110px;
-                height: 110px;
-                margin-bottom: 25px;
+
+            /* ===== 核心修复 2：遮罩层在图片边缘处（约屏幕 30% 高度）无缝衔接深色底色 ===== */
+            .cinematic-bg-overlay {
+                background: linear-gradient(
+                    to bottom,
+                    rgba(18, 24, 38, 0) 0%,         /* 顶部完全透明，露出清晰的楼阁和人物 */
+                    rgba(18, 24, 38, 0.4) 18%,      /* 中间微暗，衬托标题 */
+                    rgba(12, 16, 26, 0.98) 32%,     /* 在图片结束处无缝变成深色底色 */
+                    rgba(12, 16, 26, 1) 100%        /* 下方全暗，确保文字有绝佳的阅读环境 */
+                );
             }
-            .cover-subtitle {
-                font-size: 0.95rem;
-                letter-spacing: 2px;
-            }
-            h1 {
-                font-size: 2.2rem;
-                letter-spacing: 5px;
-                margin-bottom: 8px;
-            }
-            .subtitle {
-                font-size: 1rem;
-                letter-spacing: 1px;
-                margin-bottom: 20px;
-            }
+            
+            /* ===== 核心修复 3：将页面主体内容往下推，把天空和古人的脸让出来 ===== */
             .container {
-                padding: 50px 15px 80px;
+                padding: 180px 15px 80px; 
             }
+
+            /* 骈文对称换行样式 */
             .poem-line {
                 font-size: 1.05rem;
-                margin: 22px 0;          /* 增加段落之间的间距 */
-                line-height: 1.9;        /* 增大行高，让古文更有呼吸感 */
-                letter-spacing: 2px;     /* 稍微增加字间距，显得更优雅 */
+                margin: 22px 0;          
+                line-height: 1.9;        
+                letter-spacing: 2px;     
                 padding: 0 10px;
-                text-align: center;      /* 强制居中，配合我们要做的对称断句 */
-                word-break: keep-all;    /* 尽量保持词语不被从中间截断 */
+                text-align: center;      
+                word-break: keep-all;    
                 color: rgba(255, 255, 255, 0.45);
             }
             .poem-line.active {
                 transform: scale(1.05);
-                transform-origin: center center; /* 确保放大时向四周均匀展开，不引起换行抖动 */
+                transform-origin: center center; 
                 margin: 25px 0;
                 color: var(--gold-shine);
                 font-weight: 500;
-                text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); /* 激活时增加淡淡的光晕 */
+                text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); 
             }
+
+            /* 播放器与各类UI控件适配 */
             .player-wrapper {
-                width: 90%;
-                max-width: 260px;
-                padding: 6px 10px;
-                min-width: auto;
-                flex-direction: row;
-                gap: 6px;
-                border-radius: 20px;
-                margin-bottom: 35px;
-                justify-content: center;
+                width: 90%; max-width: 260px; padding: 6px 10px; min-width: auto;
+                flex-direction: row; gap: 6px; border-radius: 20px;
+                margin-bottom: 35px; justify-content: center;
             }
-            .player-left {
-                order: 1;
-                gap: 6px;
-                flex-shrink: 0;
-            }
-            .btn-play {
-                width: 32px;
-                height: 32px;
-            }
-            .btn-play svg {
-                width: 15px;
-                height: 15px;
-            }
-            .loading-spinner {
-                width: 15px;
-                height: 15px;
-            }
-            .track-switcher {
-                order: 2;
-                gap: 8px;
-                font-size: 0.75rem;
-                flex-grow: 1;
-                justify-content: space-around;
-            }
-            .track-switcher::before {
-                height: 12px;
-                left: -4px;
-                opacity: 0.3;
-            }
-            .switch-item {
-                padding: 6px 12px;
-                flex: 1;
-                text-align: center;
-                min-width: 70px;
-            }
-            .btn-concept {
-                padding: 10px 20px;
-                font-size: 0.85rem;
-            }
-            .modal-content {
-                padding: 18px 15px 40px;
-                margin: 30px 10px 40px;
-            }
-            .close-modal {
-                right: 12px;
-                top: 12px;
-                width: 32px;
-                height: 32px;
-                font-size: 18px;
-            }
-            .modal-title {
-                font-size: 1.6rem;
-                margin-bottom: 25px;
-            }
-            .modal h3 {
-                font-size: 1.2rem;
-                margin: 18px 0 10px;
-            }
+            .player-left { order: 1; gap: 6px; flex-shrink: 0; }
+            .btn-play { width: 32px; height: 32px; }
+            .btn-play svg { width: 15px; height: 15px; }
+            .loading-spinner { width: 15px; height: 15px; }
+            .track-switcher { order: 2; gap: 8px; font-size: 0.75rem; flex-grow: 1; justify-content: space-around; }
+            .track-switcher::before { height: 12px; left: -4px; opacity: 0.3; }
+            .switch-item { padding: 6px 12px; flex: 1; text-align: center; min-width: 70px; }
             
-            .cinematic-bg-image {
-                background-position: center 5%; /* 手机屏幕窄，焦点进一步上移 */
-                opacity: 0.55; /* 手机端调暗，防止干扰文字 */
+            .btn-concept { padding: 10px 20px; font-size: 0.85rem; }
+            .modal-content { padding: 18px 15px 40px; margin: 30px 10px 40px; }
+            .close-modal { right: 12px; top: 12px; width: 32px; height: 32px; font-size: 18px; }
+            .modal-title { font-size: 1.6rem; margin-bottom: 25px; }
+            .modal h3 { font-size: 1.2rem; margin: 18px 0 10px; }
+
+            .floating-dialogue-btn {
+                right: 15px; bottom: 40px; padding: 8px 14px; font-size: 0.85rem;
             }
-            .cinematic-bg-overlay {
-                /* 手机上文字区域占比更大，渐变需要更早进入深色区 */
-                background: linear-gradient(
-                    to bottom,
-                    rgba(18, 24, 38, 0.2) 0%,
-                    rgba(18, 24, 38, 0.85) 25%,
-                    rgba(12, 16, 26, 0.98) 100%
-                );
-            }
+            .floating-dialogue-btn svg { width: 14px; height: 14px; }
+        }
+
+        /* 手机端专用极微弱呼吸动画，防止图片底部边缘移动时穿帮 */
+        @keyframes mobileSlowPan {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.02) translateY(1px); }
         }
     </style>
 </head>
