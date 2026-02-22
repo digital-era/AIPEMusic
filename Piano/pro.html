@@ -1037,12 +1037,13 @@
                 </button>
             </div>
             <div class="track-switcher">
-                <div class="switch-item active" id="track-piano" onclick="switchTrack('piano')">
-                    Piano
-                </div>
                 <div class="switch-item" id="track-opera" onclick="switchTrack('opera')">
-                    Opera
+                    李白诗歌
                 </div>
+                <div class="switch-item active" id="track-piano" onclick="switchTrack('piano')">
+                    肖邦夜曲
+                </div>
+
             </div>
         </div>
         <div class="poem-container" id="poem-box">
@@ -1165,7 +1166,7 @@
             } else {
                 btnOpera.classList.add('active');
                 btnPiano.classList.remove('active');
-                animateSubtitleTransition("Traditional Peking Opera Style");
+                animateSubtitleTransition("传统京剧风格");
             }
             
             currentLineTimes = trackType === 'piano' ? pianoLineTimes : operaLineTimes;
