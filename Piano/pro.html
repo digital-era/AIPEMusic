@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>跨越时空的对话：肖邦 x 李白</title>
+    <title>跨越时空的艺术对话：肖邦 x 李白</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
     <style>
         :root {
@@ -1013,7 +1013,7 @@
                 <div class="symbol-interlace"></div>
             </div>
             <div class="cover-title">将进酒</div>
-            <div class="cover-subtitle">A Time-Spanning Synesthetic Dialogue</div>
+            <div class="cover-subtitle">跨域时空的艺术对话(A Time-Spanning Synesthetic Dialogue)</div>
         </div>
         <div class="cover-instruction">Scroll to Begin the Journey</div>
     </div>
@@ -1022,7 +1022,7 @@
     <div class="container">
         <header>
             <h1>将进酒</h1>
-            <div class="subtitle" id="header-subtitle">Ballade No. 1 in G minor, Op. 23</div>
+            <div class="subtitle" id="header-subtitle">中国京剧风格</div>
         </header>
         <div class="player-wrapper" id="player-wrapper">
             <div class="player-left">
@@ -1037,10 +1037,10 @@
                 </button>
             </div>
             <div class="track-switcher">
-                <div class="switch-item" id="track-opera" onclick="switchTrack('opera')">
+                <div class="switch-item active" id="track-opera" onclick="switchTrack('opera')">
                     李白诗歌
                 </div>
-                <div class="switch-item active" id="track-piano" onclick="switchTrack('piano')">
+                <div class="switch-item" id="track-piano" onclick="switchTrack('piano')">
                     肖邦夜曲
                 </div>
 
@@ -1109,9 +1109,9 @@
             </div>
 
             <div class="modal-section">
-                <h3>四、 演绎版本：东西方回响</h3>
-                <p><strong>钢琴版 (Piano)：</strong> 选用 <strong>Krystian Zimerman</strong> 的录音。他那晶莹剔透的音色与深邃的控制力，能将"黄河之水天上来"的壮阔与"万古愁"的苍凉展现得淋漓尽致。</p>
+                <h3>四、 演绎版本：东西方回响</h3>                
                 <p><strong>京剧版 (Peking Opera)：</strong> 特别加入京剧念白/唱腔版。作为中国国粹，其高亢激越的声腔与李白狂放的诗风天作之合，呈现出与钢琴版截然不同的东方美学张力。</p>
+                <p><strong>钢琴版 (Piano)：</strong> 选用 <strong>Krystian Zimerman</strong> 的录音。他那晶莹剔透的音色与深邃的控制力，能将"黄河之水天上来"的壮阔与"万古愁"的苍凉展现得淋漓尽致。</p>
             </div>
 
             <div style="text-align: center; margin-top: 35px;">
@@ -1166,7 +1166,7 @@
             } else {
                 btnOpera.classList.add('active');
                 btnPiano.classList.remove('active');
-                animateSubtitleTransition("传统京剧风格");
+                animateSubtitleTransition("中国京剧风格");
             }
             
             currentLineTimes = trackType === 'piano' ? pianoLineTimes : operaLineTimes;
