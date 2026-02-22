@@ -728,7 +728,7 @@
             position: fixed;
             right: 30px;
             bottom: 50px;
-            z-index: 90;
+            z-index: 999; /* 提高层级，确保永远在最上层 */
             display: flex;
             align-items: center;
             gap: 8px;
@@ -747,30 +747,41 @@
                 0 0 15px rgba(212, 175, 55, 0.1) inset;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             letter-spacing: 1px;
+            /* 加上整体的上下悬浮动画 */
+            animation: floatBreath 4s ease-in-out infinite;
         }
 
         .floating-dialogue-btn:hover {
             border-color: var(--gold-shine);
             color: var(--gold-shine);
-            transform: translateY(-3px) scale(1.02);
             box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.5), 
+                0 8px 25px rgba(0, 0, 0, 0.6), 
                 0 0 20px rgba(212, 175, 55, 0.3) inset;
+            /* 鼠标悬停时暂停上下浮动 */
+            animation-play-state: paused; 
         }
 
         .floating-dialogue-btn svg {
             width: 16px;
             height: 16px;
             fill: var(--gold-base);
+            /* 星星的独立闪烁动画 */
             animation: starPulse 2s ease-in-out infinite;
         }
 
+        /* 整体按钮上下浮动 */
+        @keyframes floatBreath {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* 星星闪烁与旋转 */
         @keyframes starPulse {
             0%, 100% { opacity: 0.6; transform: scale(0.9) rotate(0deg); }
             50% { opacity: 1; transform: scale(1.1) rotate(15deg); fill: var(--gold-shine); }
         }
 
-        /* 手机端适配：稍微缩小并调整位置，避免遮挡手指滑动 */
+        /* 手机端适配 */
         @media (max-width: 600px) {
             .floating-dialogue-btn {
                 right: 15px;
@@ -1020,15 +1031,6 @@
 
             <div style="height: 80px;"></div>
         </div>
-
-        <!-- 悬浮：跨越时空对话按钮 -->
-        <button class="floating-dialogue-btn" onclick="openModal()">
-            <!-- 星芒 Icon -->
-            <svg viewBox="0 0 24 24">
-                <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
-            </svg>
-            跨域时空的艺术对话
-        </button>
         
         <div class="footer-controls">
             <button class="btn-concept" onclick="openModal()">跨域时空的艺术对话</button>
@@ -1147,6 +1149,14 @@
         </div>
     </div>
     <audio id="audio-player" preload="none"></audio>
+
+    <!-- 【关键修改】：把悬浮按钮放在这里！所有的 div 的最外面，</body> 的上面 -->
+    <button class="floating-dialogue-btn" onclick="openModal()">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
+        </svg>
+        时空对话
+    </button>
 
     <script>
         const TRACK_OPERA_FILENAME = 'twgx.mp3';
