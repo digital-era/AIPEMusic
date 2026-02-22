@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
     <style>
         :root {
-            --bg-space-dark: #0a0e17;
-            --bg-space-deep: #131829;
-            --bg-space-mid: #1d2438;
-            --bg-space-light: #2a3450;
+            --bg-space-dark: #121826;  /* 提升了底色的明度，去除死黑感 */
+            --bg-space-deep: #1c2538;  /* 加入了更多深群青色 */
+            --bg-space-mid: #28344d;
+            --bg-space-light: #364663; /* 让最高光部分显得更柔和 */
             --text-dim: rgba(255, 255, 255, 0.35);
             --text-active: #ffffff;
             --gold-base: #d4af37;
@@ -151,7 +151,7 @@
             color: rgba(255, 255, 255, 0.7);
             font-style: italic;
             letter-spacing: 3px;
-            animation: fadeInUp 2s ease 2s forwards;
+            animation: fadeInUp 0.5s ease 0.5s forwards;
             opacity: 0;
             transform: translateY(20px);
         }
@@ -165,25 +165,26 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-        .texture-overlay {
+.texture-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.15;
-            transition: background-image 1s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.08; /* 降低条纹的透明度 */
+            transition: background-image 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             mix-blend-mode: overlay;
         }
+        /* 把线条拉宽并变柔和，产生类似丝绸泛光的效果 */
         .texture-overlay.chinese {
             background-image:
-                radial-gradient(circle at 20% 30%, rgba(26, 54, 93, 0.3) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(212, 175, 55, 0.1) 10px, rgba(212, 175, 55, 0.1) 11px);
+                radial-gradient(circle at 20% 30%, rgba(26, 54, 93, 0.4) 0%, transparent 60%),
+                repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(212, 175, 55, 0.08) 15px, rgba(212, 175, 55, 0.08) 18px);
         }
         .texture-overlay.western {
             background-image:
-                radial-gradient(circle at 80% 30%, rgba(58, 80, 107, 0.3) 0%, transparent 50%),
-                repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(255, 215, 0, 0.1) 15px, rgba(255, 215, 0, 0.1) 16px);
+                radial-gradient(circle at 80% 30%, rgba(58, 80, 107, 0.4) 0%, transparent 60%),
+                repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255, 215, 0, 0.06) 20px, rgba(255, 215, 0, 0.06) 24px);
         }
         .star-noise {
             position: fixed;
@@ -191,11 +192,11 @@
             width: 100%; height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.25;
+            opacity: 0.06; /* 大幅降低，从0.25降到0.06，只保留极细微的质感 */
             background-image:
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
-                radial-gradient(circle at 50% 50%, transparent 70%, rgba(255, 255, 255, 0.03) 100%);
-            mix-blend-mode: screen;
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+                radial-gradient(circle at 50% 50%, transparent 50%, rgba(212, 175, 55, 0.05) 100%); /* 边缘加入极微弱的暖金光 */
+            mix-blend-mode: soft-light; /* 从 screen 改为 soft-light，让噪点融入背景而不是浮在表面 */
         }
         .container {
             max-width: 900px;
@@ -1013,9 +1014,8 @@
                 <div class="symbol-interlace"></div>
             </div>
             <div class="cover-title">将进酒</div>
-            <div class="cover-subtitle">跨域时空的艺术对话(A Time-Spanning Synesthetic Dialogue)</div>
+            <div class="cover-subtitle">跨域时空的艺术对话 (A Time-Spanning Synesthetic Dialogue)</div>
         </div>
-        <div class="cover-instruction">Scroll to Begin the Journey</div>
     </div>
     <div class="texture-overlay chinese" id="texture-overlay"></div>
     <div class="star-noise"></div>
