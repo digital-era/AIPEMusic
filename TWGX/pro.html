@@ -61,21 +61,55 @@
             pointer-events: none;
             filter: blur(20px);
         }
+        /* ===== 新增：电影级背景图样式 ===== */
+        .cinematic-bg-image {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            /* 填入你的图片路径 */
+            background-image: url('sudongpo_wangbo.jpg'); 
+            background-size: cover;
+            /* 焦点稍微偏上，确保阁楼和头部可见 */
+            background-position: center 15%; 
+            z-index: -4;
+            opacity: 0.65; /* 降低一点透明度，不喧宾夺主 */
+            /* 赋予它缓慢的呼吸感，40秒一个来回 */
+            animation: slowPan 40s ease-in-out infinite alternate;
+        }
+
+        .cinematic-bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            /* 核心奥秘：顶部微透，中间变暗，底部极暗。将图片完美融入深空背景 */
+            background: linear-gradient(
+                to bottom,
+                rgba(18, 24, 38, 0.1) 0%,      /* 顶部：透出滕王阁和人物 */
+                rgba(18, 24, 38, 0.75) 35%,    /* 中上部：开始变暗 */
+                rgba(12, 16, 26, 0.98) 100%    /* 底部：极深色，保证长篇文字清晰 */
+            );
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        @keyframes slowPan {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.05) translate(0, 1%); } /* 极其轻微的放大和位移 */
+        }
         .initial-cover {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: linear-gradient(135deg,
-                #0a0e17 0%,
-                #131829 30%,
-                #1d2438 70%,
-                #2a3450 100%);
+            /* 移除原本死板的纯色渐变，改为半透明深色 + 毛玻璃模糊 */
+            background: rgba(10, 14, 23, 0.4); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: opacity 3s ease-out, transform 3s ease-out;
+            transition: opacity 3s ease-out, transform 3s ease-out, backdrop-filter 3s ease-out;
             pointer-events: none;
         }
         .cover-content {
@@ -910,11 +944,29 @@
                 font-size: 1.2rem;
                 margin: 18px 0 10px;
             }
+            
+            .cinematic-bg-image {
+                background-position: center 5%; /* 手机屏幕窄，焦点进一步上移 */
+                opacity: 0.55; /* 手机端调暗，防止干扰文字 */
+            }
+            .cinematic-bg-overlay {
+                /* 手机上文字区域占比更大，渐变需要更早进入深色区 */
+                background: linear-gradient(
+                    to bottom,
+                    rgba(18, 24, 38, 0.2) 0%,
+                    rgba(18, 24, 38, 0.85) 25%,
+                    rgba(12, 16, 26, 0.98) 100%
+                );
+            }
         }
     </style>
 </head>
 <body>
-    <div class="space-gradient"></div>
+    <!-- 电影级全屏背景图 -->
+    <div class="cinematic-bg-image"></div>
+    <!-- 渐变暗场遮罩（保护文字阅读） -->
+    <div class="cinematic-bg-overlay"></div>
+    
     <div class="star-halo"></div>
     <div class="initial-cover" id="initial-cover">
         <div class="cover-content">
