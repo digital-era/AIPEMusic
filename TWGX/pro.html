@@ -1255,10 +1255,17 @@
                 btnPiano.classList.remove('active');
                 animateSubtitleTransition("诗文朗诵");
             }
-            
-            // 切换时立刻停止音频并重置状态
-            stopAudio();
-            isSourceSet = false; 
+
+            // 切换时会自动播放
+            if (isPlaying) {
+                stopTimeSync();
+                stopAudio();
+                isSourceSet = false;
+                setTimeout(() => togglePlay(), 300);
+            } else {
+                stopAudio();
+                isSourceSet = false;
+            }
         }
 
         function updateCulture(culture) {
@@ -1403,8 +1410,10 @@
             }
         }
 
-        // 监听音频播放结束处理
+        // 监听音频播放结束，实现：京剧/诗文 -> 钢琴 -> 京剧/诗文的无限循环
         audio.addEventListener('ended', () => {
+            // 判断下一首该播什么
+            const nextTrack = currentTrack === 'opera' ? 'piano' : 'opera';
             if (currentTrack === 'piano') {
                 // 讲解模式下自动播放下一首
                 currentPlaylistIndex++;
@@ -1412,14 +1421,24 @@
                     playCurrentExplicationTrack();
                 } else {
                     // 整个讲解流程结束
-                    stopAudio();
-                    currentPlaylistIndex = 0; 
-                    isSourceSet = false;
+                    switchTrack(nextTrack);
+                    // 延迟 800 毫秒（等待切换动画完成）后，自动开始播放下一首
+                    setTimeout(() => {
+                        if (!isPlaying) {
+                            togglePlay();
+                        }
+                    }, 800);
                 }
             } else {
                 // 朗诵模式结束
-                stopAudio();
-                isSourceSet = false;
+                // 切换 UI 和文字状态
+                switchTrack(nextTrack);
+                // 延迟 800 毫秒（等待切换动画完成）后，自动开始播放下一首
+                setTimeout(() => {
+                    if (!isPlaying) {
+                        togglePlay();
+                    }
+                }, 800);
             }
         });
 
