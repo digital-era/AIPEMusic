@@ -1119,16 +1119,11 @@
             }
             
             currentLineTimes = trackType === 'piano' ? pianoLineTimes : operaLineTimes;
+
             
-            if (isPlaying) {
-                stopTimeSync();
-                stopAudio();
-                isSourceSet = false;
-                setTimeout(() => togglePlay(), 300);
-            } else {
-                stopAudio();
-                isSourceSet = false;
-            }
+            // 【修改点】：切换版本时，立刻停止所有音频并重置状态，绝不自动播放
+            stopAudio();
+            isSourceSet = false; 
         }
 
         function updateCulture(culture) {
