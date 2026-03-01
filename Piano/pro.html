@@ -1285,22 +1285,30 @@
             }, 800);
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                const cover = document.getElementById('initial-cover');
-                if (cover) {
+document.addEventListener('DOMContentLoaded', function() {
+            const cover = document.getElementById('initial-cover');
+            
+            if (cover) {
+                // 当用户点击开场封面时触发
+                cover.addEventListener('click', function() {
+                    
+                    // 1. 立即触发播放（因为有了用户的真实点击，浏览器绝对不会拦截，100%出声）
+                    if (!isPlaying) {
+                        togglePlay();
+                    }
+                    
+                    // 2. 执行封面淡出动画
                     cover.style.opacity = '0';
                     cover.style.transform = 'translateY(-20px)';
+                    cover.style.pointerEvents = 'none'; // 防止挡住下方的按钮
                     
+                    // 3. 动画结束后彻底隐藏
                     setTimeout(() => {
                         cover.style.display = 'none';
-                        // 【核心】：遮罩消失后，尝试触发自动播放
-                        if (!isPlaying) {
-                            togglePlay();
-                        }
                     }, 3000);
-                }
-            }, 5000); // 开场黑屏停留时间
+                    
+                }, { once: true }); // once: true 确保这个点击事件只执行一次
+            }
             
             initScrollHandler();
         });
