@@ -117,8 +117,10 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            /* === 关键修复 === */
+            pointer-events: auto;           /* 改为 auto 或直接删除这行 */
+            /*=== cursor: pointer;               为录制视频注释掉===  */
             transition: opacity 3s ease-out, transform 3s ease-out, backdrop-filter 3s ease-out;
-            pointer-events: none;
         }
         .cover-content {
             position: relative;
@@ -1438,14 +1440,32 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                const cover = document.getElementById('initial-cover');
-                if(cover) {
+            const cover = document.getElementById('initial-cover');
+            
+            if (cover) {
+                // 点击封面任意部位（包括子元素）均可触发
+                cover.addEventListener('click', function handler() {
+                    
+                    // 1. 立即触发播放（用户真实点击，浏览器 100% 允许）
+                    if (!isPlaying) {
+                        togglePlay();
+                    }
+                    
+                    // 2. 执行淡出动画
                     cover.style.opacity = '0';
                     cover.style.transform = 'translateY(-20px)';
-                    setTimeout(() => cover.style.display = 'none', 3000);
-                }
-            }, 5000);
+                    cover.style.pointerEvents = 'none';   // 动画开始后立即禁止后续点击
+                    
+                    // 3. 动画真正结束后彻底隐藏（比 setTimeout 更精确）
+                    const hideCover = () => {
+                        cover.style.display = 'none';
+                    };
+                    cover.addEventListener('transitionend', hideCover, { once: true });
+                    
+                }, { once: true });   // 只执行一次，防止重复触发
+            }
+            
+            initScrollHandler();
         });
     </script>
 </body>
