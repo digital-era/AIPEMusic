@@ -22,6 +22,14 @@
             --font-en: "Playfair Display", "Times New Roman", serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* 隐藏网页的默认滚动条，但保留滚动功能（为了录制视频纯净画面） */
+        ::-webkit-scrollbar {
+            display: none; /* 针对 Chrome、Safari 和 Edge */
+        }
+        html, body {
+            scrollbar-width: none; /* 针对 Firefox */
+            -ms-overflow-style: none; /* 针对 IE 10+ */
+        }
         body {
             background: linear-gradient(135deg,
                 var(--bg-space-dark) 0%,
