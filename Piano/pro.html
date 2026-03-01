@@ -1059,7 +1059,7 @@
             </div>
         </div>
     </div>
-    <audio id="audio-player" preload="none" loop></audio>
+    <audio id="audio-player" preload="none"></audio>
     
     <!-- 【关键修改】：把悬浮按钮放在这里！所有的 div 的最外面，</body> 的上面 -->
     <button class="floating-dialogue-btn" onclick="openModal()">
@@ -1073,7 +1073,7 @@
         const TRACK_1_FILENAME = 'Chopin - Ballade No.1 in G minor, Op.23 (Krystian Zimerman).mp3';
         const TRACK_2_FILENAME = 'JiangJinJiu Peking Opera.mp3';
 
-        const operaLineTimes = [21,35,46,55,64,72,78,85,95,104,113,122,125];
+        const operaLineTimes = [2,21,35,46,55,64,72,78,85,95,104,113,122];
         const pianoLineTimes = [...operaLineTimes];
 
         let currentTrack = 'opera';
@@ -1185,26 +1185,33 @@
             }
         }
 
-        function startTimeSync() {
+       function startTimeSync() {
             if (timeUpdateInterval) clearInterval(timeUpdateInterval);
             timeUpdateInterval = setInterval(() => {
                 if (!isPlaying) return;
                 const currentTime = audio.currentTime;
                 
                 let activeIndex = -1;
-                // 找出当前播放时间对应的是哪一句
+                let timeToCheck = currentTime;
+
+                // 【新增核心逻辑】：如果是肖邦钢琴曲，让诗词高亮按周期轮回
+                if (currentTrack === 'piano') {
+                    const cycleDuration = 140; // 设定一个轮回为 140 秒（最后一句125秒 + 15秒留白）
+                    timeToCheck = currentTime % cycleDuration; // 使用取模运算，超过140秒自动从0开始
+                }
+
+                // 找出当前时间对应的是哪一句（用 timeToCheck 替代 currentTime）
                 for (let i = 0; i < currentLineTimes.length; i++) {
-                    if (currentTime >= currentLineTimes[i]) {
+                    if (timeToCheck >= currentLineTimes[i]) {
                         activeIndex = i;
                     }
                 }
                 
-                // 【修改点3】：如果当前行发生了变化，则仅高亮当前行并自动平滑滚动
+                // 如果当前行发生了变化，则仅高亮当前行并自动平滑滚动
                 if (activeIndex !== lastActiveIndex) {
                     poemLines.forEach(line => line.classList.remove('active'));
                     if (activeIndex !== -1 && poemLines[activeIndex]) {
                         poemLines[activeIndex].classList.add('active');
-                        // 自动平滑滚动到屏幕中央
                         poemLines[activeIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                     lastActiveIndex = activeIndex;
@@ -1240,6 +1247,12 @@
                 document.body.style.overflow = 'auto';
             }, 300);
         }
+
+        // 【新增】：监听音频播放结束处理
+        audio.addEventListener('ended', () => {
+            stopAudio();
+            isSourceSet = false;
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
