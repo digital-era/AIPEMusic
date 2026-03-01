@@ -120,8 +120,10 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            /* === 关键修复 === */
+            pointer-events: auto;           /* 改为 auto 或直接删除这行 */
+            cursor: pointer;                /* 强烈建议添加，提升用户体验 */
             transition: opacity 3s ease-out, transform 3s ease-out, backdrop-filter 3s ease-out;
-            pointer-events: none;
         }
         .cover-content {
             position: relative;
@@ -1285,29 +1287,30 @@
             }, 800);
         });
 
-document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const cover = document.getElementById('initial-cover');
             
             if (cover) {
-                // 当用户点击开场封面时触发
-                cover.addEventListener('click', function() {
+                // 点击封面任意部位（包括子元素）均可触发
+                cover.addEventListener('click', function handler() {
                     
-                    // 1. 立即触发播放（因为有了用户的真实点击，浏览器绝对不会拦截，100%出声）
+                    // 1. 立即触发播放（用户真实点击，浏览器 100% 允许）
                     if (!isPlaying) {
                         togglePlay();
                     }
                     
-                    // 2. 执行封面淡出动画
+                    // 2. 执行淡出动画
                     cover.style.opacity = '0';
                     cover.style.transform = 'translateY(-20px)';
-                    cover.style.pointerEvents = 'none'; // 防止挡住下方的按钮
+                    cover.style.pointerEvents = 'none';   // 动画开始后立即禁止后续点击
                     
-                    // 3. 动画结束后彻底隐藏
-                    setTimeout(() => {
+                    // 3. 动画真正结束后彻底隐藏（比 setTimeout 更精确）
+                    const hideCover = () => {
                         cover.style.display = 'none';
-                    }, 3000);
+                    };
+                    cover.addEventListener('transitionend', hideCover, { once: true });
                     
-                }, { once: true }); // once: true 确保这个点击事件只执行一次
+                }, { once: true });   // 只执行一次，防止重复触发
             }
             
             initScrollHandler();
