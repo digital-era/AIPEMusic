@@ -1187,9 +1187,14 @@
                     isPlaying = true;
                     startTimeSync();
                 }).catch(e => {
-                    console.error('播放错误:', e);
+                    console.warn('浏览器拦截了自动播放。等待用户点击屏幕任意位置启动...', e);
                     spinner.style.display = 'none';
                     iconPlay.style.display = 'block';
+                    // 核心逻辑：如果被拦截，只要用户点击屏幕任意位置，立即启动播放
+                    document.body.addEventListener('click', function fallbackPlay() {
+                        if (!isPlaying) togglePlay();
+                        document.body.removeEventListener('click', fallbackPlay);
+                    }, { once: true });
                 });
             }
         }
@@ -1258,18 +1263,38 @@
         }
 
         // 【新增】：监听音频播放结束处理
+        // 监听音频播放结束，实现：京剧 -> 钢琴 -> 京剧的无限循环
         audio.addEventListener('ended', () => {
-            stopAudio();
-            isSourceSet = false;
+            // 判断下一首该播什么
+            const nextTrack = currentTrack === 'opera' ? 'piano' : 'opera';
+            
+            // 切换 UI 和文字状态
+            switchTrack(nextTrack);
+            
+            // 延迟 800 毫秒（等待切换动画完成）后，自动开始播放下一首
+            setTimeout(() => {
+                if (!isPlaying) {
+                    togglePlay();
+                }
+            }, 800);
         });
 
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 const cover = document.getElementById('initial-cover');
-                cover.style.opacity = '0';
-                cover.style.transform = 'translateY(-20px)';
-                setTimeout(() => cover.style.display = 'none', 3000);
-            }, 5000);
+                if (cover) {
+                    cover.style.opacity = '0';
+                    cover.style.transform = 'translateY(-20px)';
+                    
+                    setTimeout(() => {
+                        cover.style.display = 'none';
+                        // 【核心】：遮罩消失后，尝试触发自动播放
+                        if (!isPlaying) {
+                            togglePlay();
+                        }
+                    }, 3000);
+                }
+            }, 5000); // 开场黑屏停留时间
             
             initScrollHandler();
         });
