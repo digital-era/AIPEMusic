@@ -1082,6 +1082,7 @@
         let currentCulture = 'chinese';
         let currentLineTimes = operaLineTimes;
         let timeUpdateInterval = null;
+        let lastActiveIndex = -1; // 【修改点1】：新增记录上一句索引的变量
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
         const spinner = document.getElementById('spinner');
@@ -1157,6 +1158,7 @@
             iconPause.style.display = 'none';
             spinner.style.display = 'none';
             poemLines.forEach(line => line.classList.remove('active'));
+            lastActiveIndex = -1; // 【修改点2】：停止播放时重置高亮索引
         }
 
         function togglePlay() {
@@ -1193,13 +1195,24 @@
             timeUpdateInterval = setInterval(() => {
                 if (!isPlaying) return;
                 const currentTime = audio.currentTime;
-                poemLines.forEach(line => line.classList.remove('active'));
+                
+                let activeIndex = -1;
+                // 找出当前播放时间对应的是哪一句
                 for (let i = 0; i < currentLineTimes.length; i++) {
                     if (currentTime >= currentLineTimes[i]) {
-                        for (let j = 0; j <= i; j++) {
-                            if (poemLines[j]) poemLines[j].classList.add('active');
-                        }
+                        activeIndex = i;
                     }
+                }
+                
+                // 【修改点3】：如果当前行发生了变化，则仅高亮当前行并自动平滑滚动
+                if (activeIndex !== lastActiveIndex) {
+                    poemLines.forEach(line => line.classList.remove('active'));
+                    if (activeIndex !== -1 && poemLines[activeIndex]) {
+                        poemLines[activeIndex].classList.add('active');
+                        // 自动平滑滚动到屏幕中央
+                        poemLines[activeIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    lastActiveIndex = activeIndex;
                 }
             }, 100);
         }
