@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>跨越时空的艺术对话：大雁塔赋 x 滕王阁序</title>
+    <title>跨越时空的艺术对话：大雁塔赋 </title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
     <style>
         :root {
@@ -388,7 +388,7 @@
                 <div class="symbol-interlace"></div>
             </div>
             <!-- 封面改为融合标题 -->
-            <div class="cover-title">大雁塔赋<br>x<br>滕王阁序</div>
+            <div class="cover-title">大雁塔赋</div>
             <div class="cover-subtitle">跨越时空的艺术对话 (An Artistic Dialogue)</div>
         </div>
     </div>
@@ -750,7 +750,7 @@ function togglePlay() {
                 
                 if (!isSourceSet) {
                     audio.src = currentTrack === 'art1' ? TRACK_ART1_FILENAME : TRACK_ART2_FILENAME;
-                    audio.load(); // 【新增】强制浏览器重新加载并解析新的音频源
+                    // audio.load();  【新增】强制浏览器重新加载并解析新的音频源
                     isSourceSet = true;
                 }
                 
