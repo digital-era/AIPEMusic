@@ -734,7 +734,7 @@
             lastActiveIndex = -1;
         }
 
-        function togglePlay() {
+function togglePlay() {
             if (isPlaying) {
                 // 暂停
                 audio.pause();
@@ -750,8 +750,10 @@
                 
                 if (!isSourceSet) {
                     audio.src = currentTrack === 'art1' ? TRACK_ART1_FILENAME : TRACK_ART2_FILENAME;
+                    audio.load(); // 【新增】强制浏览器重新加载并解析新的音频源
                     isSourceSet = true;
                 }
+                
                 audio.play().then(() => {
                     spinner.style.display = 'none';
                     iconPause.style.display = 'block';
@@ -761,6 +763,8 @@
                     console.error('播放错误:', e);
                     spinner.style.display = 'none';
                     iconPlay.style.display = 'block';
+                    // 【新增】提示框，方便你在终端直接看到错误
+                    alert("音频加载失败！请按 F12 检查 Network 栏确认文件是否报 404，或检查文件格式是否损坏。");
                 });
             }
         }
